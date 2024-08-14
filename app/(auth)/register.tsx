@@ -1,12 +1,11 @@
 import { Stack } from 'expo-router';
 import React from 'react';
 import { View, TextInput } from 'react-native';
+import { Button } from 'react-native-paper';
 
-import { Button } from '~/components/Button';
-import { Container } from '~/components/Container';
 const register = () => {
   return (
-    <Container>
+    <>
       <Stack.Screen
         options={{
           title: 'Register',
@@ -17,9 +16,11 @@ const register = () => {
         <TextInput placeholder="email" />
         <TextInput placeholder="password" secureTextEntry />
 
-        <Button title="Submit" />
+        <Button icon="camera" mode="contained" onPress={() => {}}>
+          Submit
+        </Button>
       </View>
-    </Container>
+    </>
   );
 };
 
