@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, FlatList, useWindowDimensions, ListRenderItemInfo } from 'react-native';
-import CampaignCard from '../../../components/card/CampaignCard';
-import { CampaignProps } from '~/types/campaign';
 
-const Campaign = () => {
+import CampaignCard from '../../../components/card/CampaignCard';
+import { CampaignProps } from '../../../types/campaign';
+
+const CampaignTab = () => {
   const data: CampaignProps[] = [
     {
       campaignId: '',
@@ -57,15 +58,16 @@ const Campaign = () => {
       data={data}
       renderItem={({ item }: ListRenderItemInfo<CampaignProps>) => <CampaignCard campaign={item} />}
       numColumns={numColumns}
+      style={styles.container}
     />
   );
 };
 
-export default Campaign;
-
-const Styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     margin: 10,
   },
 });
+
+export default CampaignTab;

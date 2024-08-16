@@ -15,21 +15,21 @@ export default function TabsLayout() {
         }}
       />
       <Tabs.Screen
-        name="store"
+        name="Store"
         options={{
           title: 'Store',
           tabBarIcon: ({ color }) => <Ionicons name="storefront" size={30} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="voucher"
+        name="Voucher"
         options={{
           title: 'Voucher',
           tabBarIcon: ({ color }) => <Ionicons name="gift" size={30} color={color} />,
         }}
       />
       <Tabs.Screen
-        name="profile"
+        name="Profile"
         options={{
           title: 'Profile',
           tabBarIcon: ({ color }) => <Ionicons name="person" size={30} color={color} />,

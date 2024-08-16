@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const voucher = () => {
+const Voucher = () => {
   return (
     <View>
-      <Text>voucher</Text>
+      <Text>Voucher</Text>
     </View>
   );
 };
 
-export default voucher;
+export default Voucher;

@@ -1,20 +1,49 @@
-import { Stack, Link } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import React from 'react';
-import { Text } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
-const profile = () => {
+const ProfileTab = () => {
   return (
     <>
       <Stack.Screen options={{ title: 'Profile' }} />
-      <Text>Profile</Text>
-      <Link href={{ pathname: '/login' }} asChild>
-        <Button icon="camera" mode="contained" onPress={() => {}}>
-          Login
-        </Button>
-      </Link>
+      <View style={styles.containerStyle}>
+        <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+          <Button
+            icon="login"
+            mode="contained"
+            onPress={() => {
+              router.push('/Login');
+            }}>
+            Login
+          </Button>
+        </ScrollView>
+      </View>
     </>
   );
 };
 
-export default profile;
+const styles = StyleSheet.create({
+  containerStyle: {
+    flex: 1,
+  },
+  scrollViewStyle: {
+    flex: 1,
+    padding: 15,
+  },
+  headingStyle: {
+    fontSize: 30,
+    textAlign: 'center',
+    marginBottom: 40,
+  },
+  icon: {
+    alignItems: 'center',
+    margin: 10,
+    padding: 10,
+  },
+  button: {
+    marginBottom: 10,
+  },
+});
+
+export default ProfileTab;

@@ -1,12 +1,12 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 
-const campaigns = () => {
+const Campaigns = () => {
   return (
     <View>
-      <Text>campaigns</Text>
+      <Text>Campaigns</Text>
     </View>
   );
 };
 
-export default campaigns;
+export default Campaigns;
