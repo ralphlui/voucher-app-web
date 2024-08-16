@@ -13,7 +13,7 @@ const ProfileTab = () => {
             icon="login"
             mode="contained"
             onPress={() => {
-              router.push('/Login');
+              router.push('/login');
             }}>
             Login
           </Button>

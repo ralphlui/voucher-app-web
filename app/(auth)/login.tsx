@@ -86,7 +86,7 @@ const Login = () => {
             icon="account-plus"
             mode="contained"
             onPress={() => {
-              router.push('/Register');
+              router.push('/register');
             }}>
             Register
           </Button>
