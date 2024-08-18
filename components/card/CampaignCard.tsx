@@ -9,11 +9,11 @@ interface Props {
 }
 
 const CampaignCard = (props: Props) => {
+  const campaign = props;
   const LeftContent = () => <Avatar.Icon icon="folder" size={32} />;
-
   return (
     <Card style={styles.container}>
-      <Card.Title title="Card Title" subtitle="Card Subtitle" left={LeftContent} />
+      <Card.Title title={campaign.campaign.description} subtitle="Card Subtitle" left={LeftContent} />
       <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
       <Card.Content>
         <Text variant="titleLarge">Card title</Text>
