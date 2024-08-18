@@ -1,41 +1,46 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, FlatList, useWindowDimensions, ListRenderItemInfo, ActivityIndicator, View } from 'react-native';
+import {
+  StyleSheet,
+  FlatList,
+  useWindowDimensions,
+  ListRenderItemInfo,
+  ActivityIndicator,
+  View,
+} from 'react-native';
 
-import CampaignCard from '../../../components/card/CampaignCard';
+import CampaignCard from '../../../components/Cards/CampaignCard';
 import { CampaignProps } from '../../../types/campaign';
 
 const CampaignTab = () => {
-  const data_temp: CampaignProps[] = Array.from({length: 5}, (_, index) => (
-    {
-      campaignId: index + '',
-      description: `Desc ${index}`,
-      numberOfVouchers: 0,
-      numberOfLikes: 0,
-      tagsJson: '',
-      tandc: '',
-      amount: 0,
-      startDate: '',
-      endDate: '',
-      store: {
-        storeId: '',
-        storeName: '',
-        description: '',
-        address: '',
-        address1: '',
-        address2: '',
-        address3: '',
-        city: '',
-        state: '',
-        country: '',
-        postalCode: '',
-        image: '',
-        contactNumber: '',
-      },
-      campaignStatus: '',
-      numberOfClaimedVouchers: 0,
-      pin: '',
-    }))
-  ;
+  const data_temp: CampaignProps[] = Array.from({ length: 5 }, () => ({
+    campaignId: Math.random() + '',
+    description: `Desc ${Math.random()}`,
+    numberOfVouchers: 0,
+    numberOfLikes: 0,
+    tagsJson: '',
+    tandc: '',
+    amount: 0,
+    startDate: '',
+    endDate: '',
+    store: {
+      storeId: '',
+      storeName: '',
+      description: '',
+      address: '',
+      address1: '',
+      address2: '',
+      address3: '',
+      city: '',
+      state: '',
+      country: '',
+      postalCode: '',
+      image: '',
+      contactNumber: '',
+    },
+    campaignStatus: '',
+    numberOfClaimedVouchers: 0,
+    pin: '',
+  }));
   // const { width } = useWindowDimensions();
   // const [numColumns, setNumColumns] = useState(1);
 
@@ -57,46 +62,50 @@ const CampaignTab = () => {
   //   setNumColumns(calculateNumColumns());
   // }, [width]);
 
-  const LoadingIndicator = () => (<View><ActivityIndicator size="large" /></View>);
+  const LoadingIndicator = () => (
+    <View>
+      <ActivityIndicator size="large" />
+    </View>
+  );
   const loadMoreItems = () => {
-    if (isLoading){
+    if (isLoading) {
       return;
     }
     setIsLoading(true);
     setTimeout(() => {
-      const newData = Array.from({length: 5}, (_, index) => ({
-        campaignId: data.length + index + '',
-      description: `Desc ${index}`,
-      numberOfVouchers: 0,
-      numberOfLikes: 0,
-      tagsJson: '',
-      tandc: '',
-      amount: 0,
-      startDate: '',
-      endDate: '',
-      store: {
-        storeId: '',
-        storeName: '',
-        description: '',
-        address: '',
-        address1: '',
-        address2: '',
-        address3: '',
-        city: '',
-        state: '',
-        country: '',
-        postalCode: '',
-        image: '',
-        contactNumber: '',
-      },
-      campaignStatus: '',
-      numberOfClaimedVouchers: 0,
-      pin: '',
+      const newData = Array.from({ length: 5 }, () => ({
+        campaignId: Math.random() + '',
+        description: `Desc ${Math.random()}`,
+        numberOfVouchers: 0,
+        numberOfLikes: 0,
+        tagsJson: '',
+        tandc: '',
+        amount: 0,
+        startDate: '',
+        endDate: '',
+        store: {
+          storeId: '',
+          storeName: '',
+          description: '',
+          address: '',
+          address1: '',
+          address2: '',
+          address3: '',
+          city: '',
+          state: '',
+          country: '',
+          postalCode: '',
+          image: '',
+          contactNumber: '',
+        },
+        campaignStatus: '',
+        numberOfClaimedVouchers: 0,
+        pin: '',
       }));
       setData(data.concat(newData));
       setIsLoading(false);
     }, 1000);
-  }
+  };
 
   // const fetchData = () => {
   //   setIsLoading(true);
@@ -151,7 +160,7 @@ const CampaignTab = () => {
   const renderItem = ({ item }: ListRenderItemInfo<CampaignProps>) => {
     return <CampaignCard campaign={item} />;
   };
-  console.log(data.length)
+  console.log(data.length);
   return (
     <FlatList
       // key={numColumns}
@@ -159,7 +168,7 @@ const CampaignTab = () => {
       // onEndReached={fetchNextPage}
       // onEndReachedThreshold={0.8}
       // ListFooterComponent={ListEndLoader} // Loader when loading next page.
-      keyExtractor={item => item.campaignId.toString()}
+      keyExtractor={(item) => item.campaignId.toString()}
       onEndReached={loadMoreItems}
       onEndReachedThreshold={0.5}
       renderItem={renderItem}
