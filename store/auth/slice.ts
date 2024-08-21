@@ -1,13 +1,7 @@
-import { createSlice, createAction } from '@reduxjs/toolkit';
-import { registerUser, loginUser, getUser, logoutUser, setAuthData, deleteUser } from './actions';
+import { createSlice } from '@reduxjs/toolkit';
+import { registerUser, loginUser, getUser, logoutUser, setAuthData, deleteUser } from '@/store/auth/actions';
+import { AuthState } from '@/types/AuthState';
 
-export interface AuthState {
-  loading?: boolean;
-  user?: any | null;
-  token?: string | null;
-  success?: boolean;
-  error?: string | null;
-}
 
 const initialState: AuthState = {
   loading: false,
@@ -15,6 +9,8 @@ const initialState: AuthState = {
   token: null,
   success: false,
   error: null,
+  role: null,
+  email: null,
 };
 
 const authSlice = createSlice({
@@ -47,6 +43,9 @@ const authSlice = createSlice({
         state.loading = false;
         state.token = action.payload.token;
         state.success = true;
+        state.email = action.payload.result[0].email;
+        state.role = action.payload.result[0].role;
+        state.user = action.payload.result[0].username;
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
