@@ -3,8 +3,8 @@ import { configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { persistReducer } from 'redux-persist';
 
-import apiSlice from './slices/api.slice';
-import userReducer from './slices/user.slice';
+import apiSlice from '@/store/slices/api.slice';
+import userReducer from '@/store/slices/user.slice';
 
 const persistConfig = {
   key: 'root',

@@ -7,10 +7,10 @@ import { Button, TextInput, Avatar } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 import { useDispatch } from 'react-redux';
 
-import HandleResponse from '~/components/Common/HandleResponse';
-import { useLoginMutation } from '~/services/user.service';
-import { userLogin } from '~/store';
-import { logInSchema } from '~/utils/validation';
+import HandleResponse from '@/components/Common/HandleResponse';
+import { useLoginMutation } from '@/services/user.service';
+import { userLogin } from '@/store';
+import { logInSchema } from '@/utils/validation';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -41,6 +41,7 @@ const Login = () => {
   };
 
   const onSuccess = () => {
+    console.log(data);
     dispatch(userLogin(data.data.token));
     router.back();
   };

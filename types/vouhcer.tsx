@@ -1,5 +1,5 @@
-import { CampaignProps } from './campaign';
-import { SessionUserProps } from './user';
+import { CampaignProps } from '@/types/campaign';
+import { SessionUserProps } from '@/types/user';
 
 export interface VoucherProps {
   voucherId: string;

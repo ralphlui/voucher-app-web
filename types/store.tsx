@@ -1,4 +1,4 @@
-import { SessionUserProps } from './user';
+import { SessionUserProps } from '@/types/user';
 
 export type StoreDetailProps = {
   storeId: string;

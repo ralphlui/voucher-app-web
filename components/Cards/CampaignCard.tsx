@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Card, IconButton } from 'react-native-paper';
 
-import { CampaignProps } from '../../types/campaign';
+import { CampaignProps } from '@/types/campaign';
 
 interface Props {
   campaign: CampaignProps;

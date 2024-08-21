@@ -1,4 +1,4 @@
-import { CampaignProps } from './campaign';
+import { CampaignProps } from '@/types/campaign';
 
 export type FeedProps = {
   feedId: string;

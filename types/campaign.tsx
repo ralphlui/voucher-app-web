@@ -1,5 +1,5 @@
-import { StoreDetailProps } from './store';
-import { SessionUserProps } from './user';
+import { StoreDetailProps } from '@/types/store';
+import { SessionUserProps } from '@/types/user';
 
 export interface CampaignProps {
   campaignId: string;

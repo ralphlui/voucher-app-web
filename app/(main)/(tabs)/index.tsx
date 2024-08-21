@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { StyleSheet, FlatList, ListRenderItemInfo, ActivityIndicator, View } from 'react-native';
 
-import CampaignCard from '../../../components/Cards/CampaignCard';
-import { CampaignProps } from '../../../types/campaign';
+import CampaignCard from '@/components/Cards/CampaignCard';
+import { CampaignProps } from '@/types/campaign';
 
 const CampaignTab = () => {
   const data_temp: CampaignProps[] = Array.from({ length: 5 }, () => ({
