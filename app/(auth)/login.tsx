@@ -17,7 +17,8 @@ const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [loginError, setLoginError] = useState<any>(null);
-
+  const state = useSelector((state: any) => state);
+  console.log(state);
   // const [login, { data, isSuccess, isError, isLoading, error }] = useLoginMutation();
 
   useEffect(() => {
@@ -88,8 +89,8 @@ const Login = () => {
   const onSubmit = ({ email, password }: { email: string; password: string }) => {
     if (email && password) {
       //@ts-ignore
-      dispatch(loginUser({ email, password })).then((action: any) => {
-        if (action.type === 'auth/login/fulfilled') {
+      dispatch(loginUser({ email, password })).then(async (action: any) => {
+        if (action.type === 'user/login/fulfilled') {
           SecureStore.setItemAsync('auth_token', action.payload.token);
           SecureStore.setItemAsync('user_type', action.payload.result[0].role);
         }
