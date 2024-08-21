@@ -1,22 +1,43 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Stack, useRouter } from 'expo-router';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { Button, TextInput, Avatar } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as SecureStore from 'expo-secure-store';
 
-import HandleResponse from '@/components/Common/HandleResponse';
-import { useLoginMutation } from '@/services/user.service';
-import { userLogin } from '@/store';
+import { loginUser, setAuthData } from '@/store/auth/actions';
 import { logInSchema } from '@/utils/validation';
 
 const Login = () => {
+  const loading = useSelector((state: any) => state.auth.loading);
+  const error = useSelector((state: any) => state.auth.error);
   const dispatch = useDispatch();
   const router = useRouter();
+  const [loginError, setLoginError] = useState<any>(null);
 
-  const [login, { data, isSuccess, isError, isLoading, error }] = useLoginMutation();
+  // const [login, { data, isSuccess, isError, isLoading, error }] = useLoginMutation();
+
+  useEffect(() => {
+    if (error) {
+      setLoginError(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (loginError) {
+      Alert.alert('Invalid Credentials', 'Authentication Error', [
+        {
+          text: 'OK',
+          onPress: () => {
+            setLoginError(null);
+          },
+        },
+      ]);
+    }
+  }, [loginError]);
 
   const {
     control,
@@ -32,18 +53,48 @@ const Login = () => {
     mode: 'onChange',
   });
 
+  async function tryLocalSignin() {
+    dispatch(
+      setAuthData({
+        loading: true,
+        token: null,
+        success: false,
+      })
+    );
+    const token = await SecureStore.getItemAsync('auth_token');
+    if (token) {
+      dispatch(
+        setAuthData({
+          loading: false,
+          token: token,
+          success: true,
+        })
+      );
+    } else {
+      dispatch(
+        setAuthData({
+          loading: false,
+          token: null,
+          success: false,
+        })
+      );
+    }
+  }
+
+  useEffect(() => {
+    tryLocalSignin();
+  }, []);
+
   const onSubmit = ({ email, password }: { email: string; password: string }) => {
     if (email && password) {
-      login({
-        body: { email, password },
+      //@ts-ignore
+      dispatch(loginUser({ email, password })).then((action: any) => {
+        if (action.type === 'auth/login/fulfilled') {
+          SecureStore.setItemAsync('auth_token', action.payload.token);
+          SecureStore.setItemAsync('user_type', action.payload.result[0].role);
+        }
       });
     }
-  };
-
-  const onSuccess = () => {
-    console.log(data);
-    dispatch(userLogin(data.data.token));
-    router.back();
   };
 
   return (
@@ -53,15 +104,6 @@ const Login = () => {
           title: 'Login',
         }}
       />
-      {(isSuccess || isError) && (
-        <HandleResponse
-          isError={isError}
-          isSuccess={isSuccess}
-          // error={error?.data?.message || 'error'}
-          message={data?.message}
-          onSuccess={onSuccess}
-        />
-      )}
       <View style={styles.containerStyle}>
         <ScrollView contentContainerStyle={styles.scrollViewStyle}>
           <View style={styles.icon}>

@@ -2,7 +2,7 @@ import { Stack } from 'expo-router';
 import { PaperProvider } from 'react-native-paper';
 import { Provider as StoreProvider } from 'react-redux';
 
-import { store } from '~/store';
+import { store } from '@/store/store';
 
 export default function RootLayout() {
   return (
