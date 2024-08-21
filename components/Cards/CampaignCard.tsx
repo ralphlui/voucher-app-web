@@ -1,6 +1,7 @@
-import React from 'react';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Avatar, Button, Card, Text } from 'react-native-paper';
+import { Card, IconButton } from 'react-native-paper';
 
 import { CampaignProps } from '../../types/campaign';
 
@@ -10,19 +11,31 @@ interface Props {
 
 const CampaignCard = (props: Props) => {
   const campaign = props;
-  const LeftContent = () => <Avatar.Icon icon="folder" size={32} />;
+  const router = useRouter();
+  const [isSelected, setIsSelected] = useState(false);
+
   return (
-    <Card style={styles.container}>
-      <Card.Title title={campaign.campaign.description} subtitle="Card Subtitle" left={LeftContent} />
+    <Card
+      style={styles.container}
+      onPress={() => {
+        router.push(`/(main)/campaigns/${campaign.campaign.campaignId}`);
+      }}>
       <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
-      <Card.Content>
-        <Text variant="titleLarge">Card title</Text>
-        <Text variant="bodyMedium">Card content</Text>
-      </Card.Content>
-      <Card.Actions>
-        <Button>Cancel</Button>
-        <Button>Ok</Button>
-      </Card.Actions>
+      <Card.Title
+        title={campaign.campaign.description}
+        subtitle={`${campaign.campaign.numberOfClaimedVouchers} / ${campaign.campaign.numberOfVouchers} `}
+        right={() => (
+          <Card.Actions>
+            <IconButton
+              animated
+              mode="contained"
+              icon={isSelected ? 'heart' : 'heart-outline'}
+              onPress={() => setIsSelected(!isSelected)}
+            />
+            <IconButton animated icon="share" onPress={() => {}} />
+          </Card.Actions>
+        )}
+      />
     </Card>
   );
 };

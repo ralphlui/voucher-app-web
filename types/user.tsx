@@ -1,3 +1,9 @@
+enum UserTypesEnum {
+  'ADMIN',
+  'MERCHANT',
+  'CUSTOMER',
+}
+
 export interface UserRegistrationResponseProps {
   message: string;
   result: [UserInfoProps];
@@ -10,7 +16,7 @@ export interface UserInfoProps {
 
 export type UserTypeProps = {
   id: number;
-  type: string;
+  type: UserTypesEnum;
 };
 
 export interface UserFilterType {

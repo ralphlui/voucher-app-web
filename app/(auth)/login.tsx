@@ -1,18 +1,50 @@
-import { Stack, router } from 'expo-router';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Button, TextInput, Avatar } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
+import { useDispatch } from 'react-redux';
+
+import HandleResponse from '~/components/Common/HandleResponse';
+import { useLoginMutation } from '~/services/user.service';
+import { userLogin } from '~/store';
+import { logInSchema } from '~/utils/validation';
 
 const Login = () => {
-  const { control, setFocus, handleSubmit } = useForm({
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  const [login, { data, isSuccess, isError, isLoading, error }] = useLoginMutation();
+
+  const {
+    control,
+    formState: { errors: formErrors },
+    setFocus,
+    handleSubmit,
+  } = useForm({
+    resolver: yupResolver(logInSchema),
     defaultValues: {
       email: '',
       password: '',
     },
     mode: 'onChange',
   });
+
+  const onSubmit = ({ email, password }: { email: string; password: string }) => {
+    if (email && password) {
+      login({
+        body: { email, password },
+      });
+    }
+  };
+
+  const onSuccess = () => {
+    dispatch(userLogin(data.data.token));
+    router.back();
+  };
+
   return (
     <>
       <Stack.Screen
@@ -20,6 +52,15 @@ const Login = () => {
           title: 'Login',
         }}
       />
+      {(isSuccess || isError) && (
+        <HandleResponse
+          isError={isError}
+          isSuccess={isSuccess}
+          // error={error?.data?.message || 'error'}
+          message={data?.message}
+          onSuccess={onSuccess}
+        />
+      )}
       <View style={styles.containerStyle}>
         <ScrollView contentContainerStyle={styles.scrollViewStyle}>
           <View style={styles.icon}>
@@ -76,9 +117,7 @@ const Login = () => {
             style={styles.button}
             icon="login"
             mode="contained"
-            onPress={handleSubmit((data: any) => {
-              console.log('form data', data);
-            })}>
+            onPress={handleSubmit(onSubmit)}>
             Login
           </Button>
           <Button

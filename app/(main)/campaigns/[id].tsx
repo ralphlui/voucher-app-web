@@ -1,11 +1,19 @@
+import { Stack } from 'expo-router';
 import React from 'react';
 import { View, Text } from 'react-native';
 
 const Campaign = () => {
   return (
-    <View>
-      <Text>Campaign</Text>
-    </View>
+    <Stack>
+      <Stack.Screen
+        name="id"
+        options={{
+          title: 'Campaign',
+          presentation: 'modal',
+          headerShown: false,
+        }}
+      />
+    </Stack>
   );
 };
 
