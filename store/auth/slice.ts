@@ -1,7 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { registerUser, loginUser, getUser, logoutUser, setAuthData, deleteUser } from '@/store/auth/actions';
+import {
+  registerUser,
+  loginUser,
+  getUser,
+  logoutUser,
+  setAuthData,
+  deleteUser,
+} from '@/store/auth/actions';
 import { AuthState } from '@/types/AuthState';
-
 
 const initialState: AuthState = {
   loading: false,

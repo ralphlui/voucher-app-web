@@ -1,7 +1,7 @@
-import LoginButton from '@/components/Buttons/LoginButton';
-import HeaderLoginLink from '@/components/Links/HeaderLoginLink';
 import { Ionicons } from '@expo/vector-icons';
-import { Link, Tabs } from 'expo-router';
+import { Tabs } from 'expo-router';
+
+import HeaderLoginLink from '@/components/Links/HeaderLoginLink';
 
 export default function TabsLayout() {
   return (

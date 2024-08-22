@@ -1,18 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { Stack, useRouter } from 'expo-router';
+import * as SecureStore from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
 import { Button, TextInput, Avatar, ActivityIndicator, Text } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 import { useDispatch, useSelector } from 'react-redux';
-import * as SecureStore from 'expo-secure-store';
 
 import { loginUser, setAuthData } from '@/store/auth/actions';
 import { logInSchema } from '@/utils/validation';
 
 const Login = () => {
-
   const dispatch = useDispatch();
   const router = useRouter();
   const [loginError, setLoginError] = useState<any>(null);
@@ -65,7 +64,7 @@ const Login = () => {
       dispatch(
         setAuthData({
           loading: false,
-          token: token,
+          token,
           success: true,
         })
       );

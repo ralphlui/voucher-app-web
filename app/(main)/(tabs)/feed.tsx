@@ -1,8 +1,9 @@
-import LoginButton from '@/components/Buttons/LoginButton';
 import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
 import { useSelector } from 'react-redux';
+
+import LoginButton from '@/components/Buttons/LoginButton';
 
 const FeedTab = () => {
   const auth = useSelector((state: any) => state.auth);

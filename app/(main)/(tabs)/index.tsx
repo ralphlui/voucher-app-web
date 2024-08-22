@@ -86,7 +86,7 @@ const CampaignTab = () => {
   const renderItem = ({ item }: ListRenderItemInfo<CampaignProps>) => {
     return <CampaignCard campaign={item} />;
   };
-  
+
   return (
     <FlatList
       data={data}
