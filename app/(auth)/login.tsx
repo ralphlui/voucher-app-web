@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Stack, useRouter } from 'expo-router';
-import * as SecureStore from 'expo-secure-store';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
@@ -59,7 +59,8 @@ const Login = () => {
         success: false,
       })
     );
-    const token = await SecureStore.getItemAsync('auth_token');
+    // const token = await SecureStore.getItemAsync('auth_token');
+    const token = await AsyncStorage.getItem('auth_token');
     if (token) {
       dispatch(
         setAuthData({
@@ -88,7 +89,8 @@ const Login = () => {
       //@ts-ignore
       dispatch(loginUser({ email, password })).then(async (action: any) => {
         if (action.type === 'user/login/fulfilled') {
-          await SecureStore.setItemAsync('auth_token', action.payload.token);
+          // await SecureStore.setItemAsync('auth_token', action.payload.token);
+          await AsyncStorage.setItem('auth_token', action.payload.token);
           router.push('/');
         }
       });

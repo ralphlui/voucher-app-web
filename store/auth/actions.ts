@@ -1,6 +1,7 @@
-import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
-import * as SecureStore from 'expo-secure-store';
+import axios from 'axios';
+
 import { AuthState } from '@/types/AuthState';
 
 const API_URL = `${process.env.EXPO_PUBLIC_API_URL}api`;
@@ -37,7 +38,8 @@ export const loginUser = createAsyncThunk(
 
 export const getUser = createAsyncThunk('auth/getUser', async (_, { rejectWithValue }) => {
   try {
-    const token = await SecureStore.getItemAsync('auth_token');
+    // const token = await SecureStore.getItemAsync('auth_token');
+    const token = await AsyncStorage.getItem('auth_token');
     const response = await axios.get(`${API_URL}/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -51,7 +53,8 @@ export const getUser = createAsyncThunk('auth/getUser', async (_, { rejectWithVa
 
 export const deleteUser = createAsyncThunk('auth/deleteUser', async (_, { rejectWithValue }) => {
   try {
-    const token = await SecureStore.getItemAsync('auth_token');
+    // const token = await SecureStore.getItemAsync('auth_token');
+    const token = await AsyncStorage.getItem('auth_token');
     const getUserResponse = await axios.get(`${API_URL}/me`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -63,7 +66,8 @@ export const deleteUser = createAsyncThunk('auth/deleteUser', async (_, { reject
         Authorization: `Bearer ${token}`,
       },
     });
-    await SecureStore.deleteItemAsync('auth_token');
+    // await SecureStore.deleteItemAsync('auth_token');
+    await AsyncStorage.removeItem('auth_token');
     return response.data;
   } catch (error: any) {
     return rejectWithValue(error.response.data);
@@ -71,7 +75,8 @@ export const deleteUser = createAsyncThunk('auth/deleteUser', async (_, { reject
 });
 
 export const logoutUser = createAsyncThunk('auth/logout', async function () {
-  await SecureStore.deleteItemAsync('auth_token');
+  // await SecureStore.deleteItemAsync('auth_token');
+  await AsyncStorage.removeItem('auth_token');
 });
 
 export const setAuthData = createAction<AuthState>('auth/setAuthData');
