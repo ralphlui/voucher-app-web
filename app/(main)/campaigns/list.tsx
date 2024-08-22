@@ -1,13 +1,13 @@
 import { Stack } from 'expo-router';
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 const CampaignList = () => {
   return (
-    <>
+    <View>
       <Stack.Screen options={{ title: 'Campaign List' }} />
       <Text>Campaign List</Text>
-    </>
+    </View>
   );
 };
 
