@@ -1,25 +1,17 @@
-import { Stack, router } from 'expo-router';
+import LoginButton from '@/components/Buttons/LoginButton';
 import React from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
+import { useSelector } from 'react-redux';
 
 const ProfileTab = () => {
+  const auth = useSelector((state: any) => state.auth);
+
   return (
-    <>
-      <Stack.Screen options={{ title: 'Profile' }} />
-      <View style={styles.containerStyle}>
-        <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-          <Button
-            icon="login"
-            mode="contained"
-            onPress={() => {
-              router.push('/login');
-            }}>
-            Login
-          </Button>
-        </ScrollView>
-      </View>
-    </>
+    <View style={styles.containerStyle}>
+      <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+        {auth.success ? <Text>{auth.user}</Text> : <LoginButton />}
+      </ScrollView>
+    </View>
   );
 };
 

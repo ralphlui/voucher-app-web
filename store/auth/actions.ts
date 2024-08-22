@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import * as SecureStore from 'expo-secure-store';
-import { AuthState } from '@/store/auth/slice';
+import { AuthState } from '@/types/AuthState';
 
 const API_URL = `${process.env.EXPO_PUBLIC_API_URL}api`;
 

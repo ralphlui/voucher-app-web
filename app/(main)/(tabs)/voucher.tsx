@@ -1,20 +1,16 @@
-import { router } from 'expo-router';
+import LoginButton from '@/components/Buttons/LoginButton';
 import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Text } from 'react-native-paper';
+import { useSelector } from 'react-redux';
 
 const VoucherTab = () => {
+  const auth = useSelector((state: any) => state.auth);
+  console.log(auth);
   return (
     <View style={styles.containerStyle}>
       <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-        <Button
-          icon="login"
-          mode="contained"
-          onPress={() => {
-            router.push('/login');
-          }}>
-          Login
-        </Button>
+        {auth.success ? <Text>{auth.user}</Text> : <LoginButton />}
       </ScrollView>
     </View>
   );

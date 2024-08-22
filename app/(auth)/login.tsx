@@ -3,7 +3,7 @@ import { Stack, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
-import { Button, TextInput, Avatar } from 'react-native-paper';
+import { Button, TextInput, Avatar, ActivityIndicator, Text } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 import { useDispatch, useSelector } from 'react-redux';
 import * as SecureStore from 'expo-secure-store';
@@ -12,20 +12,18 @@ import { loginUser, setAuthData } from '@/store/auth/actions';
 import { logInSchema } from '@/utils/validation';
 
 const Login = () => {
-  const loading = useSelector((state: any) => state.auth.loading);
-  const error = useSelector((state: any) => state.auth.error);
+
   const dispatch = useDispatch();
   const router = useRouter();
   const [loginError, setLoginError] = useState<any>(null);
-  const state = useSelector((state: any) => state);
-  console.log(state);
-  // const [login, { data, isSuccess, isError, isLoading, error }] = useLoginMutation();
+  const auth = useSelector((state: any) => state.auth);
+  console.log(auth);
 
   useEffect(() => {
-    if (error) {
-      setLoginError(error);
+    if (auth.error) {
+      setLoginError(auth.error);
     }
-  }, [error]);
+  }, [auth.error]);
 
   useEffect(() => {
     if (loginError) {
@@ -92,7 +90,7 @@ const Login = () => {
       dispatch(loginUser({ email, password })).then(async (action: any) => {
         if (action.type === 'user/login/fulfilled') {
           SecureStore.setItemAsync('auth_token', action.payload.token);
-          SecureStore.setItemAsync('user_type', action.payload.result[0].role);
+          router.push('/');
         }
       });
     }
@@ -106,74 +104,78 @@ const Login = () => {
         }}
       />
       <View style={styles.containerStyle}>
-        <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-          <View style={styles.icon}>
-            <Avatar.Icon icon="ticket-percent-outline" />
-          </View>
-          <FormBuilder
-            control={control}
-            setFocus={setFocus}
-            formConfigArray={[
-              {
-                name: 'email',
-                type: 'email',
-                textInputProps: {
-                  label: 'Email',
-                  left: <TextInput.Icon icon="email" />,
-                },
-                rules: {
-                  required: {
-                    value: true,
-                    message: 'Email is required',
+        {auth.loading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+            <View style={styles.icon}>
+              <Avatar.Icon icon="ticket-percent-outline" />
+            </View>
+            <FormBuilder
+              control={control}
+              setFocus={setFocus}
+              formConfigArray={[
+                {
+                  name: 'email',
+                  type: 'email',
+                  textInputProps: {
+                    label: 'Email',
+                    left: <TextInput.Icon icon="email" />,
                   },
-                  pattern: {
-                    value:
-                      /[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})/,
-                    message: 'Email is invalid',
-                  },
-                },
-              },
-              {
-                name: 'password',
-                type: 'password',
-                textInputProps: {
-                  label: 'Password',
-                  left: <TextInput.Icon icon="lock" />,
-                },
-                rules: {
-                  required: {
-                    value: true,
-                    message: 'Password is required',
-                  },
-                  minLength: {
-                    value: 8,
-                    message: 'Password should be atleast 8 characters',
-                  },
-                  maxLength: {
-                    value: 30,
-                    message: 'Password should be between 8 and 30 characters',
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'Email is required',
+                    },
+                    pattern: {
+                      value:
+                        /[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})/,
+                      message: 'Email is invalid',
+                    },
                   },
                 },
-              },
-            ]}
-          />
-          <Button
-            style={styles.button}
-            icon="login"
-            mode="contained"
-            onPress={handleSubmit(onSubmit)}>
-            Login
-          </Button>
-          <Button
-            style={styles.button}
-            icon="account-plus"
-            mode="contained"
-            onPress={() => {
-              router.push('/register');
-            }}>
-            Register
-          </Button>
-        </ScrollView>
+                {
+                  name: 'password',
+                  type: 'password',
+                  textInputProps: {
+                    label: 'Password',
+                    left: <TextInput.Icon icon="lock" />,
+                  },
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'Password is required',
+                    },
+                    minLength: {
+                      value: 8,
+                      message: 'Password should be atleast 8 characters',
+                    },
+                    maxLength: {
+                      value: 30,
+                      message: 'Password should be between 8 and 30 characters',
+                    },
+                  },
+                },
+              ]}
+            />
+            <Button
+              style={styles.button}
+              icon="login"
+              mode="contained"
+              onPress={handleSubmit(onSubmit)}>
+              Login
+            </Button>
+            <Button
+              style={styles.button}
+              icon="account-plus"
+              mode="contained"
+              onPress={() => {
+                router.push('/register');
+              }}>
+              Register
+            </Button>
+          </ScrollView>
+        )}
       </View>
     </>
   );
