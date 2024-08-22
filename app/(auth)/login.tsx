@@ -89,7 +89,7 @@ const Login = () => {
       //@ts-ignore
       dispatch(loginUser({ email, password })).then(async (action: any) => {
         if (action.type === 'user/login/fulfilled') {
-          SecureStore.setItemAsync('auth_token', action.payload.token);
+          await SecureStore.setItemAsync('auth_token', action.payload.token);
           router.push('/');
         }
       });

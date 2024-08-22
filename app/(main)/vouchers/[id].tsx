@@ -1,10 +1,12 @@
+import { Stack } from 'expo-router';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 
 const Voucher = () => {
   return (
     <View>
-      <Text>Voucher</Text>
+      <Stack.Screen options={{ title: 'Voucher' }} />
+      <Text> Individual Voucher</Text>
     </View>
   );
 };
