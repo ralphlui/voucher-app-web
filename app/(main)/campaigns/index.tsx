@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 
 const Campaigns = () => {
-  return <View></View>;
+  return <View>test</View>;
 };
 
 export default Campaigns;

@@ -1,5 +1,7 @@
+import LoginButton from '@/components/Buttons/LoginButton';
+import HeaderLoginLink from '@/components/Links/HeaderLoginLink';
 import { Ionicons } from '@expo/vector-icons';
-import { Tabs } from 'expo-router';
+import { Link, Tabs } from 'expo-router';
 
 export default function TabsLayout() {
   return (
@@ -12,6 +14,7 @@ export default function TabsLayout() {
         options={{
           title: 'Campaign',
           tabBarIcon: ({ color }) => <Ionicons name="home" size={30} color={color} />,
+          headerRight: () => <HeaderLoginLink />,
         }}
       />
       <Tabs.Screen
@@ -19,6 +22,7 @@ export default function TabsLayout() {
         options={{
           title: 'Store',
           tabBarIcon: ({ color }) => <Ionicons name="storefront" size={30} color={color} />,
+          headerRight: () => <HeaderLoginLink />,
         }}
       />
       <Tabs.Screen
@@ -26,6 +30,13 @@ export default function TabsLayout() {
         options={{
           title: 'Voucher',
           tabBarIcon: ({ color }) => <Ionicons name="gift" size={30} color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="feed"
+        options={{
+          title: 'Feed',
+          tabBarIcon: ({ color }) => <Ionicons name="notifications" size={30} color={color} />,
         }}
       />
       <Tabs.Screen
