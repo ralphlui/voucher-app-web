@@ -1,8 +1,9 @@
-import LoginButton from '@/components/Buttons/LoginButton';
-import useAuth from '@/hooks/useAuth';
 import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
+
+import LoginButton from '@/components/Buttons/LoginButton';
+import useAuth from '@/hooks/useAuth';
 
 const VoucherTab = () => {
   const auth = useAuth();

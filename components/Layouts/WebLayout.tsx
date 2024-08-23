@@ -1,9 +1,10 @@
-import React from 'react';
-import { Drawer } from 'expo-router/drawer';
 import { Ionicons } from '@expo/vector-icons';
+import { Drawer } from 'expo-router/drawer';
+import React from 'react';
+
+import LoginButton from '@/components/Buttons/LoginButton';
 import useAuth from '@/hooks/useAuth';
 import { UserTypesEnum } from '@/types/user';
-import LoginButton from '../Buttons/LoginButton';
 
 const WebLayout = () => {
   const auth = useAuth();

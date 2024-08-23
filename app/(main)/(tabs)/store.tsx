@@ -1,13 +1,8 @@
+import React, { useState } from 'react';
+import { View, StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
+
 import StoreCard from '@/components/Cards/StoreCard';
 import { StoreDetailProps } from '@/types/store';
-import React, { useState } from 'react';
-import {
-  View,
-  StyleSheet,
-  ActivityIndicator,
-  FlatList,
-  ListRenderItemInfo,
-} from 'react-native';
 
 const StoreTab = () => {
   const data_temp: StoreDetailProps[] = Array.from({ length: 5 }, () => ({

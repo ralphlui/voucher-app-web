@@ -1,8 +1,9 @@
+import React from 'react';
+import { ScrollView, StyleSheet, View, Text } from 'react-native';
+
 import LoginButton from '@/components/Buttons/LoginButton';
 import LogoutButton from '@/components/Buttons/LogoutButton';
 import useAuth from '@/hooks/useAuth';
-import React from 'react';
-import { ScrollView, StyleSheet, View, Text } from 'react-native';
 
 const ProfileTab = () => {
   const auth = useAuth();

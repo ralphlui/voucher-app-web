@@ -1,9 +1,9 @@
-import React from 'react';
 import { router } from 'expo-router';
+import React from 'react';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { logoutUser, setAuthData } from '@/store/auth/actions';
+
+import { logoutUser } from '@/store/auth/actions';
 
 const LogoutButton = () => {
   const dispatch = useDispatch();

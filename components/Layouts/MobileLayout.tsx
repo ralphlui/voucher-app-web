@@ -1,9 +1,10 @@
-import React from 'react';
-import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { Tabs } from 'expo-router';
+import React from 'react';
+
+import LoginButton from '@/components/Buttons/LoginButton';
 import useAuth from '@/hooks/useAuth';
 import { UserTypesEnum } from '@/types/user';
-import LoginButton from '../Buttons/LoginButton';
 
 const MobileLayout = () => {
   const auth = useAuth();
@@ -17,7 +18,7 @@ const MobileLayout = () => {
         options={{
           title: 'Campaign',
           tabBarIcon: ({ color }) => <Ionicons name="bag-handle" size={30} color={color} />,
-          headerRight: () => (!auth.success && <LoginButton />),
+          headerRight: () => !auth.success && <LoginButton />,
         }}
       />
       <Tabs.Screen
@@ -25,7 +26,7 @@ const MobileLayout = () => {
         options={{
           title: 'Store',
           tabBarIcon: ({ color }) => <Ionicons name="storefront" size={30} color={color} />,
-          headerRight: () => (!auth.success && <LoginButton />),
+          headerRight: () => !auth.success && <LoginButton />,
         }}
       />
       <Tabs.Screen

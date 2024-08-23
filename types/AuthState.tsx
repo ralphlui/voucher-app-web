@@ -1,4 +1,4 @@
-import { UserTypesEnum } from './user';
+import { UserTypesEnum } from '@/types/user';
 
 export interface AuthState {
   loading?: boolean;

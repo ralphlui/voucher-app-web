@@ -1,9 +1,9 @@
+import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 
 import { StoreDetailProps } from '@/types/store';
-import { useRouter } from 'expo-router';
 
 interface Props {
   store: StoreDetailProps;
@@ -16,10 +16,10 @@ const StoreCard = (props: Props) => {
 
   return (
     <Card
-    style={styles.container}
-    onPress={() => {
-      router.push(`/(main)/stores/${store.storeId}`);
-    }}>
+      style={styles.container}
+      onPress={() => {
+        router.push(`/(main)/stores/${store.storeId}`);
+      }}>
       <Card.Title title={store.storeName} subtitle={store.address} left={LeftContent} />
       {/* <Card.Content>
         <Text variant="titleLarge">Card title</Text>
