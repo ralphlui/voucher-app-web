@@ -1,11 +1,11 @@
 import LoginButton from '@/components/Buttons/LoginButton';
+import useAuth from '@/hooks/useAuth';
 import React from 'react';
 import { View, ScrollView, StyleSheet } from 'react-native';
 import { Text } from 'react-native-paper';
-import { useSelector } from 'react-redux';
 
 const VoucherTab = () => {
-  const auth = useSelector((state: any) => state.auth);
+  const auth = useAuth();
   console.log(auth);
   return (
     <View style={styles.containerStyle}>

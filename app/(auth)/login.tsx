@@ -4,18 +4,19 @@ import { Stack, useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View, ScrollView, Alert } from 'react-native';
-import { Button, TextInput, Avatar, ActivityIndicator, Text } from 'react-native-paper';
+import { Button, TextInput, Avatar, ActivityIndicator } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { loginUser, setAuthData } from '@/store/auth/actions';
 import { logInSchema } from '@/utils/validation';
+import useAuth from '@/hooks/useAuth';
 
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const [loginError, setLoginError] = useState<any>(null);
-  const auth = useSelector((state: any) => state.auth);
+  const auth = useAuth();
   console.log(auth);
 
   useEffect(() => {
@@ -59,7 +60,6 @@ const Login = () => {
         success: false,
       })
     );
-    // const token = await SecureStore.getItemAsync('auth_token');
     const token = await AsyncStorage.getItem('auth_token');
     if (token) {
       dispatch(
@@ -89,7 +89,6 @@ const Login = () => {
       //@ts-ignore
       dispatch(loginUser({ email, password })).then(async (action: any) => {
         if (action.type === 'user/login/fulfilled') {
-          // await SecureStore.setItemAsync('auth_token', action.payload.token);
           await AsyncStorage.setItem('auth_token', action.payload.token);
           router.push('/');
         }

@@ -2,10 +2,13 @@ import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import HeaderLoginLink from '@/components/Links/HeaderLoginLink';
-import { useSelector } from 'react-redux';
+import useAuth from '@/hooks/useAuth';
+import { UserTypesEnum } from '@/types/user';
+import LogoutButton from '../Buttons/LogoutButton';
+import LoginButton from '../Buttons/LoginButton';
 
 const MobileLayout = () => {
-  const auth = useSelector((state: any) => state.auth);
+  const auth = useAuth();
   return (
     <Tabs
       screenOptions={{
@@ -16,7 +19,7 @@ const MobileLayout = () => {
         options={{
           title: 'Campaign',
           tabBarIcon: ({ color }) => <Ionicons name="bag-handle" size={30} color={color} />,
-          headerRight: () => <HeaderLoginLink />,
+          headerRight: () => (!auth.success && <LoginButton />),
         }}
       />
       <Tabs.Screen
@@ -24,12 +27,12 @@ const MobileLayout = () => {
         options={{
           title: 'Store',
           tabBarIcon: ({ color }) => <Ionicons name="storefront" size={30} color={color} />,
-          headerRight: () => <HeaderLoginLink />,
+          headerRight: () => (!auth.success && <LoginButton />),
         }}
       />
       <Tabs.Screen
         name="voucher"
-        redirect={!(auth.role === 'CUSTOMER')}
+        redirect={!(auth.role === UserTypesEnum.CUSTOMER)}
         options={{
           title: 'Voucher',
           tabBarIcon: ({ color }) => <Ionicons name="gift" size={30} color={color} />,
@@ -37,7 +40,7 @@ const MobileLayout = () => {
       />
       <Tabs.Screen
         name="feed"
-        redirect={!(auth.role === 'CUSTOMER')}
+        redirect={!(auth.role === UserTypesEnum.CUSTOMER)}
         options={{
           title: 'Feed',
           tabBarIcon: ({ color }) => <Ionicons name="notifications" size={30} color={color} />,

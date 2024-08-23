@@ -2,10 +2,11 @@ import React from 'react';
 import { Drawer } from 'expo-router/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import HeaderLoginLink from '@/components/Links/HeaderLoginLink';
-import { useSelector } from 'react-redux';
+import useAuth from '@/hooks/useAuth';
+import { UserTypesEnum } from '@/types/user';
 
 const WebLayout = () => {
-  const auth = useSelector((state: any) => state.auth);
+  const auth = useAuth();
   return (
     <Drawer>
       <Drawer.Screen
@@ -28,7 +29,7 @@ const WebLayout = () => {
       />
       <Drawer.Screen
         name="voucher"
-        redirect={!(auth.role === 'CUSTOMER')}
+        redirect={!(auth.role === UserTypesEnum.CUSTOMER)}
         options={{
           drawerLabel: 'Voucher',
           title: 'Voucher',
@@ -37,7 +38,7 @@ const WebLayout = () => {
       />
       <Drawer.Screen
         name="feed"
-        redirect={!(auth.role === 'CUSTOMER')}
+        redirect={!(auth.role === UserTypesEnum.CUSTOMER)}
         options={{
           drawerLabel: 'Feed',
           title: 'Feed',

@@ -1,15 +1,23 @@
 import LoginButton from '@/components/Buttons/LoginButton';
+import LogoutButton from '@/components/Buttons/LogoutButton';
+import useAuth from '@/hooks/useAuth';
 import React from 'react';
 import { ScrollView, StyleSheet, View, Text } from 'react-native';
-import { useSelector } from 'react-redux';
 
 const ProfileTab = () => {
-  const auth = useSelector((state: any) => state.auth);
+  const auth = useAuth();
 
   return (
     <View style={styles.containerStyle}>
       <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-        {auth.success ? <Text>{auth.user}</Text> : <LoginButton />}
+        {auth.success ? (
+          <>
+            <Text>{auth.user}</Text>
+            <LogoutButton />
+          </>
+        ) : (
+          <LoginButton />
+        )}
       </ScrollView>
     </View>
   );

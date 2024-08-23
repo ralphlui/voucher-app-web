@@ -6,7 +6,7 @@ const LoginButton = () => {
   return (
     <Button
       icon="login"
-      mode="contained"
+      mode="text"
       onPress={() => {
         router.push('/login');
       }}>

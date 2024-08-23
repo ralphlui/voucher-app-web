@@ -73,6 +73,10 @@ const authSlice = createSlice({
         state.loading = false;
         state.user = null;
         state.token = null;
+        state.role = null;
+        state.success = false;
+        state.user = null;
+        state.email = null;
       })
       .addCase(deleteUser.pending, (state) => {
         state.loading = true;
