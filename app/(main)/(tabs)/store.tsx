@@ -7,18 +7,6 @@ import { StoreDetailProps } from '@/types/store';
 const StoreTab = () => {
   const data_temp: StoreDetailProps[] = Array.from({ length: 5 }, () => ({
     storeId: Math.random() + '',
-    storeName: Math.random() + '',
-    description: `Desc ${Math.random()}`,
-    address: '',
-    address1: '',
-    address2: '',
-    address3: '',
-    city: '',
-    state: '',
-    country: '',
-    postalCode: '',
-    image: '',
-    contactNumber: '',
   }));
 
   const [data, setData] = useState<StoreDetailProps[]>(data_temp);
@@ -37,18 +25,6 @@ const StoreTab = () => {
     setTimeout(() => {
       const newData = Array.from({ length: 5 }, () => ({
         storeId: Math.random() + '',
-        storeName: Math.random() + '',
-        description: `Desc ${Math.random()}`,
-        address: '',
-        address1: '',
-        address2: '',
-        address3: '',
-        city: '',
-        state: '',
-        country: '',
-        postalCode: '',
-        image: '',
-        contactNumber: '',
       }));
       setData(data.concat(newData));
       setIsLoading(false);

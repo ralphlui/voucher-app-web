@@ -3,18 +3,18 @@ import { SessionUserProps } from '@/types/user';
 
 export interface CampaignProps {
   campaignId: string;
-  description: string;
-  numberOfVouchers: number;
-  numberOfLikes: number;
-  tagsJson: string;
-  tandc: string;
-  amount: GLfloat;
-  startDate: string;
-  endDate: string;
-  store: StoreDetailProps;
-  campaignStatus: string;
-  numberOfClaimedVouchers: number;
-  pin: string;
+  description?: string;
+  numberOfVouchers?: number;
+  numberOfLikes?: number;
+  tagsJson?: string;
+  tandc?: string;
+  amount?: GLfloat;
+  startDate?: string;
+  endDate?: string;
+  store?: StoreDetailProps;
+  campaignStatus?: string;
+  numberOfClaimedVouchers?: number;
+  pin?: string;
 }
 
 export interface CreateCampaignParamsProps {

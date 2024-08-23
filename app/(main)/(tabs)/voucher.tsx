@@ -1,42 +1,57 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
-import { Text } from 'react-native-paper';
+import React, { useState } from 'react';
+import { View, StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
 
-import LoginButton from '@/components/Buttons/LoginButton';
-import useAuth from '@/hooks/useAuth';
+import VoucherCard from '@/components/Cards/VoucherCard';
+import { VoucherProps } from '@/types/vouhcer';
 
 const VoucherTab = () => {
-  const auth = useAuth();
-  console.log(auth);
-  return (
-    <View style={styles.containerStyle}>
-      <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-        {auth.success ? <Text>{auth.user}</Text> : <LoginButton />}
-      </ScrollView>
+  const data_temp: VoucherProps[] = Array.from({ length: 5 }, () => ({
+    voucherId: Math.random() + '',
+  }));
+
+  const [data, setData] = useState<VoucherProps[]>(data_temp);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const LoadingIndicator = () => (
+    <View>
+      <ActivityIndicator size="large" />
     </View>
+  );
+  const loadMoreItems = () => {
+    if (isLoading) {
+      return;
+    }
+    setIsLoading(true);
+    setTimeout(() => {
+      const newData = Array.from({ length: 5 }, () => ({
+        voucherId: Math.random() + '',
+      }));
+      setData(data.concat(newData));
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  const renderItem = ({ item }: ListRenderItemInfo<VoucherProps>) => {
+    return <VoucherCard voucher={item} />;
+  };
+
+  return (
+    <FlatList
+      data={data}
+      keyExtractor={(item) => item.voucherId.toString()}
+      onEndReached={loadMoreItems}
+      onEndReachedThreshold={0.5}
+      renderItem={renderItem}
+      ListFooterComponent={isLoading ? LoadingIndicator : null}
+      style={styles.container}
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  containerStyle: {
-    flex: 1,
-  },
-  scrollViewStyle: {
-    flex: 1,
-    padding: 15,
-  },
-  headingStyle: {
-    fontSize: 30,
-    textAlign: 'center',
-    marginBottom: 40,
-  },
-  icon: {
-    alignItems: 'center',
+  container: {
+    alignContent: 'center',
     margin: 10,
-    padding: 10,
-  },
-  button: {
-    marginBottom: 10,
   },
 });
 

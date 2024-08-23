@@ -2,8 +2,8 @@ import { CampaignProps } from '@/types/campaign';
 
 export type FeedProps = {
   feedId: string;
-  campaign: CampaignProps;
-  read: boolean;
+  campaign?: CampaignProps;
+  read?: boolean;
 };
 
 export type FeedTableCard = {
