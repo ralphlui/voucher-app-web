@@ -5,7 +5,7 @@ import { Avatar, Button, Card, Text } from 'react-native-paper';
 import { VoucherProps } from '@/types/vouhcer';
 
 interface Props {
-  campaign: VoucherProps;
+  voucher: VoucherProps;
 }
 
 const VoucherCard = (props: Props) => {

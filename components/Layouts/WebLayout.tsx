@@ -1,7 +1,6 @@
 import React from 'react';
 import { Drawer } from 'expo-router/drawer';
 import { Ionicons } from '@expo/vector-icons';
-import HeaderLoginLink from '@/components/Links/HeaderLoginLink';
 import useAuth from '@/hooks/useAuth';
 import { UserTypesEnum } from '@/types/user';
 import LoginButton from '../Buttons/LoginButton';

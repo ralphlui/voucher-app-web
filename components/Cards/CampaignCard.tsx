@@ -10,7 +10,7 @@ interface Props {
 }
 
 const CampaignCard = (props: Props) => {
-  const campaign = props;
+  const { campaign } = props;
   const router = useRouter();
   const [isSelected, setIsSelected] = useState(false);
 
@@ -18,12 +18,12 @@ const CampaignCard = (props: Props) => {
     <Card
       style={styles.container}
       onPress={() => {
-        router.push(`/(main)/campaigns/${campaign.campaign.campaignId}`);
+        router.push(`/(main)/campaigns/${campaign.campaignId}`);
       }}>
       <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
       <Card.Title
-        title={campaign.campaign.description}
-        subtitle={`${campaign.campaign.numberOfClaimedVouchers} / ${campaign.campaign.numberOfVouchers} `}
+        title={campaign.description}
+        subtitle={`${campaign.numberOfClaimedVouchers} / ${campaign.numberOfVouchers} `}
         right={() => (
           <Card.Actions>
             <IconButton
