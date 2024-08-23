@@ -13,7 +13,7 @@ const WebLayout = () => {
         options={{
           drawerLabel: 'Campaign',
           title: 'Campaign',
-          drawerIcon: ({ color }) => <Ionicons name="home" size={30} color={color} />,
+          drawerIcon: ({ color }) => <Ionicons name="bag-handle" size={30} color={color} />,
           headerRight: () => <HeaderLoginLink />,
         }}
       />
@@ -28,7 +28,7 @@ const WebLayout = () => {
       />
       <Drawer.Screen
         name="voucher"
-        redirect={auth.role === 'CUSTOMER'}
+        redirect={!(auth.role === 'CUSTOMER')}
         options={{
           drawerLabel: 'Voucher',
           title: 'Voucher',
@@ -37,6 +37,7 @@ const WebLayout = () => {
       />
       <Drawer.Screen
         name="feed"
+        redirect={!(auth.role === 'CUSTOMER')}
         options={{
           drawerLabel: 'Feed',
           title: 'Feed',
@@ -45,6 +46,7 @@ const WebLayout = () => {
       />
       <Drawer.Screen
         name="profile"
+        redirect={!(auth.role !== null)}
         options={{
           drawerLabel: 'Profile',
           title: 'Profile',
