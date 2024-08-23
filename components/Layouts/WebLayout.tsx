@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import HeaderLoginLink from '@/components/Links/HeaderLoginLink';
 import useAuth from '@/hooks/useAuth';
 import { UserTypesEnum } from '@/types/user';
+import LoginButton from '../Buttons/LoginButton';
 
 const WebLayout = () => {
   const auth = useAuth();
@@ -15,7 +16,7 @@ const WebLayout = () => {
           drawerLabel: 'Campaign',
           title: 'Campaign',
           drawerIcon: ({ color }) => <Ionicons name="bag-handle" size={30} color={color} />,
-          headerRight: () => <HeaderLoginLink />,
+          headerRight: () => !auth.success && <LoginButton />,
         }}
       />
       <Drawer.Screen
@@ -24,7 +25,7 @@ const WebLayout = () => {
           drawerLabel: 'Store',
           title: 'Store',
           drawerIcon: ({ color }) => <Ionicons name="storefront" size={30} color={color} />,
-          headerRight: () => <HeaderLoginLink />,
+          headerRight: () => !auth.success && <LoginButton />,
         }}
       />
       <Drawer.Screen

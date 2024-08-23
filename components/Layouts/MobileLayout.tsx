@@ -1,10 +1,8 @@
 import React from 'react';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import HeaderLoginLink from '@/components/Links/HeaderLoginLink';
 import useAuth from '@/hooks/useAuth';
 import { UserTypesEnum } from '@/types/user';
-import LogoutButton from '../Buttons/LogoutButton';
 import LoginButton from '../Buttons/LoginButton';
 
 const MobileLayout = () => {

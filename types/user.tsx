@@ -1,7 +1,7 @@
 export enum UserTypesEnum {
-  'ADMIN',
-  'MERCHANT',
-  'CUSTOMER',
+  ADMIN = 'ADMIN',
+  MERCHANT = 'MERCHANT',
+  CUSTOMER = 'CUSTOMER',
 }
 
 export interface UserRegistrationResponseProps {
