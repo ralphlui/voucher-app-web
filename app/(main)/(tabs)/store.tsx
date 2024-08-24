@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
 
-import StoreCard from '@/components/Cards/StoreCard';
+import StoreCard from '@/components/cards/StoreCard';
 import { StoreDetailProps } from '@/types/store';
 
 const StoreTab = () => {

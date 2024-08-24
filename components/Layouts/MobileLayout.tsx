@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import React from 'react';
 
-import LoginButton from '@/components/Buttons/LoginButton';
+import LoginButton from '@/components/buttons/LoginButton';
 import useAuth from '@/hooks/useAuth';
 import { UserTypesEnum } from '@/types/user';
 

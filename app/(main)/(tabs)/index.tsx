@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, FlatList, ListRenderItemInfo, ActivityIndicator, View } from 'react-native';
 
-import CampaignCard from '@/components/Cards/CampaignCard';
+import CampaignCard from '@/components/cards/CampaignCard';
 import { CampaignProps } from '@/types/campaign';
 
 const CampaignTab = () => {

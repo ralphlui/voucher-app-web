@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
 
-import VoucherCard from '@/components/Cards/VoucherCard';
+import VoucherCard from '@/components/cards/VoucherCard';
 import { VoucherProps } from '@/types/vouhcer';
 
 const VoucherTab = () => {
