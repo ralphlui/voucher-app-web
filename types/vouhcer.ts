@@ -1,9 +1,9 @@
-import { CampaignProps } from '@/types/Campaign';
+import { Campaign } from '@/types/Campaign';
 import { SessionUserProps } from '@/types/User';
 
 export interface Voucher {
   voucherId: string;
-  campaign?: CampaignProps;
+  campaign?: Campaign;
   voucherStatus?: string;
   amount?: GLfloat;
   claimTime?: string;
