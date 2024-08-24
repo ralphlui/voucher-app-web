@@ -1,6 +1,6 @@
-import { SessionUserProps } from '@/types/user';
+import { SessionUserProps } from '@/types/User';
 
-export type StoreDetailProps = {
+export type Store = {
   storeId: string;
   storeName?: string;
   description?: string;
@@ -17,11 +17,11 @@ export type StoreDetailProps = {
 };
 
 export type StoreCard = {
-  store: StoreDetailProps;
+  store: Store;
 };
 
 export type UpdateStoreCard = {
-  store: StoreDetailProps;
+  store: Store;
   currentSessionUser: SessionUserProps;
 };
 
@@ -35,7 +35,7 @@ export interface CountryFilter {
 }
 
 export type StoreTableCard = {
-  stores: StoreDetailProps[];
+  stores: Store[];
   pageNumber: number;
   totalRecord: number;
   size: number;

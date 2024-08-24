@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { StyleSheet, FlatList, ListRenderItemInfo, ActivityIndicator, View } from 'react-native';
 
 import CampaignCard from '@/components/cards/CampaignCard';
-import { CampaignProps } from '@/types/campaign';
+import { Campaign } from '@/types/Campaign';
 
 const CampaignTab = () => {
-  const data_temp: CampaignProps[] = Array.from({ length: 5 }, () => ({
+  const data_temp: Campaign[] = Array.from({ length: 5 }, () => ({
     campaignId: Math.random() + '',
   }));
 
-  const [data, setData] = useState<CampaignProps[]>(data_temp);
+  const [data, setData] = useState<Campaign[]>(data_temp);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const LoadingIndicator = () => (
@@ -31,7 +31,7 @@ const CampaignTab = () => {
     }, 1000);
   };
 
-  const renderItem = ({ item }: ListRenderItemInfo<CampaignProps>) => {
+  const renderItem = ({ item }: ListRenderItemInfo<Campaign>) => {
     return <CampaignCard campaign={item} />;
   };
 

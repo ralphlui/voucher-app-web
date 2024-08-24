@@ -1,6 +1,6 @@
-import { UserTypesEnum } from '@/types/user';
+import { UserTypesEnum } from '@/types/User';
 
-export interface AuthState {
+export interface Auth {
   loading?: boolean;
   user?: any | null;
   token?: string | null;

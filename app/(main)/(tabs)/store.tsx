@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
 
 import StoreCard from '@/components/cards/StoreCard';
-import { StoreDetailProps } from '@/types/store';
+import { Store } from '@/types/Store';
 
 const StoreTab = () => {
-  const data_temp: StoreDetailProps[] = Array.from({ length: 5 }, () => ({
+  const data_temp: Store[] = Array.from({ length: 5 }, () => ({
     storeId: Math.random() + '',
   }));
 
-  const [data, setData] = useState<StoreDetailProps[]>(data_temp);
+  const [data, setData] = useState<Store[]>(data_temp);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const LoadingIndicator = () => (
@@ -31,7 +31,7 @@ const StoreTab = () => {
     }, 1000);
   };
 
-  const renderItem = ({ item }: ListRenderItemInfo<StoreDetailProps>) => {
+  const renderItem = ({ item }: ListRenderItemInfo<Store>) => {
     return <StoreCard store={item} />;
   };
 

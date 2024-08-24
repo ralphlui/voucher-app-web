@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, ListRenderItemInfo, FlatList } from 'react-native';
 import { Divider, IconButton, Text } from 'react-native-paper';
 
-import { FeedProps } from '@/types/feed';
+import { Feed } from '@/types/Feed';
 
 const FeedTab = () => {
-  const data_temp: FeedProps[] = Array.from({ length: 5 }, () => ({
+  const data_temp: Feed[] = Array.from({ length: 5 }, () => ({
     feedId: Math.random() + '',
   }));
 
-  const [data, setData] = useState<FeedProps[]>(data_temp);
+  const [data, setData] = useState<Feed[]>(data_temp);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const LoadingIndicator = () => (
@@ -31,7 +31,7 @@ const FeedTab = () => {
     }, 1000);
   };
 
-  const renderItem = ({ item }: ListRenderItemInfo<FeedProps>) => {
+  const renderItem = ({ item }: ListRenderItemInfo<Feed>) => {
     return (
       <View style={styles.listRow}>
         <IconButton

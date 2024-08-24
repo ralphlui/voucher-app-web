@@ -4,7 +4,7 @@ import React from 'react';
 
 import LoginButton from '@/components/buttons/LoginButton';
 import useAuth from '@/hooks/useAuth';
-import { UserTypesEnum } from '@/types/user';
+import { UserTypesEnum } from '@/types/User';
 
 const MobileLayout = () => {
   const auth = useAuth();

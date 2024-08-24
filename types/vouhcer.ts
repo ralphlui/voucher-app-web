@@ -1,7 +1,7 @@
-import { CampaignProps } from '@/types/campaign';
-import { SessionUserProps } from '@/types/user';
+import { CampaignProps } from '@/types/Campaign';
+import { SessionUserProps } from '@/types/User';
 
-export interface VoucherProps {
+export interface Voucher {
   voucherId: string;
   campaign?: CampaignProps;
   voucherStatus?: string;
@@ -13,7 +13,7 @@ export interface VoucherProps {
 }
 
 export interface VoucherListParamsProps {
-  vouchers: VoucherProps[];
+  vouchers: Voucher[];
   currentSessionUser: SessionUserProps;
   pageNumber: number;
   totalRecord: number;

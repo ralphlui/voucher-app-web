@@ -1,4 +1,4 @@
-import { UserTypesEnum } from '@/types/user';
+import { UserTypesEnum } from '@/types/User';
 
 export interface APIResponse<T> {
   success?: boolean;

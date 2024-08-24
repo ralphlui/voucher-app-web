@@ -6,12 +6,14 @@ export enum UserTypesEnum {
 
 export interface UserRegistrationResponseProps {
   message: string;
-  result: [UserInfoProps];
+  result: [User];
 }
 
-export interface UserInfoProps {
+export interface User {
+  id: number;
   email: string;
   role: string;
+  type: UserTypesEnum;
 }
 
 export type UserTypeProps = {

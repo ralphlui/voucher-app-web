@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
 
 import VoucherCard from '@/components/cards/VoucherCard';
-import { VoucherProps } from '@/types/vouhcer';
+import { Voucher } from '@/types/Vouhcer';
 
 const VoucherTab = () => {
-  const data_temp: VoucherProps[] = Array.from({ length: 5 }, () => ({
+  const data_temp: Voucher[] = Array.from({ length: 5 }, () => ({
     voucherId: Math.random() + '',
   }));
 
-  const [data, setData] = useState<VoucherProps[]>(data_temp);
+  const [data, setData] = useState<Voucher[]>(data_temp);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const LoadingIndicator = () => (
@@ -31,7 +31,7 @@ const VoucherTab = () => {
     }, 1000);
   };
 
-  const renderItem = ({ item }: ListRenderItemInfo<VoucherProps>) => {
+  const renderItem = ({ item }: ListRenderItemInfo<Voucher>) => {
     return <VoucherCard voucher={item} />;
   };
 

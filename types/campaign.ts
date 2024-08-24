@@ -1,5 +1,5 @@
-import { StoreDetailProps } from '@/types/store';
-import { SessionUserProps } from '@/types/user';
+import { Store } from '@/types/Store';
+import { SessionUserProps } from '@/types/User';
 
 export interface CampaignProps {
   campaignId: string;
@@ -11,14 +11,14 @@ export interface CampaignProps {
   amount?: GLfloat;
   startDate?: string;
   endDate?: string;
-  store?: StoreDetailProps;
+  store?: Store;
   campaignStatus?: string;
   numberOfClaimedVouchers?: number;
   pin?: string;
 }
 
 export interface CreateCampaignParamsProps {
-  stores: StoreDetailProps[];
+  stores: Store[];
   currentSessionUser: SessionUserProps;
 }
 
@@ -33,7 +33,7 @@ export interface CampaignListParamsProps {
 
 export interface MerchantUpdateCampaignProps {
   campaign: CampaignProps;
-  stores: StoreDetailProps[];
+  stores: Store[];
   currentSessionUser: SessionUserProps;
 }
 

@@ -1,13 +1,13 @@
-import { CampaignProps } from '@/types/campaign';
+import { CampaignProps } from '@/types/Campaign';
 
-export type FeedProps = {
+export type Feed = {
   feedId: string;
   campaign?: CampaignProps;
   read?: boolean;
 };
 
 export type FeedTableCard = {
-  feeds: FeedProps[];
+  feeds: Feed[];
   pageNumber: number;
   totalRecord: number;
   size: number;
