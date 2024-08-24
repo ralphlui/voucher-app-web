@@ -1,7 +1,7 @@
 import { Store } from '@/types/Store';
 import { SessionUserProps } from '@/types/User';
 
-export interface CampaignProps {
+export interface Campaign {
   campaignId: string;
   description?: string;
   numberOfVouchers?: number;
@@ -23,7 +23,7 @@ export interface CreateCampaignParamsProps {
 }
 
 export interface CampaignListParamsProps {
-  campaigns: CampaignProps[];
+  campaigns: Campaign[];
   currentSessionUser: SessionUserProps;
   pageNumber: number;
   totalRecord: number;
@@ -31,25 +31,25 @@ export interface CampaignListParamsProps {
   redirectPath: string;
 }
 
-export interface MerchantUpdateCampaignProps {
-  campaign: CampaignProps;
+export interface MerchantUpdateCampaign {
+  campaign: Campaign;
   stores: Store[];
   currentSessionUser: SessionUserProps;
 }
 
 export interface CampaignListByStoreParamsProps {
-  campaignsByStore: CampaignProps[];
+  campaignsByStore: Campaign[];
   currentSessionUser: SessionUserProps;
   storeName: string;
 }
 
 export interface CampaignDetailProps {
-  campaign: CampaignProps;
+  campaign: Campaign;
   currentSessionUser: SessionUserProps;
 }
 
 export interface CampaignDetailPropsByFeed {
-  campaignDetail: CampaignProps;
+  campaignDetail: Campaign;
   feedStatus: string;
   userEmail: string;
 }

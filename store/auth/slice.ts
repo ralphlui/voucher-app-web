@@ -8,9 +8,9 @@ import {
   setAuthData,
   deleteUser,
 } from '@/store/auth/actions';
-import { AuthState } from '@/types/AuthState';
+import { Auth } from '@/types/Auth';
 
-const initialState: AuthState = {
+const initialState: Auth = {
   loading: false,
   user: null,
   token: null,

@@ -3,10 +3,10 @@ import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
 import { Card, IconButton } from 'react-native-paper';
 
-import { CampaignProps } from '@/types/Campaign';
+import { Campaign } from '@/types/Campaign';
 
 interface Props {
-  campaign: CampaignProps;
+  campaign: Campaign;
 }
 
 const CampaignCard = (props: Props) => {

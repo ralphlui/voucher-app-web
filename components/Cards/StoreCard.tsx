@@ -3,10 +3,10 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 
-import { StoreDetailProps } from '@/types/Store';
+import { Store } from '@/types/Store';
 
 interface Props {
-  store: StoreDetailProps;
+  store: Store;
 }
 
 const StoreCard = (props: Props) => {
