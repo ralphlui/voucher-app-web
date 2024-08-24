@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Avatar, Button, Card, Text } from 'react-native-paper';
 
-import { Voucher } from '@/types/Vouhcer';
+import { Voucher } from '@/types/Voucher';
 
 interface Props {
   voucher: Voucher;

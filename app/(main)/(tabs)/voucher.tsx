@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
 
 import VoucherCard from '@/components/cards/VoucherCard';
-import { Voucher } from '@/types/Vouhcer';
+import { Voucher } from '@/types/Voucher';
 
 const VoucherTab = () => {
   const data_temp: Voucher[] = Array.from({ length: 5 }, () => ({
