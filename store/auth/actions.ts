@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createAsyncThunk, createAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-import { AuthState } from '@/types/AuthState';
+import { Auth } from '@/types/Auth';
 
 const API_URL = `${process.env.EXPO_PUBLIC_API_URL}api`;
 
@@ -75,4 +75,4 @@ export const logoutUser = createAsyncThunk('auth/logout', async function () {
   await AsyncStorage.removeItem('auth_token');
 });
 
-export const setAuthData = createAction<AuthState>('auth/setAuthData');
+export const setAuthData = createAction<Auth>('auth/setAuthData');
