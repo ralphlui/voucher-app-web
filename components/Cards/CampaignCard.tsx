@@ -13,7 +13,6 @@ const CampaignCard = (props: Props) => {
   const { campaign } = props;
   const router = useRouter();
   const [isSelected, setIsSelected] = useState(false);
-
   return (
     <Card
       style={styles.container}

@@ -1,34 +1,46 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, FlatList, ListRenderItemInfo, ActivityIndicator, View } from 'react-native';
 
 import CampaignCard from '@/components/cards/CampaignCard';
 import { Campaign } from '@/types/Campaign';
+import { useGetCampaignByEmailQuery } from '@/services/campaign.service';
 
 const CampaignTab = () => {
-  const data_temp: Campaign[] = Array.from({ length: 5 }, () => ({
-    campaignId: Math.random() + '',
-  }));
+  const [page, setPage] = useState(1);
+  // const [hasNextPage, setHasNextPage] = useState(true);
 
-  const [data, setData] = useState<Campaign[]>(data_temp);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  // useEffect(() => {
+  //   const totalPages = Math.ceil((data?.totalRecord ?? 10) / 5); // total / page size
+  //   setHasNextPage(page < totalPages);
+  // }, [page]);
+
+  const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
+    useGetCampaignByEmailQuery(
+      {
+        email: 'merchant@outlook.com',
+        page_size: 5,
+        page_number: page,
+      },
+      {
+        selectFromResult: ({ data, ...args }) => {
+          return {
+            hasNextPage: page < Math.ceil((data?.totalRecord ?? 10) / 5),
+            data,
+            ...args,
+          };
+        },
+      }
+    );
+  console.log('page: ', page, 'hasNextPage: ', hasNextPage);
 
   const LoadingIndicator = () => (
     <View>
       <ActivityIndicator size="large" />
     </View>
   );
-  const loadMoreItems = () => {
-    if (isLoading) {
-      return;
-    }
-    setIsLoading(true);
-    setTimeout(() => {
-      const newData = Array.from({ length: 5 }, () => ({
-        campaignId: Math.random() + '',
-      }));
-      setData(data.concat(newData));
-      setIsLoading(false);
-    }, 1000);
+  const handleEndReached = () => {
+    if (!hasNextPage || isLoading || isFetching) return;
+    setPage(page + 1);
   };
 
   const renderItem = ({ item }: ListRenderItemInfo<Campaign>) => {
@@ -37,12 +49,12 @@ const CampaignTab = () => {
 
   return (
     <FlatList
-      data={data}
+      data={data?.data ?? []}
       keyExtractor={(item) => item.campaignId.toString()}
-      onEndReached={loadMoreItems}
+      onEndReached={handleEndReached}
       onEndReachedThreshold={0.5}
       renderItem={renderItem}
-      ListFooterComponent={isLoading ? LoadingIndicator : null}
+      ListFooterComponent={isFetching || isLoading ? LoadingIndicator : null}
       style={styles.container}
     />
   );

@@ -4,6 +4,6 @@ import { Auth } from '@/types/Auth';
 
 export default function useAuth(): Auth {
   const auth: Auth = useSelector((state: any) => state.user);
-  console.log(auth);
+  // console.log(auth);
   return auth;
 }
