@@ -15,16 +15,7 @@ export const campaignApiSlice = apiSlice.injectEndpoints({
         return endpointName;
       },
       merge: (currentCache, newItems) => {
-        // if (currentCache) {
-        //   newItems.data.unshift(...currentCache.data);
-        //   return {
-        //     ...currentCache,
-        //     ...newItems,
-        //   };
-        // }
-        // return newItems;
         currentCache.data.push(...newItems.data);
-        console.log(currentCache.data.length);
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;
@@ -34,6 +25,9 @@ export const campaignApiSlice = apiSlice.injectEndpoints({
 });
 
 export const { useGetCampaignByEmailQuery } = campaignApiSlice;
+
+
+// ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
 
 //For MERCHANT
 export const fetchCampaignsByMerchant = async (useremail: string, page?: number, size?: number) => {

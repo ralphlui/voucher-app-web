@@ -1,3 +1,32 @@
+import apiSlice from '@/services/api';
+
+export const voucherApiSlice = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+    getVoucherByEmail: builder.query({
+      query: ({ email, page_size = 5, page_number = 1 }) => ({
+        url: `/api/voucher/getByEmail?page=${page_number}&size=${page_size}`,
+        method: 'POST', // to be changed to 'GET',
+        params: { page_size, page_number },
+        body: JSON.stringify({ email }),
+      }),
+      providesTags: ['Voucher'],
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
+  }),
+});
+
+export const { useGetVoucherByEmailQuery } = voucherApiSlice;
+
+// ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
+
 export const redeemCampaignsClaimVouchers = async (
   campaign: { campaignId: string },
   claimedBy: { email: string }

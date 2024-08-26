@@ -1,3 +1,32 @@
+import apiSlice from '@/services/api';
+
+export const storeApiSlice = apiSlice.injectEndpoints({
+  endpoints: (builder) => ({
+    getStoreByEmail: builder.query({
+      query: ({ email, page_size = 5, page_number = 1 }) => ({
+        url: `/api/store/getAllByUser?page=${page_number}&size=${page_size}`,
+        method: 'POST', // to be changed to 'GET',
+        params: { page_size, page_number },
+        body: JSON.stringify({ email }),
+      }),
+      providesTags: ['Store'],
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
+  }),
+});
+
+export const { useGetStoreByEmailQuery } = storeApiSlice;
+
+// ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
+
 // import { getCurrentUserEmail } from '@/utils';
 
 export const fetchStoreListByMerchant = async (useremail: string, page?: number, size?: number) => {
