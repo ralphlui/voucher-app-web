@@ -8,35 +8,16 @@ import { Button, TextInput, Avatar, ActivityIndicator } from 'react-native-paper
 import { FormBuilder } from 'react-native-paper-form-builder';
 import { useDispatch } from 'react-redux';
 
-import { loginUser, setAuthData } from '@/store/auth/actions';
 import { logInSchema } from '@/utils/validation';
-import useAuth from '@/hooks/useAuth';
+import { useLoginMutation } from '@/services/user.service';
+import HandleResponse from '@/components/common/HandleResponse';
+import { setAuthData, userLogin } from '@/store/slices/user.slice';
 
 const Login = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [loginError, setLoginError] = useState<any>(null);
-  const auth = useAuth();
-  console.log(auth);
 
-  useEffect(() => {
-    if (auth.error) {
-      setLoginError(auth.error);
-    }
-  }, [auth.error]);
-
-  useEffect(() => {
-    if (loginError) {
-      Alert.alert('Invalid Credentials', 'Authentication Error', [
-        {
-          text: 'OK',
-          onPress: () => {
-            setLoginError(null);
-          },
-        },
-      ]);
-    }
-  }, [loginError]);
+  const [login, { data, isSuccess, isError, isLoading, error }] = useLoginMutation();
 
   const {
     control,
@@ -49,8 +30,12 @@ const Login = () => {
       email: '',
       password: '',
     },
-    mode: 'onChange',
+    // mode: 'onChange',
   });
+
+  useEffect(() => {
+    setFocus('email');
+  }, []);
 
   async function tryLocalSignin() {
     dispatch(
@@ -86,14 +71,15 @@ const Login = () => {
 
   const onSubmit = ({ email, password }: { email: string; password: string }) => {
     if (email && password) {
-      //@ts-ignore
-      dispatch(loginUser({ email, password })).then(async (action: any) => {
-        if (action.type === 'user/login/fulfilled') {
-          await AsyncStorage.setItem('auth_token', action.payload.token);
-          router.push('/');
-        }
+      login({
+        body: { email, password },
       });
     }
+  };
+
+  const onSuccess = () => {
+    dispatch(userLogin(data));
+    router.back();
   };
 
   return (
@@ -103,8 +89,17 @@ const Login = () => {
           title: 'Login',
         }}
       />
+      {(isSuccess || isError) && (
+        <HandleResponse
+          isError={isError}
+          isSuccess={isSuccess}
+          error={error || 'Error occurs'}
+          message={data?.message}
+          onSuccess={onSuccess}
+        />
+      )}
       <View style={styles.containerStyle}>
-        {auth.loading ? (
+        {isLoading ? (
           <ActivityIndicator size="large" />
         ) : (
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
