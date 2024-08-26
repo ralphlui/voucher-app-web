@@ -26,7 +26,6 @@ export const campaignApiSlice = apiSlice.injectEndpoints({
 
 export const { useGetCampaignByEmailQuery } = campaignApiSlice;
 
-
 // ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
 
 //For MERCHANT

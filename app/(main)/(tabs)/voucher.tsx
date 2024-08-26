@@ -3,32 +3,32 @@ import { View, StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } fro
 
 import VoucherCard from '@/components/cards/VoucherCard';
 import { Voucher } from '@/types/Voucher';
+import { useGetVoucherByEmailQuery } from '@/services/voucher.service';
 
 const VoucherTab = () => {
-  const data_temp: Voucher[] = Array.from({ length: 5 }, () => ({
-    voucherId: Math.random() + '',
-  }));
+  const [page, setPage] = useState(1);
 
-  const [data, setData] = useState<Voucher[]>(data_temp);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
+    useGetVoucherByEmailQuery(
+      {
+        email: 'merchant@outlook.com',
+        page_size: 5,
+        page_number: page,
+      },
+      {
+        selectFromResult: ({ data, ...args }) => {
+          return {
+            hasNextPage: page < Math.ceil((data?.totalRecord ?? 10) / 5),
+            data,
+            ...args,
+          };
+        },
+      }
+    );
 
-  const LoadingIndicator = () => (
-    <View>
-      <ActivityIndicator size="large" />
-    </View>
-  );
-  const loadMoreItems = () => {
-    if (isLoading) {
-      return;
-    }
-    setIsLoading(true);
-    setTimeout(() => {
-      const newData = Array.from({ length: 5 }, () => ({
-        voucherId: Math.random() + '',
-      }));
-      setData(data.concat(newData));
-      setIsLoading(false);
-    }, 1000);
+  const handleEndReached = () => {
+    if (!hasNextPage || isLoading || isFetching) return;
+    setPage(page + 1);
   };
 
   const renderItem = ({ item }: ListRenderItemInfo<Voucher>) => {
@@ -37,12 +37,12 @@ const VoucherTab = () => {
 
   return (
     <FlatList
-      data={data}
+      data={data?.data ?? []}
       keyExtractor={(item) => item.voucherId.toString()}
-      onEndReached={loadMoreItems}
+      onEndReached={handleEndReached}
       onEndReachedThreshold={0.5}
       renderItem={renderItem}
-      ListFooterComponent={isLoading ? LoadingIndicator : null}
+      ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
       style={styles.container}
     />
   );

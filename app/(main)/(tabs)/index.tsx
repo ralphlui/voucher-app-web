@@ -7,12 +7,6 @@ import { useGetCampaignByEmailQuery } from '@/services/campaign.service';
 
 const CampaignTab = () => {
   const [page, setPage] = useState(1);
-  // const [hasNextPage, setHasNextPage] = useState(true);
-
-  // useEffect(() => {
-  //   const totalPages = Math.ceil((data?.totalRecord ?? 10) / 5); // total / page size
-  //   setHasNextPage(page < totalPages);
-  // }, [page]);
 
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetCampaignByEmailQuery(
@@ -31,13 +25,7 @@ const CampaignTab = () => {
         },
       }
     );
-  console.log('page: ', page, 'hasNextPage: ', hasNextPage);
 
-  const LoadingIndicator = () => (
-    <View>
-      <ActivityIndicator size="large" />
-    </View>
-  );
   const handleEndReached = () => {
     if (!hasNextPage || isLoading || isFetching) return;
     setPage(page + 1);
@@ -54,7 +42,7 @@ const CampaignTab = () => {
       onEndReached={handleEndReached}
       onEndReachedThreshold={0.5}
       renderItem={renderItem}
-      ListFooterComponent={isFetching || isLoading ? LoadingIndicator : null}
+      ListFooterComponent={isFetching || isLoading ? <ActivityIndicator size="large" /> : null}
       style={styles.container}
     />
   );

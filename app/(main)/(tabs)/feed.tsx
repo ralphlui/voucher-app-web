@@ -3,32 +3,32 @@ import { View, StyleSheet, ActivityIndicator, ListRenderItemInfo, FlatList } fro
 import { Divider, IconButton, Text } from 'react-native-paper';
 
 import { Feed } from '@/types/Feed';
+import { useGetFeedByEmailQuery } from '@/services/feed.service';
 
 const FeedTab = () => {
-  const data_temp: Feed[] = Array.from({ length: 5 }, () => ({
-    feedId: Math.random() + '',
-  }));
+  const [page, setPage] = useState(1);
 
-  const [data, setData] = useState<Feed[]>(data_temp);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
+    useGetFeedByEmailQuery(
+      {
+        email: 'merchant@outlook.com',
+        page_size: 5,
+        page_number: page,
+      },
+      {
+        selectFromResult: ({ data, ...args }) => {
+          return {
+            hasNextPage: page < Math.ceil((data?.totalRecord ?? 10) / 5),
+            data,
+            ...args,
+          };
+        },
+      }
+    );
 
-  const LoadingIndicator = () => (
-    <View>
-      <ActivityIndicator size="large" />
-    </View>
-  );
-  const loadMoreItems = () => {
-    if (isLoading) {
-      return;
-    }
-    setIsLoading(true);
-    setTimeout(() => {
-      const newData = Array.from({ length: 5 }, () => ({
-        feedId: Math.random() + '',
-      }));
-      setData(data.concat(newData));
-      setIsLoading(false);
-    }, 1000);
+  const handleEndReached = () => {
+    if (!hasNextPage || isLoading || isFetching) return;
+    setPage(page + 1);
   };
 
   const renderItem = ({ item }: ListRenderItemInfo<Feed>) => {
@@ -39,21 +39,19 @@ const FeedTab = () => {
           selected={item.read}
           icon={item.read ? 'star' : 'star-outline'}
         />
-        {/* <View style={styles.teamResultRow}> */}
         <Text>{item.feedId}</Text>
-        {/* </View> */}
       </View>
     );
   };
 
   return (
     <FlatList
-      data={data}
+      data={data?.data ?? []}
       keyExtractor={(item) => item.feedId.toString()}
-      onEndReached={loadMoreItems}
+      onEndReached={handleEndReached}
       onEndReachedThreshold={0.5}
       renderItem={renderItem}
-      ListFooterComponent={isLoading ? LoadingIndicator : null}
+      ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
       ItemSeparatorComponent={Divider}
       style={styles.container}
     />
