@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, StyleSheet, ActivityIndicator, ListRenderItemInfo, FlatList } from 'react-native';
 import { Divider, IconButton, Text } from 'react-native-paper';
 
-import { Feed } from '@/types/Feed';
-import { useGetFeedByEmailQuery } from '@/services/feed.service';
 import usePagination from '@/hooks/usePagination';
+import { useGetFeedByEmailQuery } from '@/services/feed.service';
+import { Feed } from '@/types/Feed';
 
 const FeedTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();

@@ -1,5 +1,4 @@
 import apiSlice from '@/services/api';
-import { Campaign } from '@/types/Campaign';
 
 export const campaignApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({

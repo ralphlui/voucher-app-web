@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Avatar, Button, Card, Text } from 'react-native-paper';
+import { Avatar, Card } from 'react-native-paper';
 
 import { Store } from '@/types/Store';
 

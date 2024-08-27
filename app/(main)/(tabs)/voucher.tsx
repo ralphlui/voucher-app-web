@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
+import React from 'react';
+import { StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
 
 import VoucherCard from '@/components/cards/VoucherCard';
-import { Voucher } from '@/types/Voucher';
-import { useGetVoucherByEmailQuery } from '@/services/voucher.service';
 import usePagination from '@/hooks/usePagination';
+import { useGetVoucherByEmailQuery } from '@/services/voucher.service';
+import { Voucher } from '@/types/Voucher';
 
 const VoucherTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();

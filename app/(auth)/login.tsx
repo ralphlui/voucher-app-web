@@ -1,17 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Stack, useRouter } from 'expo-router';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { StyleSheet, View, ScrollView, Alert } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { Button, TextInput, Avatar, ActivityIndicator } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 import { useDispatch } from 'react-redux';
 
-import { logInSchema } from '@/utils/validation';
-import { useLoginMutation } from '@/services/user.service';
 import HandleResponse from '@/components/common/HandleResponse';
+import { useLoginMutation } from '@/services/user.service';
 import { setAuthData, userLogin } from '@/store/slices/user.slice';
+import { logInSchema } from '@/utils/validation';
 
 const Login = () => {
   const dispatch = useDispatch();

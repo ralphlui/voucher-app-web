@@ -2,7 +2,8 @@ import { router } from 'expo-router';
 import React from 'react';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
-import { setAuthData, userLogout } from '@/store/slices/user.slice';
+
+import { userLogout } from '@/store/slices/user.slice';
 
 const LogoutButton = () => {
   const dispatch = useDispatch();

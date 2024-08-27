@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
+import React from 'react';
+import { StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
 
 import StoreCard from '@/components/cards/StoreCard';
-import { Store } from '@/types/Store';
-import { useGetStoreByEmailQuery } from '@/services/store.service';
 import usePagination from '@/hooks/usePagination';
+import { useGetStoreByEmailQuery } from '@/services/store.service';
+import { Store } from '@/types/Store';
 
 const StoreTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();

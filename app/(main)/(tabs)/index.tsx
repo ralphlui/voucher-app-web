@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { StyleSheet, FlatList, ListRenderItemInfo, ActivityIndicator, View } from 'react-native';
 
 import CampaignCard from '@/components/cards/CampaignCard';
-import { Campaign } from '@/types/Campaign';
-import { useGetCampaignByEmailQuery } from '@/services/campaign.service';
 import usePagination from '@/hooks/usePagination';
+import { useGetCampaignByEmailQuery } from '@/services/campaign.service';
+import { Campaign } from '@/types/Campaign';
 
 const CampaignTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
-  
+
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetCampaignByEmailQuery(
       {

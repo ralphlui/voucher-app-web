@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Avatar, Button, Card, Text } from 'react-native-paper';
+import { Avatar, Card } from 'react-native-paper';
 
 import { Voucher } from '@/types/Voucher';
 
