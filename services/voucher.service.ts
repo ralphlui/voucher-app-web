@@ -3,7 +3,7 @@ import apiSlice from '@/services/api';
 export const voucherApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getVoucherByEmail: builder.query({
-      query: ({ email, page_size = 5, page_number = 1 }) => ({
+      query: ({ email, page_size = 5, page_number = 0 }) => ({
         url: `/api/voucher/getByEmail?page=${page_number}&size=${page_size}`,
         method: 'POST', // to be changed to 'GET',
         params: { page_size, page_number },

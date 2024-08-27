@@ -4,7 +4,7 @@ import { Campaign } from '@/types/Campaign';
 export const campaignApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getCampaignByEmail: builder.query({
-      query: ({ email, page_size = 5, page_number = 1 }) => ({
+      query: ({ email, page_size = 5, page_number = 0 }) => ({
         url: `/api/campaign/getAllByEmail?page=${page_number}&size=${page_size}`,
         method: 'POST', // to be changed to 'GET',
         params: { page_size, page_number },

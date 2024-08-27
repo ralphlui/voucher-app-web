@@ -4,21 +4,21 @@ import { Divider, IconButton, Text } from 'react-native-paper';
 
 import { Feed } from '@/types/Feed';
 import { useGetFeedByEmailQuery } from '@/services/feed.service';
+import usePagination from '@/hooks/usePagination';
 
 const FeedTab = () => {
-  const [page, setPage] = useState(1);
-
+  const { pageNumber, setPageNumber, pageSize } = usePagination();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetFeedByEmailQuery(
       {
-        email: 'merchant@outlook.com',
-        page_size: 5,
-        page_number: page,
+        email: 'customer@outlook.com',
+        page_size: pageSize,
+        page_number: pageNumber,
       },
       {
         selectFromResult: ({ data, ...args }) => {
           return {
-            hasNextPage: page < Math.ceil((data?.totalRecord ?? 10) / 5),
+            hasNextPage: pageNumber < Math.ceil((data?.totalRecord ?? 10) / 5),
             data,
             ...args,
           };
@@ -28,7 +28,7 @@ const FeedTab = () => {
 
   const handleEndReached = () => {
     if (!hasNextPage || isLoading || isFetching) return;
-    setPage(page + 1);
+    setPageNumber(pageNumber + 1);
   };
 
   const renderItem = ({ item }: ListRenderItemInfo<Feed>) => {
