@@ -18,7 +18,7 @@ const StoreCard = (props: Props) => {
     <Card
       style={styles.container}
       onPress={() => {
-        router.push(`/(main)/stores/${store.storeId}`);
+        router.push(`/(main)/store/${store.storeId}`);
       }}>
       <Card.Title title={store.storeName} subtitle={store.address} left={LeftContent} />
       {/* <Card.Content>
