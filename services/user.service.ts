@@ -1,6 +1,6 @@
-import apiSlice from '@/services/api';
+import userApi from '@/services/user.api';
 
-export const userApi = apiSlice.injectEndpoints({
+export const userApiSlice = userApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: ({ body }) => ({
@@ -56,7 +56,7 @@ export const {
   useGetUsersQuery,
   useDeleteUserMutation,
   useEditUserMutation,
-} = userApi;
+} = userApiSlice;
 
 // ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
 

@@ -1,6 +1,6 @@
-import apiSlice from '@/services/api';
+import feedApi from '@/services/feed.api';
 
-export const feedApiSlice = apiSlice.injectEndpoints({
+export const feedApiSlice = feedApi.injectEndpoints({
   endpoints: (builder) => ({
     getFeedByEmail: builder.query({
       query: ({ email, page_size = 5, page_number = 0 }) => ({

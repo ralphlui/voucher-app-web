@@ -1,6 +1,6 @@
-import apiSlice from '@/services/api';
+import coreApi from '@/services/core.api';
 
-export const storeApiSlice = apiSlice.injectEndpoints({
+export const storeApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
     getStoreByEmail: builder.query({
       query: ({ email, page_size = 5, page_number = 0 }) => ({

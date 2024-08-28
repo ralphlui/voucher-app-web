@@ -1,6 +1,6 @@
-import apiSlice from '@/services/api';
+import coreApi from '@/services/core.api';
 
-export const campaignApiSlice = apiSlice.injectEndpoints({
+export const campaignApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
     getCampaignByEmail: builder.query({
       query: ({ email, page_size = 5, page_number = 0 }) => ({
