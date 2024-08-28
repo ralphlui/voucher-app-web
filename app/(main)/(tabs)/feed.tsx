@@ -39,7 +39,7 @@ const FeedTab = () => {
           selected={item.read}
           icon={item.read ? 'star' : 'star-outline'}
         />
-        <Text>{item.feedId}</Text>
+        <Text>this is the feedId: {item.feedId}</Text>
       </View>
     );
   };
