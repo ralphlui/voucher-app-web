@@ -3,7 +3,7 @@ import React from 'react';
 import { Button } from 'react-native-paper';
 import { useDispatch } from 'react-redux';
 
-import { userLogout } from '@/store/slices/user.slice';
+import { userLogout } from '@/store/slices/auth.slice';
 
 const LogoutButton = () => {
   const dispatch = useDispatch();

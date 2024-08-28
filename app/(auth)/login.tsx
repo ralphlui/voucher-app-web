@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 
 import HandleResponse from '@/components/common/HandleResponse';
 import { useLoginMutation } from '@/services/user.service';
-import { setAuthData, userLogin } from '@/store/slices/user.slice';
+import { setAuthData, userLogin } from '@/store/slices/auth.slice';
 import { logInSchema } from '@/utils/validation';
 
 const Login = () => {
