@@ -20,10 +20,17 @@ export const storeApiSlice = coreApi.injectEndpoints({
         return currentArg !== previousArg;
       },
     }),
+    getStoreById: builder.query({
+      query: ({ storeId }) => ({
+        url: `/api/store/getById`,
+        method: 'POST',
+        body: JSON.stringify({ storeId: storeId }),
+      }),
+    }),
   }),
 });
 
-export const { useGetStoreByEmailQuery } = storeApiSlice;
+export const { useGetStoreByEmailQuery, useGetStoreByIdQuery } = storeApiSlice;
 
 // ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
 

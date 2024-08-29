@@ -20,10 +20,17 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         return currentArg !== previousArg;
       },
     }),
+    getCampaignById: builder.query({
+      query: ({ campaignId }) => ({
+        url: `/api/campaign/getById`,
+        method: 'POST',
+        body: JSON.stringify({ campaignId: campaignId }),
+      }),
+    }),
   }),
 });
 
-export const { useGetCampaignByEmailQuery } = campaignApiSlice;
+export const { useGetCampaignByEmailQuery, useGetCampaignByIdQuery } = campaignApiSlice;
 
 // ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
 

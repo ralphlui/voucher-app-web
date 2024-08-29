@@ -1,4 +1,4 @@
-import coreApi from "@/services/core.api";
+import coreApi from '@/services/core.api';
 
 export const voucherApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -20,10 +20,17 @@ export const voucherApiSlice = coreApi.injectEndpoints({
         return currentArg !== previousArg;
       },
     }),
+    getVoucherById: builder.query({
+      query: ({ voucherId }) => ({
+        url: `/api/voucher/getById`,
+        method: 'POST',
+        body: JSON.stringify({ voucherId: voucherId }),
+      }),
+    }),
   }),
 });
 
-export const { useGetVoucherByEmailQuery } = voucherApiSlice;
+export const { useGetVoucherByEmailQuery, useGetVoucherByIdQuery } = voucherApiSlice;
 
 // ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
 
