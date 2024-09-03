@@ -2,6 +2,23 @@ import coreApi from '@/services/core.api';
 
 export const storeApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
+    getStores: builder.query({
+      query: ({ page_size = 5, page_number = 0 }) => ({
+        url: `/api/store/getAll?page=${page_number}&size=${page_size}`,
+        method: 'GET',
+        params: { page_size, page_number },
+      }),
+      providesTags: ['Store'],
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
     getStoreByEmail: builder.query({
       query: ({ email, page_size = 5, page_number = 0 }) => ({
         url: `/api/store/getAllByUser?page=${page_number}&size=${page_size}`,
@@ -30,7 +47,7 @@ export const storeApiSlice = coreApi.injectEndpoints({
   }),
 });
 
-export const { useGetStoreByEmailQuery, useGetStoreByIdQuery } = storeApiSlice;
+export const { useGetStoreByEmailQuery, useGetStoreByIdQuery, useGetStoresQuery } = storeApiSlice;
 
 // ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
 

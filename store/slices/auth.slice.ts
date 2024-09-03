@@ -31,9 +31,9 @@ const authSlice = createSlice({
       }
       state.token = action.payload.token;
       state.success = true;
-      state.email = action.payload.result[0].email;
-      state.role = action.payload.result[0].role;
-      state.user = action.payload.result[0].username;
+      state.email = action.payload.data.email;
+      state.role = action.payload.data.role;
+      state.user = action.payload.data.username;
     },
     setAuthData: (state, action) => {
       state.token = action.payload.token;

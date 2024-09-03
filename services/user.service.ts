@@ -4,22 +4,22 @@ export const userApiSlice = userApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation({
       query: ({ body }) => ({
-        url: '/api/user/login',
+        url: '/api/users/login',
         method: 'POST',
         body,
       }),
     }),
 
-    getUserInfo: builder.query({
-      query: () => ({
-        url: '/api/auth/user',
-        method: 'GET',
-      }),
-    }),
+    // getUserInfo: builder.query({
+    //   query: () => ({
+    //     url: '/api/auth/user',
+    //     method: 'GET',
+    //   }),
+    // }),
 
     createUser: builder.mutation({
       query: ({ body }) => ({
-        url: '/api/auth/register',
+        url: '/api/auths',
         method: 'POST',
         body,
       }),
@@ -34,27 +34,27 @@ export const userApiSlice = userApi.injectEndpoints({
 
     editUser: builder.mutation({
       query: ({ body }) => ({
-        url: '/api/user',
-        method: 'PATCH',
+        url: '/api/users',
+        method: 'PUT',
         body,
       }),
     }),
 
-    deleteUser: builder.mutation({
-      query: ({ id }) => ({
-        url: `/api/user/${id}`,
-        method: 'DELETE',
-      }),
-    }),
+    // deleteUser: builder.mutation({
+    //   query: ({ id }) => ({
+    //     url: `/api/user/${id}`,
+    //     method: 'DELETE',
+    //   }),
+    // }),
   }),
 });
 
 export const {
   useLoginMutation,
-  useGetUserInfoQuery,
+  // useGetUserInfoQuery,
   useCreateUserMutation,
   useGetUsersQuery,
-  useDeleteUserMutation,
+  // useDeleteUserMutation,
   useEditUserMutation,
 } = userApiSlice;
 

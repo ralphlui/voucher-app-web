@@ -2,6 +2,23 @@ import coreApi from '@/services/core.api';
 
 export const campaignApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
+    getCampaigns: builder.query({
+      query: ({ page_size = 5, page_number = 0 }) => ({
+        url: `/api/campaign/all/active?page=${page_number}&size=${page_size}`,
+        method: 'GET',
+        params: { page_size, page_number },
+      }),
+      providesTags: ['Campaign'],
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
     getCampaignByEmail: builder.query({
       query: ({ email, page_size = 5, page_number = 0 }) => ({
         url: `/api/campaign/getAllByEmail?page=${page_number}&size=${page_size}`,
@@ -30,7 +47,8 @@ export const campaignApiSlice = coreApi.injectEndpoints({
   }),
 });
 
-export const { useGetCampaignByEmailQuery, useGetCampaignByIdQuery } = campaignApiSlice;
+export const { useGetCampaignByEmailQuery, useGetCampaignByIdQuery, useGetCampaignsQuery } =
+  campaignApiSlice;
 
 // ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
 
