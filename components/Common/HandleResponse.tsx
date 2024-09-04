@@ -11,7 +11,7 @@ export default function HandleResponse(props: any) {
       if (onSuccess) onSuccess();
       Toast.show({
         type: 'success',
-        text2: message,
+        text1: message,
       });
     }
 
@@ -19,7 +19,7 @@ export default function HandleResponse(props: any) {
       if (onError) onError();
       Toast.show({
         type: 'error',
-        text2: error,
+        text1: error?.data?.message,
       });
     }
   }, []);

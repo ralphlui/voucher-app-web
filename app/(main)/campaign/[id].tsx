@@ -7,6 +7,7 @@ const Campaign = () => {
   const { id } = useLocalSearchParams();
   const { data, error, isLoading, isFetching, isSuccess, isError, refetch } =
     useGetCampaignByIdQuery({ campaignId: id });
+  console.log(data);
   return (
     <View>
       <Stack.Screen options={{ title: 'Campaign' }} />

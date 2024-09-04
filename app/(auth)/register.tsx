@@ -1,18 +1,17 @@
+import HandleResponse from '@/components/common/HandleResponse';
 import { useCreateUserMutation } from '@/services/user.service';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View, ScrollView } from 'react-native';
-import { Button, TextInput, Avatar } from 'react-native-paper';
+import { Button, TextInput, Avatar, ActivityIndicator } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 
 const Register = () => {
   const router = useRouter();
   const {
     formState: { errors },
-    register,
     control,
-    watch,
     setFocus,
     handleSubmit,
   } = useForm({
@@ -23,14 +22,14 @@ const Register = () => {
       role: '',
       preferences: '',
     },
-    // mode: 'onChange',
+    mode: 'onChange',
   });
 
   const [createUser, { data, isSuccess, isError, isLoading, error }] = useCreateUserMutation();
 
-  if (isSuccess) {
+  const onSuccess = () => {
     router.push('/login');
-  }
+  };
 
   return (
     <>
@@ -39,152 +38,165 @@ const Register = () => {
           title: 'Register',
         }}
       />
+      {(isSuccess || isError) && (
+        <HandleResponse
+          isError={isError}
+          isSuccess={isSuccess}
+          error={error || 'Error occurs'}
+          message={data?.message}
+          onSuccess={onSuccess}
+        />
+      )}
       <View style={styles.containerStyle}>
-        <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-          <View style={styles.icon}>
-            <Avatar.Icon icon="ticket-percent-outline" />
-          </View>
-          <FormBuilder
-            control={control}
-            setFocus={setFocus}
-            formConfigArray={[
-              {
-                name: 'username',
-                type: 'text',
-                textInputProps: {
-                  label: 'Username',
-                  left: <TextInput.Icon icon="account" />,
-                },
-                rules: {
-                  required: {
-                    value: true,
-                    message: 'Name is required',
+        {isLoading ? (
+          <ActivityIndicator size="large" />
+        ) : (
+          <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+            <View style={styles.icon}>
+              <Avatar.Icon icon="ticket-percent-outline" />
+            </View>
+            <FormBuilder
+              control={control}
+              setFocus={setFocus}
+              formConfigArray={[
+                {
+                  name: 'username',
+                  type: 'text',
+                  textInputProps: {
+                    label: 'Username',
+                    left: <TextInput.Icon icon="account" />,
+                  },
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'Name is required',
+                    },
                   },
                 },
-              },
-              {
-                name: 'email',
-                type: 'email',
-                textInputProps: {
-                  label: 'Email',
-                  left: <TextInput.Icon icon="email" />,
-                },
-                rules: {
-                  required: {
-                    value: true,
-                    message: 'Email is required',
+                {
+                  name: 'email',
+                  type: 'email',
+                  textInputProps: {
+                    label: 'Email',
+                    left: <TextInput.Icon icon="email" />,
                   },
-                  pattern: {
-                    value:
-                      /[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})/,
-                    message: 'Email is invalid',
-                  },
-                },
-              },
-              {
-                name: 'password',
-                type: 'password',
-                textInputProps: {
-                  label: 'Password',
-                  left: <TextInput.Icon icon="lock" />,
-                },
-                rules: {
-                  required: {
-                    value: true,
-                    message: 'Password is required',
-                  },
-                  minLength: {
-                    value: 8,
-                    message: 'Password should be atleast 8 characters',
-                  },
-                  maxLength: {
-                    value: 30,
-                    message: 'Password should be between 8 and 30 characters',
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'Email is required',
+                    },
+                    pattern: {
+                      value:
+                        /[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})/,
+                      message: 'Email is invalid',
+                    },
                   },
                 },
-              },
-              {
-                name: 'confirmedPassword',
-                type: 'password',
-                textInputProps: {
-                  label: 'Confirm Password',
-                  left: <TextInput.Icon icon="lock" />,
-                },
-                rules: {
-                  required: {
-                    value: true,
-                    message: 'Password is required',
+                {
+                  name: 'password',
+                  type: 'password',
+                  textInputProps: {
+                    label: 'Password',
+                    left: <TextInput.Icon icon="lock" />,
                   },
-                  minLength: {
-                    value: 8,
-                    message: 'Password should be atleast 8 characters',
-                  },
-                  maxLength: {
-                    value: 30,
-                    message: 'Password should be between 8 and 30 characters',
-                  },
-                },
-              },
-              {
-                name: 'role',
-                type: 'select',
-                textInputProps: {
-                  label: 'Usertype',
-                  left: <TextInput.Icon icon="card-account-details" />,
-                },
-                rules: {
-                  required: {
-                    value: true,
-                    message: 'User type is required',
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'Password is required',
+                    },
+                    minLength: {
+                      value: 8,
+                      message: 'Password should be atleast 8 characters',
+                    },
+                    maxLength: {
+                      value: 30,
+                      message: 'Password should be between 8 and 30 characters',
+                    },
                   },
                 },
-                options: [
-                  {
-                    value: 'MERCHANT',
-                    label: 'Merchant',
+                {
+                  name: 'confirmedPassword',
+                  type: 'password',
+                  textInputProps: {
+                    label: 'Confirm Password',
+                    left: <TextInput.Icon icon="lock" />,
                   },
-                  {
-                    value: 'CUSTOMER',
-                    label: 'Customer',
-                  },
-                ],
-              },
-              {
-                name: 'preferences',
-                type: 'select',
-                textInputProps: {
-                  label: 'Preferences',
-                  left: <TextInput.Icon icon="checkbox-multiple-marked" />,
-                },
-                rules: {
-                  required: {
-                    value: true,
-                    message: 'Please pick your interests',
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'Password is required',
+                    },
+                    minLength: {
+                      value: 8,
+                      message: 'Password should be atleast 8 characters',
+                    },
+                    maxLength: {
+                      value: 30,
+                      message: 'Password should be between 8 and 30 characters',
+                    },
                   },
                 },
-                options: [
-                  {
-                    label: 'Foods',
-                    value: 'FOODS',
+                {
+                  name: 'role',
+                  type: 'select',
+                  textInputProps: {
+                    label: 'Usertype',
+                    left: <TextInput.Icon icon="card-account-details" />,
                   },
-                  {
-                    label: 'Sports',
-                    value: 'SPORTS',
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'User type is required',
+                    },
                   },
-                ],
-              },
-            ]}
-          />
-          <Button
-            mode="contained"
-            onPress={handleSubmit(({ username, email, password, role, preferences }) => {
-              createUser({
-                body: { username, email, password, role, preferences },
-              });
-            })}>
-            Register
-          </Button>
-        </ScrollView>
+                  options: [
+                    {
+                      value: 'MERCHANT',
+                      label: 'Merchant',
+                    },
+                    {
+                      value: 'CUSTOMER',
+                      label: 'Customer',
+                    },
+                  ],
+                },
+                {
+                  name: 'preferences',
+                  type: 'select',
+                  textInputProps: {
+                    label: 'Preferences',
+                    left: <TextInput.Icon icon="checkbox-multiple-marked" />,
+                  },
+                  rules: {
+                    required: {
+                      value: true,
+                      message: 'Please pick your interests',
+                    },
+                  },
+                  options: [
+                    {
+                      label: 'Foods',
+                      value: 'FOODS',
+                    },
+                    {
+                      label: 'Sports',
+                      value: 'SPORTS',
+                    },
+                  ],
+                },
+              ]}
+            />
+            <Button
+              mode="contained"
+              onPress={handleSubmit(({ username, email, password, role, preferences }) => {
+                createUser({
+                  body: { username, email, password, role, preferences },
+                });
+              })}>
+              Register
+            </Button>
+          </ScrollView>
+        )}
       </View>
     </>
   );

@@ -79,7 +79,7 @@ const Login = () => {
 
   const onSuccess = () => {
     dispatch(userLogin(data));
-    router.back();
+    router.push('/');
   };
 
   return (
