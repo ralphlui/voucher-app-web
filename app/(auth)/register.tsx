@@ -1,4 +1,5 @@
-import { Stack } from 'expo-router';
+import { useCreateUserMutation } from '@/services/user.service';
+import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View, ScrollView } from 'react-native';
@@ -6,13 +7,30 @@ import { Button, TextInput, Avatar } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 
 const Register = () => {
-  const { control, setFocus, handleSubmit } = useForm({
+  const router = useRouter();
+  const {
+    formState: { errors },
+    register,
+    control,
+    watch,
+    setFocus,
+    handleSubmit,
+  } = useForm({
     defaultValues: {
+      username: '',
       email: '',
       password: '',
+      role: '',
+      preferences: '',
     },
-    mode: 'onChange',
+    // mode: 'onChange',
   });
+
+  const [createUser, { data, isSuccess, isError, isLoading, error }] = useCreateUserMutation();
+
+  if (isSuccess) {
+    router.push('/login');
+  }
 
   return (
     <>
@@ -31,7 +49,7 @@ const Register = () => {
             setFocus={setFocus}
             formConfigArray={[
               {
-                name: 'name',
+                name: 'username',
                 type: 'text',
                 textInputProps: {
                   label: 'Username',
@@ -86,7 +104,7 @@ const Register = () => {
                 },
               },
               {
-                name: 'password',
+                name: 'confirmedPassword',
                 type: 'password',
                 textInputProps: {
                   label: 'Confirm Password',
@@ -108,7 +126,7 @@ const Register = () => {
                 },
               },
               {
-                name: 'type',
+                name: 'role',
                 type: 'select',
                 textInputProps: {
                   label: 'Usertype',
@@ -122,12 +140,36 @@ const Register = () => {
                 },
                 options: [
                   {
-                    value: 0,
+                    value: 'MERCHANT',
                     label: 'Merchant',
                   },
                   {
-                    value: 1,
+                    value: 'CUSTOMER',
                     label: 'Customer',
+                  },
+                ],
+              },
+              {
+                name: 'preferences',
+                type: 'select',
+                textInputProps: {
+                  label: 'Preferences',
+                  left: <TextInput.Icon icon="checkbox-multiple-marked" />,
+                },
+                rules: {
+                  required: {
+                    value: true,
+                    message: 'Please pick your interests',
+                  },
+                },
+                options: [
+                  {
+                    label: 'Foods',
+                    value: 'FOODS',
+                  },
+                  {
+                    label: 'Sports',
+                    value: 'SPORTS',
                   },
                 ],
               },
@@ -135,8 +177,10 @@ const Register = () => {
           />
           <Button
             mode="contained"
-            onPress={handleSubmit((data: any) => {
-              console.log('form data', data);
+            onPress={handleSubmit(({ username, email, password, role, preferences }) => {
+              createUser({
+                body: { username, email, password, role, preferences },
+              });
             })}>
             Register
           </Button>
