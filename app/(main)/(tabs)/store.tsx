@@ -5,6 +5,7 @@ import StoreCard from '@/components/cards/StoreCard';
 import usePagination from '@/hooks/usePagination';
 import { useGetStoreByEmailQuery } from '@/services/store.service';
 import { Store } from '@/types/Store';
+import { Searchbar } from 'react-native-paper';
 
 const StoreTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
@@ -36,16 +37,26 @@ const StoreTab = () => {
     return <StoreCard store={item} />;
   };
 
+  const [searchQuery, setSearchQuery] = React.useState('');
+
   return (
-    <FlatList
-      data={data?.data ?? []}
-      keyExtractor={(item) => item.storeId.toString()}
-      onEndReached={handleEndReached}
-      onEndReachedThreshold={0.5}
-      renderItem={renderItem}
-      ListFooterComponent={isFetching || isLoading ? <ActivityIndicator size="large" /> : null}
-      style={styles.container}
-    />
+    <>
+      <Searchbar
+        style={styles.searchBar}
+        placeholder="Search"
+        onChangeText={setSearchQuery}
+        value={searchQuery}
+      />
+      <FlatList
+        data={data?.data ?? []}
+        keyExtractor={(item) => item.storeId.toString()}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        renderItem={renderItem}
+        ListFooterComponent={isFetching || isLoading ? <ActivityIndicator size="large" /> : null}
+        style={styles.container}
+      />
+    </>
   );
 };
 
@@ -53,6 +64,12 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     margin: 10,
+  },
+  searchBar: {
+    alignContent: 'center',
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
   },
 });
 

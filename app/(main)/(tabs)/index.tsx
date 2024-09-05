@@ -5,6 +5,8 @@ import CampaignCard from '@/components/cards/CampaignCard';
 import usePagination from '@/hooks/usePagination';
 import { useGetCampaignByEmailQuery } from '@/services/campaign.service';
 import { Campaign } from '@/types/Campaign';
+import { Searchbar } from 'react-native-paper';
+import { Text } from 'react-native-paper';
 
 const CampaignTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
@@ -36,16 +38,26 @@ const CampaignTab = () => {
     return <CampaignCard campaign={item} />;
   };
 
+  const [searchQuery, setSearchQuery] = React.useState('');
+
   return (
-    <FlatList
-      data={data?.data ?? []}
-      keyExtractor={(item) => item.campaignId.toString()}
-      onEndReached={handleEndReached}
-      onEndReachedThreshold={0.5}
-      renderItem={renderItem}
-      ListFooterComponent={isFetching || isLoading ? <ActivityIndicator size="large" /> : null}
-      style={styles.container}
-    />
+    <>
+      <Searchbar
+        style={styles.searchBar}
+        placeholder="Search"
+        onChangeText={setSearchQuery}
+        value={searchQuery}
+      />
+      <FlatList
+        data={data?.data ?? []}
+        keyExtractor={(item) => item.campaignId.toString()}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        renderItem={renderItem}
+        ListFooterComponent={isFetching || isLoading ? <ActivityIndicator size="large" /> : null}
+        style={styles.container}
+      />
+    </>
   );
 };
 
@@ -53,6 +65,12 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     margin: 10,
+  },
+  searchBar: {
+    alignContent: 'center',
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
   },
 });
 

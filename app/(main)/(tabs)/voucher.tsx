@@ -5,6 +5,9 @@ import VoucherCard from '@/components/cards/VoucherCard';
 import usePagination from '@/hooks/usePagination';
 import { useGetVoucherByEmailQuery } from '@/services/voucher.service';
 import { Voucher } from '@/types/Voucher';
+import { Searchbar } from 'react-native-paper';
+import { View } from 'react-native-reanimated/lib/typescript/Animated';
+import { Text } from 'react-native';
 
 const VoucherTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
@@ -36,16 +39,26 @@ const VoucherTab = () => {
     return <VoucherCard voucher={item} />;
   };
 
+  const [searchQuery, setSearchQuery] = React.useState('');
+
   return (
-    <FlatList
-      data={data?.data ?? []}
-      keyExtractor={(item) => item.voucherId.toString()}
-      onEndReached={handleEndReached}
-      onEndReachedThreshold={0.5}
-      renderItem={renderItem}
-      ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
-      style={styles.container}
-    />
+    <>
+      <Searchbar
+        style={styles.searchBar}
+        placeholder="Search"
+        onChangeText={setSearchQuery}
+        value={searchQuery}
+      />
+      <FlatList
+        data={data?.data ?? []}
+        keyExtractor={(item) => item.voucherId.toString()}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        renderItem={renderItem}
+        ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
+        style={styles.container}
+      />
+    </>
   );
 };
 
@@ -53,6 +66,12 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     margin: 10,
+  },
+  searchBar: {
+    alignContent: 'center',
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20,
   },
 });
 

@@ -21,7 +21,7 @@ const Login = () => {
 
   const {
     control,
-    formState: { errors: formErrors },
+    // formState: { errors: formErrors },
     setFocus,
     handleSubmit,
   } = useForm({
@@ -117,17 +117,6 @@ const Login = () => {
                     label: 'Email',
                     left: <TextInput.Icon icon="email" />,
                   },
-                  rules: {
-                    required: {
-                      value: true,
-                      message: 'Email is required',
-                    },
-                    pattern: {
-                      value:
-                        /[A-Za-z0-9._%+-]{3,}@[a-zA-Z]{3,}([.]{1}[a-zA-Z]{2,}|[.]{1}[a-zA-Z]{2,}[.]{1}[a-zA-Z]{2,})/,
-                      message: 'Email is invalid',
-                    },
-                  },
                 },
                 {
                   name: 'password',
@@ -135,20 +124,6 @@ const Login = () => {
                   textInputProps: {
                     label: 'Password',
                     left: <TextInput.Icon icon="lock" />,
-                  },
-                  rules: {
-                    required: {
-                      value: true,
-                      message: 'Password is required',
-                    },
-                    minLength: {
-                      value: 8,
-                      message: 'Password should be atleast 8 characters',
-                    },
-                    maxLength: {
-                      value: 30,
-                      message: 'Password should be between 8 and 30 characters',
-                    },
                   },
                 },
               ]}
@@ -168,6 +143,9 @@ const Login = () => {
                 router.push('/register');
               }}>
               Register
+            </Button>
+            <Button style={styles.button} icon="account-question" mode="contained" onPress={() => {}}>
+              Forget Password
             </Button>
           </ScrollView>
         )}
