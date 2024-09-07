@@ -10,7 +10,7 @@ import { useDispatch } from 'react-redux';
 
 import HandleResponse from '@/components/common/HandleResponse';
 import { useLoginMutation } from '@/services/user.service';
-import { setAuthData, userLogin } from '@/store/slices/auth.slice';
+import { setAuthData, userLogin, setWebSocket } from '@/store/slices/auth.slice';
 import { logInSchema } from '@/utils/validation';
 
 const Login = () => {
@@ -79,6 +79,7 @@ const Login = () => {
 
   const onSuccess = () => {
     dispatch(userLogin(data));
+    dispatch(setWebSocket(data));
     router.push('/');
   };
 
@@ -144,7 +145,11 @@ const Login = () => {
               }}>
               Register
             </Button>
-            <Button style={styles.button} icon="account-question" mode="contained" onPress={() => {}}>
+            <Button
+              style={styles.button}
+              icon="account-question"
+              mode="contained"
+              onPress={() => {}}>
               Forget Password
             </Button>
           </ScrollView>
