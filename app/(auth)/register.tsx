@@ -1,11 +1,12 @@
-import HandleResponse from '@/components/common/HandleResponse';
-import { useCreateUserMutation } from '@/services/user.service';
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { StyleSheet, View, ScrollView } from 'react-native';
 import { Button, TextInput, Avatar, ActivityIndicator } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
+
+import HandleResponse from '@/components/common/HandleResponse';
+import { useCreateUserMutation } from '@/services/user.service';
 
 const Register = () => {
   const router = useRouter();

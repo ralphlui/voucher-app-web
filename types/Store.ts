@@ -1,7 +1,7 @@
 import { SessionUserProps } from '@/types/User';
 
 export type Store = {
-  storeId: string;
+  storeId?: string;
   storeName?: string;
   description?: string;
   address?: string;

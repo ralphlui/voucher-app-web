@@ -2,7 +2,7 @@ import { Store } from '@/types/Store';
 import { SessionUserProps } from '@/types/User';
 
 export interface Campaign {
-  campaignId: string;
+  campaignId?: string;
   description?: string;
   numberOfVouchers?: number;
   numberOfLikes?: number;

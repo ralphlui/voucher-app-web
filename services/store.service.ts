@@ -1,4 +1,5 @@
 import coreApi from '@/services/core.api';
+import { Store } from '@/types/Store';
 
 export const storeApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -44,10 +45,30 @@ export const storeApiSlice = coreApi.injectEndpoints({
         body: JSON.stringify({ storeId: storeId }),
       }),
     }),
+    createStore: builder.mutation({
+      query: (store: Store) => ({
+        url: `/api/store/create`,
+        method: 'POST',
+        body: JSON.stringify(store),
+      }),
+    }),
+    updateStore: builder.mutation({
+      query: (store: Store) => ({
+        url: `/api/store/update`,
+        method: 'POST',
+        body: JSON.stringify(store),
+      }),
+    }),
   }),
 });
 
-export const { useGetStoreByEmailQuery, useGetStoreByIdQuery, useGetStoresQuery } = storeApiSlice;
+export const {
+  useGetStoreByEmailQuery,
+  useGetStoreByIdQuery,
+  useGetStoresQuery,
+  useCreateStoreMutation,
+  useUpdateStoreMutation,
+} = storeApiSlice;
 
 // ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
 
