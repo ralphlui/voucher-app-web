@@ -25,7 +25,7 @@ const StoreCard = (props: Props) => {
         <Text variant="titleLarge">Card title</Text>
         <Text variant="bodyMedium">Card content</Text>
       </Card.Content> */}
-      <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
+      <Card.Cover style={styles.cover} source={{ uri: store.image }} />
       {/* <Card.Actions>
         <Button>Cancel</Button>
         <Button>Ok</Button>

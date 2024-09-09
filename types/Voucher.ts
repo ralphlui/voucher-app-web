@@ -8,8 +8,6 @@ export interface Voucher {
   amount?: GLfloat;
   claimTime?: string;
   consumedTime?: string;
-  storeName?: string;
-  validDate?: string;
 }
 
 export interface VoucherListParamsProps {
