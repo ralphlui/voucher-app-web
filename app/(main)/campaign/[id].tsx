@@ -35,7 +35,13 @@ const Campaign = () => {
       ) : (
         <ScrollView contentContainerStyle={styles.scrollViewStyle}>
           <Card style={styles.container}>
-            <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
+            {/* <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
+             */}
+            <Card.Content>
+              <Text style={styles.amount} variant="displayLarge">
+                ${data?.data?.amount} off
+              </Text>
+            </Card.Content>
             <Card.Title
               title={<Chip>{data?.data?.campaignStatus}</Chip>}
               right={() => (
@@ -65,6 +71,16 @@ const Campaign = () => {
                   {data?.data?.numberOfClaimedVouchers} / {data?.data?.numberOfVouchers} claimed
                 </Text>
               </View>
+              <Text>Tags</Text>
+              <Text style={styles.text}>{data?.data?.tagsJson}</Text>
+
+              <Text>Campaign Start Date</Text>
+              <Text style={styles.text}>{data?.data?.startDate}</Text>
+              <Text>Campaign End Date</Text>
+              <Text style={styles.text}>{data?.data?.endDate}</Text>
+              <Text>T&C</Text>
+              <Text style={styles.text}>{data?.data?.tandc}</Text>
+              {/* <Text variant="bodyLarge">Pin: {data?.data?.pin}</Text> */}
               <Button
                 mode="contained"
                 icon="map-marker-radius"
@@ -75,17 +91,6 @@ const Campaign = () => {
                 {data?.data?.store?.storeName} @ {data?.data?.store?.address1},{' '}
                 {data?.data?.store?.city}
               </Button>
-              <Text>Tags</Text>
-              <Text style={styles.text}>{data?.data?.tagsJson}</Text>
-              <Text>Amount</Text>
-              <Text style={styles.text}>{data?.data?.amount}</Text>
-              <Text>Campaign Start Date</Text>
-              <Text style={styles.text}>{data?.data?.startDate}</Text>
-              <Text>Campaign End Date</Text>
-              <Text style={styles.text}>{data?.data?.endDate}</Text>
-              <Text>T&C</Text>
-              <Text style={styles.text}>{data?.data?.tandc}</Text>
-              {/* <Text variant="bodyLarge">Pin: {data?.data?.pin}</Text> */}
             </Card.Content>
           </Card>
         </ScrollView>
@@ -134,6 +139,17 @@ const styles = StyleSheet.create({
     padding: 10,
     borderWidth: 1,
     height: 45,
+    borderRadius: 5,
+    borderColor: 'grey',
+    backgroundColor: 'white',
+  },
+  amount: {
+    alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 1,
+    height: 80,
     borderRadius: 5,
     borderColor: 'grey',
     backgroundColor: 'white',

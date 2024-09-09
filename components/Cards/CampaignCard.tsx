@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Card, IconButton } from 'react-native-paper';
+import { Button, Card, Chip, IconButton, Text } from 'react-native-paper';
 
 import { Campaign } from '@/types/Campaign';
 
@@ -19,10 +19,16 @@ const CampaignCard = (props: Props) => {
       onPress={() => {
         router.push(`/(main)/campaign/${campaign.campaignId}`);
       }}>
-      <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
+      {/* <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
+       */}
+      <Card.Content>
+        <Text style={styles.amount} variant="displayLarge">
+          ${campaign.amount} off
+        </Text>
+      </Card.Content>
       <Card.Title
         title={campaign.description}
-        subtitle={`${campaign.numberOfClaimedVouchers} / ${campaign.numberOfVouchers} `}
+        subtitle={`${campaign.numberOfClaimedVouchers} / ${campaign.numberOfVouchers} claimed`}
         right={() => (
           <Card.Actions>
             <IconButton
@@ -35,6 +41,11 @@ const CampaignCard = (props: Props) => {
           </Card.Actions>
         )}
       />
+      <Card.Content>
+        <Chip>
+          @{campaign?.store?.storeName}, {campaign?.store?.address}, {campaign?.store?.city}
+        </Chip>
+      </Card.Content>
     </Card>
   );
 };
@@ -46,6 +57,17 @@ const styles = StyleSheet.create({
   },
   cover: {
     margin: 10,
+  },
+  amount: {
+    alignSelf: 'center',
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 1,
+    height: 80,
+    borderRadius: 5,
+    borderColor: 'grey',
+    backgroundColor: 'white',
   },
 });
 

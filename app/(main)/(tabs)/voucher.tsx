@@ -6,8 +6,6 @@ import usePagination from '@/hooks/usePagination';
 import { useGetVoucherByEmailQuery } from '@/services/voucher.service';
 import { Voucher } from '@/types/Voucher';
 import { Searchbar } from 'react-native-paper';
-import { View } from 'react-native-reanimated/lib/typescript/Animated';
-import { Text } from 'react-native';
 
 const VoucherTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();

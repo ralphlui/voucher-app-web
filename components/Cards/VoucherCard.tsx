@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Avatar, Button, Card, Chip, Text } from 'react-native-paper';
+import { Avatar, Button, Card, Chip, Divider, Text } from 'react-native-paper';
 
 import { Voucher } from '@/types/Voucher';
 import { useRouter } from 'expo-router';
@@ -15,26 +15,29 @@ const VoucherCard = (props: Props) => {
   const router = useRouter();
   return (
     <Card style={styles.container}>
+      <Card.Title
+        title={voucher.campaign?.description}
+        right={() => <Chip style={styles.chip}>{voucher.voucherStatus}</Chip>}></Card.Title>
       <Card.Content>
-        <Button
-          mode="contained"
-          icon="ticket-percent-outline"
-          style={styles.button}
-          onPress={() => {
-            router.push(`/(main)/campaign/${voucher.campaign?.campaignId}`);
-          }}>
-          Check T&C from {voucher.campaign?.description}
-        </Button>
-        <Chip style={styles.chip}>{voucher.voucherStatus}</Chip>
         <Text style={styles.amount} variant="displayLarge">
           ${voucher.amount}
         </Text>
+      </Card.Content>
+      <Divider />
+      <Card.Actions>
+        <Button
+          mode="contained"
+          onPress={() => {
+            router.push(`/(main)/campaign/${voucher.campaign?.campaignId}`);
+          }}>
+          T&C
+        </Button>
         {voucher.voucherStatus === 'CLAIMED' && (
           <Button mode="contained" onPress={() => {}}>
-            Use It
+            Use
           </Button>
         )}
-      </Card.Content>
+      </Card.Actions>
     </Card>
   );
 };
@@ -75,7 +78,6 @@ const styles = StyleSheet.create({
   },
   amount: {
     alignSelf: 'center',
-    marginTop: 10,
     marginBottom: 10,
     padding: 10,
     borderWidth: 1,
@@ -86,6 +88,7 @@ const styles = StyleSheet.create({
   },
   chip: {
     alignSelf: 'center',
+    marginRight: 10
   },
 });
 
