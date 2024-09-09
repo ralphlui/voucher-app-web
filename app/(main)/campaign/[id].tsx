@@ -1,76 +1,95 @@
 import { useGetCampaignByIdQuery } from '@/services/campaign.service';
-import { Stack, useLocalSearchParams } from 'expo-router';
-import React, { useEffect } from 'react';
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
+import React from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
-import { Campaign as TCampaign } from '@/types/Campaign';
-import { FormBuilder } from 'react-native-paper-form-builder';
-import { Button, TextInput, Text, ActivityIndicator } from 'react-native-paper';
-import CampaignCard from '@/components/cards/CampaignCard';
+import { Button, Text, ActivityIndicator, Chip, Card, ProgressBar } from 'react-native-paper';
 
 const Campaign = () => {
   const { id } = useLocalSearchParams();
+  const router = useRouter();
   const { data, error, isLoading, isFetching, isSuccess, isError, refetch } =
     useGetCampaignByIdQuery({ campaignId: id });
+  // console.log(data?.data?.amount);
+  // const {
+  //   register,
+  //   setValue,
+  //   handleSubmit,
+  //   control,
+  //   reset,
+  //   formState: { errors },
+  // } = useForm({
+  //   // mode: 'onChange',
+  // });
 
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    control,
-    reset,
-    formState: { errors },
-  } = useForm({
-    // mode: 'onChange',
-  });
-
-  useEffect(() => {
-    if (data) {
-      Object.keys(data.data).forEach((key) => setValue(key, data?.data[key]));
-    }
-  }, [data, setValue]);
+  // useEffect(() => {
+  //   if (data) {
+  //     Object.keys(data.data).forEach((key) => setValue(key, data?.data[key]));
+  //   }
+  // }, [data, setValue]);
 
   return (
     <>
-      <Stack.Screen options={{ title: 'Campaign' }} />
-      <View style={styles.containerStyle}>
-        {isLoading ? (
-          <ActivityIndicator size="large" />
-        ) : (
-          <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-            <Controller
-              defaultValue={data?.data?.campaignId}
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  onBlur={onBlur}
-                  onChangeText={(value) => onChange(value)}
-                  style={styles.field}
-                  label="CampaignID"
-                  value={value}
-                />
+      <Stack.Screen options={{ title: data?.data?.description }} />
+      {isLoading ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <ScrollView contentContainerStyle={styles.scrollViewStyle}>
+          <Card style={styles.container}>
+            <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
+            <Card.Title
+              title={<Chip>{data?.data?.campaignStatus}</Chip>}
+              right={() => (
+                <Card.Actions>
+                  {/* <IconButton
+                      animated
+                      mode="contained"
+                      icon={isSelected ? 'heart' : 'heart-outline'}
+                      onPress={() => setIsSelected(!isSelected)}
+                    /> */}
+                  {/* <IconButton animated icon="share" onPress={() => {}} /> */}
+                  <Button mode="contained" onPress={() => {}}>
+                    Edit
+                  </Button>
+                  <Button mode="contained" onPress={() => {}}>
+                    Claim
+                  </Button>
+                </Card.Actions>
               )}
-              name="campaignId"
-              rules={{ required: true }}
             />
-            <Controller
-              defaultValue={data?.data?.description}
-              control={control}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <TextInput
-                  onBlur={onBlur}
-                  onChangeText={(value) => onChange(value)}
-                  style={styles.field}
-                  label="Description"
-                  value={value}
+            <Card.Content>
+              <View style={styles.processbar}>
+                <ProgressBar
+                  progress={data?.data?.numberOfClaimedVouchers / data?.data?.numberOfVouchers}
                 />
-              )}
-              name="description"
-              rules={{ required: true }}
-            />
-          </ScrollView>
-        )}
-      </View>
+                <Text variant="bodyMedium">
+                  {data?.data?.numberOfClaimedVouchers} / {data?.data?.numberOfVouchers} claimed
+                </Text>
+              </View>
+              <Button
+                mode="contained"
+                icon="map-marker-radius"
+                style={styles.button}
+                onPress={() => {
+                  router.push(`/(main)/store/${data?.data?.store?.storeId}`);
+                }}>
+                {data?.data?.store?.storeName} @ {data?.data?.store?.address1},{' '}
+                {data?.data?.store?.city}
+              </Button>
+              <Text>Tags</Text>
+              <Text style={styles.text}>{data?.data?.tagsJson}</Text>
+              <Text>Amount</Text>
+              <Text style={styles.text}>{data?.data?.amount}</Text>
+              <Text>Campaign Start Date</Text>
+              <Text style={styles.text}>{data?.data?.startDate}</Text>
+              <Text>Campaign End Date</Text>
+              <Text style={styles.text}>{data?.data?.endDate}</Text>
+              <Text>T&C</Text>
+              <Text style={styles.text}>{data?.data?.tandc}</Text>
+              {/* <Text variant="bodyLarge">Pin: {data?.data?.pin}</Text> */}
+            </Card.Content>
+          </Card>
+        </ScrollView>
+      )}
     </>
   );
 };
@@ -95,6 +114,29 @@ const styles = StyleSheet.create({
   },
   field: {
     marginBottom: 20,
+  },
+  container: {
+    alignContent: 'center',
+    margin: 10,
+  },
+  cover: {
+    margin: 10,
+  },
+  processbar: {
+    marginBottom: 10,
+  },
+  button: {
+    marginBottom: 10,
+  },
+  text: {
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 10,
+    borderWidth: 1,
+    height: 45,
+    borderRadius: 5,
+    borderColor: 'grey',
+    backgroundColor: 'white',
   },
 });
 
