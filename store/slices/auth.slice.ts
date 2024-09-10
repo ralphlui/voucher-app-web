@@ -41,6 +41,8 @@ const authSlice = createSlice({
       ws.addEventListener('open', (event) => {
         ws.send(JSON.stringify(action.payload.data));
       });
+      ws.addEventListener('message', () => {});
+      ws.addEventListener('close', () => {});
     },
     setAuthData: (state, action) => {
       state.token = action.payload.token;

@@ -64,105 +64,65 @@ const CampaignList = () => {
               setFocus={setFocus}
               formConfigArray={[
                 {
-                  name: 'storeName',
+                  name: 'description',
                   type: 'text',
                   textInputProps: {
-                    label: 'Store Name',
+                    label: 'Description',
                     left: <TextInput.Icon icon="account" />,
                   },
                   rules: {
                     required: {
                       value: true,
-                      message: 'Store Name is required',
+                      message: 'Description is required',
                     },
                   },
                 },
                 {
-                  name: 'description',
+                  name: 'tagsJson',
                   type: 'text',
                   textInputProps: {
-                    label: 'Description',
+                    label: 'Tags',
                     left: <TextInput.Icon icon="email" />,
                   },
                 },
                 {
-                  name: 'address',
+                  name: 'tandc',
                   type: 'text',
                   textInputProps: {
-                    label: 'Address',
+                    label: 'T&C',
                     left: <TextInput.Icon icon="card-account-details" />,
                   },
                 },
                 {
-                  name: 'address1',
+                  name: 'amount',
                   type: 'text',
                   textInputProps: {
-                    label: 'Address 1',
+                    label: 'Amount',
                     left: <TextInput.Icon icon="card-account-details" />,
                   },
                 },
                 {
-                  name: 'address2',
+                  name: 'startDate',
                   type: 'text',
                   textInputProps: {
-                    label: 'Address 2',
+                    label: 'Start Date',
                     left: <TextInput.Icon icon="card-account-details" />,
                   },
                 },
                 {
-                  name: 'address3',
+                  name: 'endDate',
                   type: 'text',
                   textInputProps: {
-                    label: 'Address 3',
+                    label: 'End Date',
                     left: <TextInput.Icon icon="card-account-details" />,
                   },
                 },
                 {
-                  name: 'city',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'City',
-                    left: <TextInput.Icon icon="card-account-details" />,
-                  },
-                },
-                {
-                  name: 'state',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'State',
-                    left: <TextInput.Icon icon="card-account-details" />,
-                  },
-                },
-                {
-                  name: 'country',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'Country',
-                    left: <TextInput.Icon icon="card-account-details" />,
-                  },
-                },
-                {
-                  name: 'postalCode',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'Postal Code',
-                    left: <TextInput.Icon icon="card-account-details" />,
-                  },
-                },
-                {
-                  name: 'contactNumber',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'Contact Number',
-                    left: <TextInput.Icon icon="card-account-details" />,
-                  },
-                },
-                {
-                  name: 'image',
-                  type: 'custom',
+                  name: 'storeId',
+                  type: 'select',
 
                   textInputProps: {
-                    label: 'Preferences',
+                    label: 'Store',
                     left: <TextInput.Icon icon="checkbox-multiple-marked" />,
                   },
                 },
