@@ -5,6 +5,8 @@ import React from 'react';
 import LoginButton from '@/components/buttons/LoginButton';
 import useAuth from '@/hooks/useAuth';
 import { UserTypesEnum } from '@/types/User';
+import CreateCampaignButton from '../buttons/CreateCampaignButton';
+import CreateStoreButton from '../buttons/CreateStoreButton';
 
 const MobileLayout = () => {
   const auth = useAuth();
@@ -19,6 +21,7 @@ const MobileLayout = () => {
           title: 'Campaign',
           tabBarIcon: ({ color }) => <Ionicons name="bag-handle" size={30} color={color} />,
           headerRight: () => !auth.success && <LoginButton />,
+          headerLeft: () => <CreateCampaignButton />
         }}
       />
       <Tabs.Screen
@@ -27,6 +30,7 @@ const MobileLayout = () => {
           title: 'Store',
           tabBarIcon: ({ color }) => <Ionicons name="storefront" size={30} color={color} />,
           headerRight: () => !auth.success && <LoginButton />,
+          headerLeft: () => <CreateStoreButton />
         }}
       />
       <Tabs.Screen
