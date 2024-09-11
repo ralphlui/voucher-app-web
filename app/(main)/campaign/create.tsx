@@ -8,7 +8,7 @@ import { FormBuilder } from 'react-native-paper-form-builder';
 import HandleResponse from '@/components/common/HandleResponse';
 import { useCreateCampaignMutation } from '@/services/campaign.service';
 
-const CampaignList = () => {
+const CreateCampaign = () => {
   const router = useRouter();
   const {
     formState: { errors },
@@ -39,7 +39,7 @@ const CampaignList = () => {
     <>
       <Stack.Screen
         options={{
-          title: 'Register',
+          title: 'Create Campaign',
         }}
       />
       {(isSuccess || isError) && (
@@ -172,4 +172,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CampaignList;
+export default CreateCampaign;

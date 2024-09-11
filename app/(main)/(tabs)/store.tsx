@@ -49,7 +49,7 @@ const StoreTab = () => {
       />
       <FlatList
         data={data?.data ?? []}
-        keyExtractor={(item) => item.storeId.toString()}
+        keyExtractor={(item) => item?.storeId?.toString() ?? ''}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
         renderItem={renderItem}

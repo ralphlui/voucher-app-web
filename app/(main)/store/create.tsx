@@ -1,14 +1,14 @@
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, Alert } from 'react-native';
 import { ActivityIndicator, Avatar, Button, TextInput } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 
 import HandleResponse from '@/components/common/HandleResponse';
 import { useCreateStoreMutation } from '@/services/store.service';
 
-const StoreList = () => {
+const CreateStore = () => {
   const router = useRouter();
   const {
     formState: { errors },
@@ -34,7 +34,6 @@ const StoreList = () => {
   });
 
   const [createStore, { data, isSuccess, isError, isLoading, error }] = useCreateStoreMutation();
-
   const onSuccess = () => {
     router.push('/store');
   };
@@ -43,7 +42,7 @@ const StoreList = () => {
     <>
       <Stack.Screen
         options={{
-          title: 'Register',
+          title: 'Create Store',
         }}
       />
       {(isSuccess || isError) && (
@@ -60,9 +59,6 @@ const StoreList = () => {
           <ActivityIndicator size="large" />
         ) : (
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-            <View style={styles.icon}>
-              <Avatar.Icon icon="ticket-percent-outline" />
-            </View>
             <FormBuilder
               control={control}
               setFocus={setFocus}
@@ -97,30 +93,30 @@ const StoreList = () => {
                     left: <TextInput.Icon icon="card-account-details" />,
                   },
                 },
-                {
-                  name: 'address1',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'Address 1',
-                    left: <TextInput.Icon icon="card-account-details" />,
-                  },
-                },
-                {
-                  name: 'address2',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'Address 2',
-                    left: <TextInput.Icon icon="card-account-details" />,
-                  },
-                },
-                {
-                  name: 'address3',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'Address 3',
-                    left: <TextInput.Icon icon="card-account-details" />,
-                  },
-                },
+                // {
+                //   name: 'address1',
+                //   type: 'text',
+                //   textInputProps: {
+                //     label: 'Address 1',
+                //     left: <TextInput.Icon icon="card-account-details" />,
+                //   },
+                // },
+                // {
+                //   name: 'address2',
+                //   type: 'text',
+                //   textInputProps: {
+                //     label: 'Address 2',
+                //     left: <TextInput.Icon icon="card-account-details" />,
+                //   },
+                // },
+                // {
+                //   name: 'address3',
+                //   type: 'text',
+                //   textInputProps: {
+                //     label: 'Address 3',
+                //     left: <TextInput.Icon icon="card-account-details" />,
+                //   },
+                // },
                 {
                   name: 'city',
                   type: 'text',
@@ -189,20 +185,25 @@ const StoreList = () => {
                   contactNumber,
                   image,
                 }) => {
-                  createStore({
-                    storeName,
-                    description,
-                    address,
-                    address1,
-                    address2,
-                    address3,
-                    city,
-                    state,
-                    country,
-                    postalCode,
-                    contactNumber,
-                    image,
-                  });
+                  let formData = new FormData();
+                  const blob = new Blob(
+                    [
+                      JSON.stringify({
+                        storeName,
+                        description,
+                        address1,
+                        address2,
+                        postalCode,
+                        contactNumber,
+                        country,
+                      }),
+                    ],
+                    {
+                      type: 'application/json',
+                    }
+                  );
+                  formData.append('store', blob);
+                  createStore(formData);
                 }
               )}>
               Create
@@ -234,4 +235,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default StoreList;
+export default CreateStore;
