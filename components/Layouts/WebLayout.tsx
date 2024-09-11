@@ -4,7 +4,7 @@ import React from 'react';
 
 import LoginButton from '@/components/buttons/LoginButton';
 import useAuth from '@/hooks/useAuth';
-import { UserTypesEnum } from '@/types/User';
+import { UserTypeEnum } from '@/types/UserTypeEnum';
 
 const WebLayout = () => {
   const auth = useAuth();
@@ -30,7 +30,7 @@ const WebLayout = () => {
       />
       <Drawer.Screen
         name="voucher"
-        redirect={!(auth.role === UserTypesEnum.CUSTOMER)}
+        redirect={!(auth.role === UserTypeEnum.CUSTOMER)}
         options={{
           drawerLabel: 'Voucher',
           title: 'Voucher',
@@ -39,7 +39,7 @@ const WebLayout = () => {
       />
       <Drawer.Screen
         name="feed"
-        redirect={!(auth.role === UserTypesEnum.CUSTOMER)}
+        redirect={!(auth.role === UserTypeEnum.CUSTOMER)}
         options={{
           drawerLabel: 'Feed',
           title: 'Feed',

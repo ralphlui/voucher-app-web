@@ -19,8 +19,6 @@ const CampaignCard = (props: Props) => {
       onPress={() => {
         router.push(`/(main)/campaign/${campaign.campaignId}`);
       }}>
-      {/* <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
-       */}
       <Card.Content>
         <Text style={styles.amount} variant="displayLarge">
           ${campaign.amount} off

@@ -1,5 +1,6 @@
 import { Store } from '@/types/Store';
 import { SessionUserProps } from '@/types/User';
+import { CampaignStatusEnum } from '@/types/CampaignStatusEnum';
 
 export interface Campaign {
   campaignId?: string;
@@ -12,7 +13,7 @@ export interface Campaign {
   startDate?: string;
   endDate?: string;
   store?: Store;
-  campaignStatus?: string;
+  campaignStatus?: CampaignStatusEnum;
   numberOfClaimedVouchers?: number;
   pin?: string;
 }

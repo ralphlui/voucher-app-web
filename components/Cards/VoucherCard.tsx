@@ -4,6 +4,8 @@ import { Avatar, Button, Card, Chip, Divider, Text, TextInput } from 'react-nati
 
 import { Voucher } from '@/types/Voucher';
 import { useRouter } from 'expo-router';
+import VoucherStatusChip from '../chips/VoucherStatusChip';
+import { VoucherStatusEnum } from '@/types/VoucherStatusEnum';
 
 interface Props {
   voucher: Voucher;
@@ -20,7 +22,7 @@ const VoucherCard = (props: Props) => {
       <Card style={styles.container}>
         <Card.Title
           title={voucher.campaign?.description}
-          right={() => <Chip style={styles.chip}>{voucher.voucherStatus}</Chip>}></Card.Title>
+          right={() => <VoucherStatusChip status={voucher.voucherStatus} />}></Card.Title>
         <Card.Content>
           <Text style={styles.amount} variant="displayLarge">
             ${voucher.amount} off

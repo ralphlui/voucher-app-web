@@ -4,7 +4,7 @@ import React from 'react';
 
 import LoginButton from '@/components/buttons/LoginButton';
 import useAuth from '@/hooks/useAuth';
-import { UserTypesEnum } from '@/types/User';
+import { UserTypeEnum } from '@/types/UserTypeEnum';
 import CreateCampaignButton from '../buttons/CreateCampaignButton';
 import CreateStoreButton from '../buttons/CreateStoreButton';
 
@@ -35,7 +35,7 @@ const MobileLayout = () => {
       />
       <Tabs.Screen
         name="voucher"
-        redirect={!(auth.role === UserTypesEnum.CUSTOMER)}
+        redirect={!(auth.role === UserTypeEnum.CUSTOMER)}
         options={{
           title: 'Voucher',
           tabBarIcon: ({ color }) => <Ionicons name="gift" size={30} color={color} />,
@@ -43,7 +43,7 @@ const MobileLayout = () => {
       />
       <Tabs.Screen
         name="feed"
-        redirect={!(auth.role === UserTypesEnum.CUSTOMER)}
+        redirect={!(auth.role === UserTypeEnum.CUSTOMER)}
         options={{
           title: 'Feed',
           tabBarIcon: ({ color }) => <Ionicons name="notifications" size={30} color={color} />,

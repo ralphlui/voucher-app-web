@@ -1,6 +1,7 @@
+import CampaignStatusChip from '@/components/chips/CampaignStatusChip';
 import { useGetCampaignByIdQuery } from '@/services/campaign.service';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Button, Text, ActivityIndicator, Chip, Card, ProgressBar } from 'react-native-paper';
 
@@ -9,6 +10,7 @@ const Campaign = () => {
   const router = useRouter();
   const { data, error, isLoading, isFetching, isSuccess, isError, refetch } =
     useGetCampaignByIdQuery({ campaignId: id });
+  const [showPin, setShowPin] = useState<boolean>(false);
   // console.log(data?.data?.amount);
   // const {
   //   register,
@@ -35,24 +37,15 @@ const Campaign = () => {
       ) : (
         <ScrollView contentContainerStyle={styles.scrollViewStyle}>
           <Card style={styles.container}>
-            {/* <Card.Cover style={styles.cover} source={{ uri: 'https://picsum.photos/700' }} />
-             */}
             <Card.Content>
               <Text style={styles.amount} variant="displayLarge">
                 ${data?.data?.amount} off
               </Text>
             </Card.Content>
             <Card.Title
-              title={<Chip>{data?.data?.campaignStatus}</Chip>}
+              title={<CampaignStatusChip status={data?.data?.campaignStatus} />}
               right={() => (
                 <Card.Actions>
-                  {/* <IconButton
-                      animated
-                      mode="contained"
-                      icon={isSelected ? 'heart' : 'heart-outline'}
-                      onPress={() => setIsSelected(!isSelected)}
-                    /> */}
-                  {/* <IconButton animated icon="share" onPress={() => {}} /> */}
                   <Button mode="contained" onPress={() => {}}>
                     Edit
                   </Button>
@@ -71,16 +64,6 @@ const Campaign = () => {
                   {data?.data?.numberOfClaimedVouchers} / {data?.data?.numberOfVouchers} claimed
                 </Text>
               </View>
-              <Text>Tags</Text>
-              <Text style={styles.text}>{data?.data?.tagsJson}</Text>
-
-              <Text>Campaign Start Date</Text>
-              <Text style={styles.text}>{data?.data?.startDate}</Text>
-              <Text>Campaign End Date</Text>
-              <Text style={styles.text}>{data?.data?.endDate}</Text>
-              <Text>T&C</Text>
-              <Text style={styles.text}>{data?.data?.tandc}</Text>
-              {/* <Text variant="bodyLarge">Pin: {data?.data?.pin}</Text> */}
               <Button
                 mode="contained"
                 icon="map-marker-radius"
@@ -90,6 +73,19 @@ const Campaign = () => {
                 }}>
                 {data?.data?.store?.storeName} @ {data?.data?.store?.address1},{' '}
                 {data?.data?.store?.city}
+              </Button>
+              <Text>Tags</Text>
+              <Text style={styles.text}>{data?.data?.tagsJson}</Text>
+
+              <Text>Campaign Start Date</Text>
+              <Text style={styles.text}>{data?.data?.startDate}</Text>
+              <Text>Campaign End Date</Text>
+              <Text style={styles.text}>{data?.data?.endDate}</Text>
+              <Text>T&C</Text>
+              <Text style={styles.text}>{data?.data?.tandc}</Text>
+              {showPin && <Text variant="bodyLarge">Pin: {data?.data?.pin}</Text>}
+              <Button onPress={() => setShowPin(!showPin)}>
+                {showPin ? 'Hide Pin' : 'Show Pin'}
               </Button>
             </Card.Content>
           </Card>

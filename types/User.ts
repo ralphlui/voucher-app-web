@@ -1,8 +1,4 @@
-export enum UserTypesEnum {
-  ADMIN = 'ADMIN',
-  MERCHANT = 'MERCHANT',
-  CUSTOMER = 'CUSTOMER',
-}
+import { UserTypeEnum } from "@/types/UserTypeEnum";
 
 export interface UserRegistrationResponseProps {
   message: string;
@@ -13,12 +9,12 @@ export interface User {
   id: number;
   email: string;
   role: string;
-  type: UserTypesEnum;
+  type: UserTypeEnum;
 }
 
 export type UserTypeProps = {
   id: number;
-  type: UserTypesEnum;
+  type: UserTypeEnum;
 };
 
 export interface UserFilterType {
