@@ -1,5 +1,4 @@
 import coreApi from '@/services/core.api';
-import { Campaign } from '@/types/Campaign';
 
 export const campaignApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -42,22 +41,24 @@ export const campaignApiSlice = coreApi.injectEndpoints({
       query: ({ campaignId }) => ({
         url: `/api/campaign/getById`,
         method: 'POST', // to be changed to GET
-        body: JSON.stringify({ campaignId: campaignId }),
+        body: JSON.stringify({ campaignId }),
       }),
     }),
     createCampaign: builder.mutation({
-      query: (campaign: Campaign) => ({
+      query: (formData) => ({
         url: `/api/campaign/create`,
         method: 'POST',
-        body: JSON.stringify(campaign),
+        body: formData,
       }),
+      invalidatesTags: ['Campaign'],
     }),
     updateCampaign: builder.mutation({
-      query: (campaign: Campaign) => ({
+      query: (formData) => ({
         url: `/api/campaign/update`,
         method: 'POST',
-        body: JSON.stringify(campaign),
+        body: formData,
       }),
+      invalidatesTags: ['Campaign'],
     }),
   }),
 });

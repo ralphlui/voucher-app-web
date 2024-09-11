@@ -132,15 +132,25 @@ const CreateCampaign = () => {
               mode="contained"
               onPress={handleSubmit(
                 ({ description, tagsJson, tandc, amount, startDate, endDate, store }) => {
-                  createCampaign({
-                    description,
-                    tagsJson,
-                    tandc,
-                    amount,
-                    startDate,
-                    endDate,
-                    store,
-                  });
+                  const formData = new FormData();
+                  const blob = new Blob(
+                    [
+                      JSON.stringify({
+                        description,
+                        tagsJson,
+                        tandc,
+                        amount,
+                        startDate,
+                        endDate,
+                        store,
+                      }),
+                    ],
+                    {
+                      type: 'application/json',
+                    }
+                  );
+                  formData.append('campaign', blob);
+                  createCampaign(formData);
                 }
               )}>
               Create

@@ -185,7 +185,7 @@ const CreateStore = () => {
                   contactNumber,
                   image,
                 }) => {
-                  let formData = new FormData();
+                  const formData = new FormData();
                   const blob = new Blob(
                     [
                       JSON.stringify({

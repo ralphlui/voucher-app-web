@@ -1,5 +1,4 @@
 import coreApi from '@/services/core.api';
-import { Store } from '@/types/Store';
 
 export const storeApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -42,7 +41,7 @@ export const storeApiSlice = coreApi.injectEndpoints({
       query: ({ storeId }) => ({
         url: `/api/store/getById`,
         method: 'POST',
-        body: JSON.stringify({ storeId: storeId }),
+        body: JSON.stringify({ storeId }),
       }),
     }),
     createStore: builder.mutation({
