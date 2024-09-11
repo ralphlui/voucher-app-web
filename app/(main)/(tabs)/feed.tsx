@@ -1,13 +1,15 @@
 import React from 'react';
 import { View, StyleSheet, ActivityIndicator, ListRenderItemInfo, FlatList } from 'react-native';
-import { Divider, IconButton, Text } from 'react-native-paper';
+import { Button, Divider, IconButton, Text } from 'react-native-paper';
 
 import usePagination from '@/hooks/usePagination';
 import { useGetFeedByEmailQuery } from '@/services/feed.service';
 import { Feed } from '@/types/Feed';
+import { useRouter } from 'expo-router';
 
 const FeedTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
+  const router = useRouter();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetFeedByEmailQuery(
       {
@@ -36,10 +38,19 @@ const FeedTab = () => {
       <View style={styles.listRow}>
         <IconButton
           onPress={() => {}}
-          selected={item.read}
-          icon={item.read ? 'star' : 'star-outline'}
+          selected={!item.isRead}
+          icon={!item.isRead ? 'star' : 'star-outline'}
         />
-        <Text>this is the feedId: {item.feedId}</Text>
+        <Button
+          onPress={() => {
+            router.push(`/(main)/campaign/${item.campaignId}`);
+          }}>{`${item.campaignDescription ?? ''} @ `}</Button>
+        <Button
+          onPress={() => {
+            router.push(`/(main)/store/${item.storeId}`);
+          }}>
+          {item.storeName}
+        </Button>
       </View>
     );
   };

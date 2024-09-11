@@ -4,6 +4,9 @@ export const voucherApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
     getVoucherByEmail: builder.query({
       query: ({ email, page_size = 5, page_number = 0 }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: `/api/voucher/getByEmail?page=${page_number}&size=${page_size}`,
         method: 'POST', // to be changed to 'GET',
         params: { page_size, page_number },
@@ -22,6 +25,9 @@ export const voucherApiSlice = coreApi.injectEndpoints({
     }),
     getVoucherById: builder.query({
       query: ({ voucherId }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: `/api/voucher/getById`,
         method: 'POST',
         body: JSON.stringify({ voucherId: voucherId }),

@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
+import { StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo, View, Modal } from 'react-native';
 
 import VoucherCard from '@/components/cards/VoucherCard';
 import usePagination from '@/hooks/usePagination';
 import { useGetVoucherByEmailQuery } from '@/services/voucher.service';
 import { Voucher } from '@/types/Voucher';
-import { Searchbar } from 'react-native-paper';
+import { Button, Searchbar, Text } from 'react-native-paper';
 
 const VoucherTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
@@ -36,7 +36,6 @@ const VoucherTab = () => {
   const renderItem = ({ item }: ListRenderItemInfo<Voucher>) => {
     return <VoucherCard voucher={item} />;
   };
-
   const [searchQuery, setSearchQuery] = React.useState('');
 
   return (

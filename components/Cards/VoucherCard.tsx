@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Avatar, Button, Card, Chip, Divider, Text } from 'react-native-paper';
+import { StyleSheet, Modal, View } from 'react-native';
+import { Avatar, Button, Card, Chip, Divider, Text, TextInput } from 'react-native-paper';
 
 import { Voucher } from '@/types/Voucher';
 import { useRouter } from 'expo-router';
@@ -13,32 +13,53 @@ const VoucherCard = (props: Props) => {
   const LeftContent = () => <Avatar.Icon icon="ticket-percent" size={32} />;
   const { voucher } = props;
   const router = useRouter();
+  const [visible, setVisible] = React.useState(false);
+
   return (
-    <Card style={styles.container}>
-      <Card.Title
-        title={voucher.campaign?.description}
-        right={() => <Chip style={styles.chip}>{voucher.voucherStatus}</Chip>}></Card.Title>
-      <Card.Content>
-        <Text style={styles.amount} variant="displayLarge">
-          ${voucher.amount}
-        </Text>
-      </Card.Content>
-      <Divider />
-      <Card.Actions>
-        <Button
-          mode="contained"
-          onPress={() => {
-            router.push(`/(main)/campaign/${voucher.campaign?.campaignId}`);
-          }}>
-          T&C
-        </Button>
-        {voucher.voucherStatus === 'CLAIMED' && (
-          <Button mode="contained" onPress={() => {}}>
-            Use
+    <>
+      <Card style={styles.container}>
+        <Card.Title
+          title={voucher.campaign?.description}
+          right={() => <Chip style={styles.chip}>{voucher.voucherStatus}</Chip>}></Card.Title>
+        <Card.Content>
+          <Text style={styles.amount} variant="displayLarge">
+            ${voucher.amount} off
+          </Text>
+        </Card.Content>
+        <Divider />
+        <Card.Actions>
+          <Button
+            mode="contained"
+            onPress={() => {
+              router.push(`/(main)/campaign/${voucher.campaign?.campaignId}`);
+            }}>
+            T&C
           </Button>
-        )}
-      </Card.Actions>
-    </Card>
+          {voucher.voucherStatus === 'CLAIMED' && (
+            <Button mode="contained" onPress={() => setVisible(true)}>
+              Use
+            </Button>
+          )}
+        </Card.Actions>
+      </Card>
+      <Modal
+        visible={visible}
+        onDismiss={() => setVisible(false)}
+        animationType="slide"
+        presentationStyle="pageSheet"
+        collapsable>
+        <Card style={styles.modal}>
+          <Card.Title title="Enter 4 digits PIN"></Card.Title>
+          <Card.Content>
+            <TextInput></TextInput>
+          </Card.Content>
+          <Card.Actions>
+            <Button onPress={() => setVisible(false)}>Close</Button>
+            <Button onPress={() => {}}>OK</Button>
+          </Card.Actions>
+        </Card>
+      </Modal>
+    </>
   );
 };
 
@@ -88,7 +109,13 @@ const styles = StyleSheet.create({
   },
   chip: {
     alignSelf: 'center',
-    marginRight: 10
+    marginRight: 10,
+  },
+  modal: {
+    padding: 20,
+    margin: 20,
+    // borderRadius: 10,
+    justifyContent: 'center',
   },
 });
 

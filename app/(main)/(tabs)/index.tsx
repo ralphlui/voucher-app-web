@@ -50,7 +50,7 @@ const CampaignTab = () => {
       />
       <FlatList
         data={data?.data ?? []}
-        keyExtractor={(item) => item.campaignId.toString()}
+        keyExtractor={(item) => item?.campaignId?.toString() ?? ''}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
         renderItem={renderItem}
