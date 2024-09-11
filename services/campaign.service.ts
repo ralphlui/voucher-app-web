@@ -1,9 +1,13 @@
 import coreApi from '@/services/core.api';
+import { Campaign } from '@/types/Campaign';
 
 export const campaignApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
     getCampaigns: builder.query({
       query: ({ page_size = 5, page_number = 0 }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: `/api/campaign/all/active?page=${page_number}&size=${page_size}`,
         method: 'GET',
         params: { page_size, page_number },
@@ -21,6 +25,9 @@ export const campaignApiSlice = coreApi.injectEndpoints({
     }),
     getCampaignByEmail: builder.query({
       query: ({ email, page_size = 5, page_number = 0 }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: `/api/campaign/getAllByEmail?page=${page_number}&size=${page_size}`,
         method: 'POST', // to be changed to 'GET',
         params: { page_size, page_number },
@@ -39,24 +46,27 @@ export const campaignApiSlice = coreApi.injectEndpoints({
     }),
     getCampaignById: builder.query({
       query: ({ campaignId }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: `/api/campaign/getById`,
         method: 'POST', // to be changed to GET
         body: JSON.stringify({ campaignId }),
       }),
     }),
     createCampaign: builder.mutation({
-      query: (formData) => ({
+      query: (campaign: Campaign) => ({
         url: `/api/campaign/create`,
         method: 'POST',
-        body: formData,
+        body: campaign,
       }),
       invalidatesTags: ['Campaign'],
     }),
     updateCampaign: builder.mutation({
-      query: (formData) => ({
+      query: (campaign: Campaign) => ({
         url: `/api/campaign/update`,
         method: 'POST',
-        body: formData,
+        body: campaign,
       }),
       invalidatesTags: ['Campaign'],
     }),

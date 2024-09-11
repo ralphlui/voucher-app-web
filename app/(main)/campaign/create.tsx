@@ -56,105 +56,94 @@ const CreateCampaign = () => {
           <ActivityIndicator size="large" />
         ) : (
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-            <View style={styles.icon}>
-              <Avatar.Icon icon="ticket-percent-outline" />
-            </View>
-            <FormBuilder
-              control={control}
-              setFocus={setFocus}
-              formConfigArray={[
-                {
-                  name: 'description',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'Description',
-                    left: <TextInput.Icon icon="account" />,
-                  },
-                  rules: {
-                    required: {
-                      value: true,
-                      message: 'Description is required',
+            <View>
+              <FormBuilder
+                control={control}
+                setFocus={setFocus}
+                formConfigArray={[
+                  {
+                    name: 'description',
+                    type: 'text',
+                    textInputProps: {
+                      label: 'Description',
+                      left: <TextInput.Icon icon="account" />,
+                    },
+                    rules: {
+                      required: {
+                        value: true,
+                        message: 'Description is required',
+                      },
                     },
                   },
-                },
-                {
-                  name: 'tagsJson',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'Tags',
-                    left: <TextInput.Icon icon="email" />,
+                  {
+                    name: 'tagsJson',
+                    type: 'text',
+                    textInputProps: {
+                      label: 'Tags',
+                      left: <TextInput.Icon icon="email" />,
+                    },
                   },
-                },
-                {
-                  name: 'tandc',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'T&C',
-                    left: <TextInput.Icon icon="card-account-details" />,
+                  {
+                    name: 'tandc',
+                    type: 'text',
+                    textInputProps: {
+                      label: 'T&C',
+                      left: <TextInput.Icon icon="card-account-details" />,
+                    },
                   },
-                },
-                {
-                  name: 'amount',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'Amount',
-                    left: <TextInput.Icon icon="card-account-details" />,
+                  {
+                    name: 'amount',
+                    type: 'text',
+                    textInputProps: {
+                      label: 'Amount',
+                      left: <TextInput.Icon icon="card-account-details" />,
+                    },
                   },
-                },
-                {
-                  name: 'startDate',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'Start Date',
-                    left: <TextInput.Icon icon="card-account-details" />,
+                  {
+                    name: 'startDate',
+                    type: 'text',
+                    textInputProps: {
+                      label: 'Start Date',
+                      left: <TextInput.Icon icon="card-account-details" />,
+                    },
                   },
-                },
-                {
-                  name: 'endDate',
-                  type: 'text',
-                  textInputProps: {
-                    label: 'End Date',
-                    left: <TextInput.Icon icon="card-account-details" />,
+                  {
+                    name: 'endDate',
+                    type: 'text',
+                    textInputProps: {
+                      label: 'End Date',
+                      left: <TextInput.Icon icon="card-account-details" />,
+                    },
                   },
-                },
-                {
-                  name: 'storeId',
-                  type: 'select',
+                  {
+                    name: 'storeId',
+                    type: 'select',
 
-                  textInputProps: {
-                    label: 'Store',
-                    left: <TextInput.Icon icon="checkbox-multiple-marked" />,
+                    textInputProps: {
+                      label: 'Store',
+                      left: <TextInput.Icon icon="checkbox-multiple-marked" />,
+                    },
                   },
-                },
-              ]}
-            />
-            <Button
-              mode="contained"
-              onPress={handleSubmit(
-                ({ description, tagsJson, tandc, amount, startDate, endDate, store }) => {
-                  const formData = new FormData();
-                  const blob = new Blob(
-                    [
-                      JSON.stringify({
-                        description,
-                        tagsJson,
-                        tandc,
-                        amount,
-                        startDate,
-                        endDate,
-                        store,
-                      }),
-                    ],
-                    {
-                      type: 'application/json',
-                    }
-                  );
-                  formData.append('campaign', blob);
-                  createCampaign(formData);
-                }
-              )}>
-              Create
-            </Button>
+                ]}
+              />
+              <Button
+                mode="contained"
+                onPress={handleSubmit(
+                  ({ description, tagsJson, tandc, amount, startDate, endDate, store }) => {
+                    createCampaign({
+                      description,
+                      tagsJson,
+                      tandc,
+                      amount,
+                      startDate,
+                      endDate,
+                      store,
+                    });
+                  }
+                )}>
+                Create
+              </Button>
+            </View>
           </ScrollView>
         )}
       </View>

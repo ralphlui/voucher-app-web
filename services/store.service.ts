@@ -4,6 +4,9 @@ export const storeApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
     getStores: builder.query({
       query: ({ page_size = 5, page_number = 0 }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: `/api/store/getAll?page=${page_number}&size=${page_size}`,
         method: 'GET',
         params: { page_size, page_number },
@@ -21,6 +24,9 @@ export const storeApiSlice = coreApi.injectEndpoints({
     }),
     getStoreByEmail: builder.query({
       query: ({ email, page_size = 5, page_number = 0 }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: `/api/store/getAllByUser?page=${page_number}&size=${page_size}`,
         method: 'POST', // to be changed to 'GET',
         params: { page_size, page_number },
@@ -39,6 +45,9 @@ export const storeApiSlice = coreApi.injectEndpoints({
     }),
     getStoreById: builder.query({
       query: ({ storeId }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: `/api/store/getById`,
         method: 'POST',
         body: JSON.stringify({ storeId }),
