@@ -7,9 +7,13 @@ import { FormBuilder } from 'react-native-paper-form-builder';
 
 import HandleResponse from '@/components/common/HandleResponse';
 import { useCreateCampaignMutation } from '@/services/campaign.service';
+import useAuth from '@/hooks/useAuth';
+import { useGetStoreByEmailQuery } from '@/services/store.service';
+import { Store } from '@/types/Store';
 
 const CreateCampaign = () => {
   const router = useRouter();
+  const auth = useAuth();
   const {
     formState: { errors },
     control,
@@ -30,6 +34,11 @@ const CreateCampaign = () => {
 
   const [createCampaign, { data, isSuccess, isError, isLoading, error }] =
     useCreateCampaignMutation();
+  const {
+    data: storeData,
+    error: storeError,
+    isLoading: storeIsLoading,
+  } = useGetStoreByEmailQuery({ email: auth.email });
 
   const onSuccess = () => {
     router.push('/(main)/(tabs)');
@@ -62,11 +71,23 @@ const CreateCampaign = () => {
                 setFocus={setFocus}
                 formConfigArray={[
                   {
+                    name: 'storeId',
+                    type: 'select',
+                    textInputProps: {
+                      label: 'Store',
+                      // left: <TextInput.Icon icon="checkbox-multiple-marked" />,
+                    },
+                    options: storeData.data.map((store: Store) => ({
+                      value: store.storeId,
+                      label: store.storeName,
+                    })),
+                  },
+                  {
                     name: 'description',
                     type: 'text',
                     textInputProps: {
                       label: 'Description',
-                      left: <TextInput.Icon icon="account" />,
+                      // left: <TextInput.Icon icon="account" />,
                     },
                     rules: {
                       required: {
@@ -80,7 +101,7 @@ const CreateCampaign = () => {
                     type: 'text',
                     textInputProps: {
                       label: 'Tags',
-                      left: <TextInput.Icon icon="email" />,
+                      // left: <TextInput.Icon icon="email" />,
                     },
                   },
                   {
@@ -88,7 +109,7 @@ const CreateCampaign = () => {
                     type: 'text',
                     textInputProps: {
                       label: 'T&C',
-                      left: <TextInput.Icon icon="card-account-details" />,
+                      // left: <TextInput.Icon icon="card-account-details" />,
                     },
                   },
                   {
@@ -96,7 +117,7 @@ const CreateCampaign = () => {
                     type: 'text',
                     textInputProps: {
                       label: 'Amount',
-                      left: <TextInput.Icon icon="card-account-details" />,
+                      // left: <TextInput.Icon icon="card-account-details" />,
                     },
                   },
                   {
@@ -104,7 +125,7 @@ const CreateCampaign = () => {
                     type: 'text',
                     textInputProps: {
                       label: 'Start Date',
-                      left: <TextInput.Icon icon="card-account-details" />,
+                      // left: <TextInput.Icon icon="card-account-details" />,
                     },
                   },
                   {
@@ -112,16 +133,7 @@ const CreateCampaign = () => {
                     type: 'text',
                     textInputProps: {
                       label: 'End Date',
-                      left: <TextInput.Icon icon="card-account-details" />,
-                    },
-                  },
-                  {
-                    name: 'storeId',
-                    type: 'select',
-
-                    textInputProps: {
-                      label: 'Store',
-                      left: <TextInput.Icon icon="checkbox-multiple-marked" />,
+                      // left: <TextInput.Icon icon="card-account-details" />,
                     },
                   },
                 ]}

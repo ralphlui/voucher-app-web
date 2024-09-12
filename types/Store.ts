@@ -1,4 +1,4 @@
-import { SessionUserProps } from '@/types/User';
+import { SessionUserProps, User } from '@/types/User';
 
 export type Store = {
   storeId?: string;
@@ -14,6 +14,10 @@ export type Store = {
   postalCode?: string;
   image?: string;
   contactNumber?: string;
+  createdBy?: User;
+  createdDate?: string;
+  updatedBy?: User;
+  updatedDate?: string;
 };
 
 export type StoreCard = {

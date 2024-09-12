@@ -7,9 +7,11 @@ import { FormBuilder } from 'react-native-paper-form-builder';
 
 import HandleResponse from '@/components/common/HandleResponse';
 import { useCreateStoreMutation } from '@/services/store.service';
+import useAuth from '@/hooks/useAuth';
 
 const CreateStore = () => {
   const router = useRouter();
+  const auth = useAuth();
   const {
     formState: { errors },
     control,
@@ -50,7 +52,7 @@ const CreateStore = () => {
           isError={isError}
           isSuccess={isSuccess}
           error={error || 'Error occurs'}
-          message={data?.message}
+          message={data}
           onSuccess={onSuccess}
         />
       )}
@@ -192,11 +194,14 @@ const CreateStore = () => {
                         JSON.stringify({
                           storeName,
                           description,
-                          address1,
-                          address2,
+                          address,
+                          city,
                           postalCode,
                           contactNumber,
                           country,
+                          createdBy: {
+                            email: auth.email,
+                          },
                         }),
                       ],
                       {
