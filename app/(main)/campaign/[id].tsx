@@ -2,7 +2,7 @@ import CampaignStatusChip from '@/components/chips/CampaignStatusChip';
 import { useGetCampaignByIdQuery } from '@/services/campaign.service';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, StyleSheet, ScrollView, Image, Alert } from 'react-native';
 import { Button, Text, ActivityIndicator, Chip, Card, ProgressBar } from 'react-native-paper';
 
 const Campaign = () => {
@@ -71,22 +71,32 @@ const Campaign = () => {
                 onPress={() => {
                   router.push(`/(main)/store/${data?.data?.store?.storeId}`);
                 }}>
-                {data?.data?.store?.storeName} @ {data?.data?.store?.address1},{' '}
-                {data?.data?.store?.city}
+                {data?.data?.store?.storeName} @ {data?.data?.store?.address}, {data?.data?.store?.city}
+              </Button>
+              {showPin && (
+                <View>
+                  <Text variant="displayMedium" style={styles.pin}>
+                    {data?.data?.pin}
+                  </Text>
+                  <Image
+                    style={styles.image}
+                    source={{
+                      uri: `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${data?.data?.pin}`,
+                    }}
+                  />
+                </View>
+              )}
+              <Button onPress={() => setShowPin(!showPin)}>
+                {showPin ? 'Hide Pin' : 'Show Pin'}
               </Button>
               <Text>Tags</Text>
               <Text style={styles.text}>{data?.data?.tagsJson}</Text>
-
               <Text>Campaign Start Date</Text>
               <Text style={styles.text}>{data?.data?.startDate}</Text>
               <Text>Campaign End Date</Text>
               <Text style={styles.text}>{data?.data?.endDate}</Text>
               <Text>T&C</Text>
               <Text style={styles.text}>{data?.data?.tandc}</Text>
-              {showPin && <Text variant="bodyLarge">Pin: {data?.data?.pin}</Text>}
-              <Button onPress={() => setShowPin(!showPin)}>
-                {showPin ? 'Hide Pin' : 'Show Pin'}
-              </Button>
             </Card.Content>
           </Card>
         </ScrollView>
@@ -149,6 +159,14 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: 'grey',
     backgroundColor: 'white',
+  },
+  pin: {
+    alignSelf: 'center',
+  },
+  image: {
+    alignSelf: 'center',
+    width: 150,
+    height: 150,
   },
 });
 
