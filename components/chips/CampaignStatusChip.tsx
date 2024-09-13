@@ -11,22 +11,22 @@ const CampaignStatusChip = ({ status }: CampaignStatusChipProps) => {
   let backgroundColor: string;
   switch (status) {
     case CampaignStatusEnum.CREATED:
-      backgroundColor = '#4caf50'; // Green
+      backgroundColor = '#BBE1FA';
       break;
     case CampaignStatusEnum.EXPIRED:
-      backgroundColor = '#f44336'; // Red
+      backgroundColor = '#FFD1D1';
       break;
     case CampaignStatusEnum.CANCELLED:
-      backgroundColor = '#f44336'; // Orange
+      backgroundColor = '#FF9494';
       break;
     case CampaignStatusEnum.READYTOPROMOTE:
-      backgroundColor = '#ff9800'; // Orange
+      backgroundColor = '#F9ED69'; 
       break;
     case CampaignStatusEnum.PROMOTED:
-        backgroundColor = '#4caf10'; // Orange
+        backgroundColor = '#BDD2B6';
         break;
     default:
-      backgroundColor = '#FFF'; // Default to black if status is unknown
+      backgroundColor = '#FFF8EA'; 
       break;
   }
   return <Chip style={{ backgroundColor, alignSelf: 'center', marginRight: 10 }}>{status}</Chip>;

@@ -11,16 +11,16 @@ const VoucherStatusChip = ({ status }: StatusChipProps) => {
   let backgroundColor: string;
   switch (status) {
     case VoucherStatusEnum.CLAIMED:
-      backgroundColor = '#4caf50'; // Green
+      backgroundColor = '#BBE1FA';
       break;
     case VoucherStatusEnum.EXPIRED:
-      backgroundColor = '#f44336'; // Red
+      backgroundColor = '#FFD1D1';
       break;
     case VoucherStatusEnum.CONSUMED:
-      backgroundColor = '#ff9800'; // Orange
+      backgroundColor = '#BDD2B6';
       break;
     default:
-      backgroundColor = '#FFF'; // Default to black if status is unknown
+      backgroundColor = '#FFF8EA'; 
       break;
   }
   return <Chip style={{ backgroundColor, alignSelf: 'center', marginRight: 10 }}>{status}</Chip>;

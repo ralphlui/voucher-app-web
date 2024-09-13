@@ -9,7 +9,6 @@ const Store = () => {
   const { data, error, isLoading, isFetching, isSuccess, isError, refetch } = useGetStoreByIdQuery({
     storeId: id,
   });
-  console.log(data);
   return (
     <>
       <Stack.Screen options={{ title: data?.data?.storeName }} />
