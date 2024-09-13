@@ -6,10 +6,9 @@ export interface UserRegistrationResponseProps {
 }
 
 export interface User {
-  id: number;
-  email: string;
-  role: string;
-  type: UserTypeEnum;
+  id?: number;
+  email?: string;
+  type?: UserTypeEnum;
 }
 
 export type UserTypeProps = {

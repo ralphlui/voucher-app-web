@@ -1,6 +1,6 @@
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { ActivityIndicator, Avatar, Button, TextInput } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
@@ -10,6 +10,7 @@ import { useCreateCampaignMutation } from '@/services/campaign.service';
 import useAuth from '@/hooks/useAuth';
 import { useGetStoreByEmailQuery } from '@/services/store.service';
 import { Store } from '@/types/Store';
+import DateTimePickerInput from '@/components/inputs/DateTimePickerInput';
 
 const CreateCampaign = () => {
   const router = useRouter();
@@ -25,9 +26,9 @@ const CreateCampaign = () => {
       tagsJson: '',
       tandc: '',
       amount: 0,
-      startDate: '',
-      endDate: '',
-      store: {},
+      startDate: new Date(),
+      endDate: new Date(),
+      storeId: '',
     },
     mode: 'onChange',
   });
@@ -75,19 +76,22 @@ const CreateCampaign = () => {
                     type: 'select',
                     textInputProps: {
                       label: 'Store',
-                      // left: <TextInput.Icon icon="checkbox-multiple-marked" />,
+                      left: <TextInput.Icon icon="store" />,
                     },
-                    options: storeData.data.map((store: Store) => ({
-                      value: store.storeId,
-                      label: store.storeName,
-                    })),
+                    options: storeData?.data?.map(
+                      (store: Store) =>
+                        ({
+                          value: store.storeId,
+                          label: store.storeName,
+                        }) ?? []
+                    ),
                   },
                   {
                     name: 'description',
                     type: 'text',
                     textInputProps: {
                       label: 'Description',
-                      // left: <TextInput.Icon icon="account" />,
+                      left: <TextInput.Icon icon="text" />,
                     },
                     rules: {
                       required: {
@@ -101,7 +105,7 @@ const CreateCampaign = () => {
                     type: 'text',
                     textInputProps: {
                       label: 'Tags',
-                      // left: <TextInput.Icon icon="email" />,
+                      left: <TextInput.Icon icon="tag-multiple" />,
                     },
                   },
                   {
@@ -109,7 +113,7 @@ const CreateCampaign = () => {
                     type: 'text',
                     textInputProps: {
                       label: 'T&C',
-                      // left: <TextInput.Icon icon="card-account-details" />,
+                      left: <TextInput.Icon icon="text-box" />,
                     },
                   },
                   {
@@ -117,31 +121,29 @@ const CreateCampaign = () => {
                     type: 'text',
                     textInputProps: {
                       label: 'Amount',
-                      // left: <TextInput.Icon icon="card-account-details" />,
-                    },
-                  },
-                  {
-                    name: 'startDate',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'Start Date',
-                      // left: <TextInput.Icon icon="card-account-details" />,
-                    },
-                  },
-                  {
-                    name: 'endDate',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'End Date',
-                      // left: <TextInput.Icon icon="card-account-details" />,
+                      left: <TextInput.Icon icon="currency-usd" />,
                     },
                   },
                 ]}
               />
+              <Controller
+                control={control}
+                name="startDate"
+                render={({ field: { onChange, value } }) => (
+                  <DateTimePickerInput label="Start Date" value={value} onChange={onChange} />
+                )}
+              />
+              <Controller
+                control={control}
+                name="endDate"
+                render={({ field: { onChange, value } }) => (
+                  <DateTimePickerInput label="End Date" value={value} onChange={onChange} />
+                )}
+              />
               <Button
                 mode="contained"
                 onPress={handleSubmit(
-                  ({ description, tagsJson, tandc, amount, startDate, endDate, store }) => {
+                  ({ description, tagsJson, tandc, amount, startDate, endDate, storeId }) => {
                     createCampaign({
                       description,
                       tagsJson,
@@ -149,7 +151,8 @@ const CreateCampaign = () => {
                       amount,
                       startDate,
                       endDate,
-                      store,
+                      store: { storeId },
+                      createdBy: { email: auth.email ?? '' },
                     });
                   }
                 )}>

@@ -1,5 +1,5 @@
 import { Store } from '@/types/Store';
-import { SessionUserProps } from '@/types/User';
+import { SessionUserProps, User } from '@/types/User';
 import { CampaignStatusEnum } from '@/types/CampaignStatusEnum';
 
 export interface Campaign {
@@ -10,12 +10,13 @@ export interface Campaign {
   tagsJson?: string;
   tandc?: string;
   amount?: GLfloat;
-  startDate?: string;
-  endDate?: string;
+  startDate?: Date;
+  endDate?: Date;
   store?: Store;
   campaignStatus?: CampaignStatusEnum;
   numberOfClaimedVouchers?: number;
   pin?: string;
+  createdBy?: User | undefined;
 }
 
 export interface CreateCampaignParamsProps {
