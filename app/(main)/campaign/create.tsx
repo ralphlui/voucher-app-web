@@ -124,6 +124,14 @@ const CreateCampaign = () => {
                       left: <TextInput.Icon icon="currency-usd" />,
                     },
                   },
+                  {
+                    name: 'numberOfVouchers',
+                    type: 'text',
+                    textInputProps: {
+                      label: '# of Vouchers',
+                      left: <TextInput.Icon icon="ticket-confirmation" />,
+                    },
+                  },
                 ]}
               />
               <Controller
