@@ -10,6 +10,7 @@ const initialState: Auth = {
   error: null,
   role: null,
   email: null,
+  message: null,
 };
 
 const authSlice = createSlice({
@@ -41,7 +42,10 @@ const authSlice = createSlice({
       ws.addEventListener('open', (event) => {
         ws.send(JSON.stringify(action.payload.data));
       });
-      ws.addEventListener('message', () => {});
+      ws.addEventListener('message', (event) => {
+        const message = JSON.parse(event.data);
+        state.message = message;
+      });
       ws.addEventListener('close', () => {});
     },
     setAuthData: (state, action) => {
