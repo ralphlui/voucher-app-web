@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, Card, Chip, IconButton, Text } from 'react-native-paper';
+import { Button, Card, Chip, IconButton, Text, useTheme } from 'react-native-paper';
 
 import { Campaign } from '@/types/Campaign';
 
@@ -13,6 +13,7 @@ const CampaignCard = (props: Props) => {
   const { campaign } = props;
   const router = useRouter();
   const [isSelected, setIsSelected] = useState(false);
+  const { colors } = useTheme(); // Get the theme's colors
   return (
     <Card
       style={styles.container}
@@ -20,7 +21,7 @@ const CampaignCard = (props: Props) => {
         router.push(`/(main)/campaign/${campaign.campaignId}`);
       }}>
       <Card.Content>
-        <Text style={styles.amount} variant="displayLarge">
+        <Text style={[styles.amount, { color: colors.onSurface }]} variant="displayLarge">
           ${campaign.amount} off
         </Text>
       </Card.Content>
@@ -61,11 +62,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     padding: 10,
-    borderWidth: 1,
+    // borderWidth: 1,
     height: 80,
     borderRadius: 5,
     borderColor: 'grey',
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
   },
 });
 

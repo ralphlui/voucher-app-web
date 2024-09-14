@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Modal, View } from 'react-native';
-import { Avatar, Button, Card, Chip, Divider, Text, TextInput } from 'react-native-paper';
+import { Avatar, Button, Card, Chip, Divider, Text, TextInput, useTheme } from 'react-native-paper';
 
 import { Voucher } from '@/types/Voucher';
 import { useRouter } from 'expo-router';
@@ -16,6 +16,7 @@ const VoucherCard = (props: Props) => {
   const { voucher } = props;
   const router = useRouter();
   const [visible, setVisible] = React.useState(false);
+  const { colors } = useTheme(); // Get the theme's colors
 
   return (
     <>
@@ -24,7 +25,7 @@ const VoucherCard = (props: Props) => {
           title={voucher.campaign?.description}
           right={() => <VoucherStatusChip status={voucher.voucherStatus} />}></Card.Title>
         <Card.Content>
-          <Text style={styles.amount} variant="displayLarge">
+          <Text style={[styles.amount, { color: colors.onSurface }]} variant="displayLarge">
             ${voucher.amount} off
           </Text>
         </Card.Content>
@@ -103,11 +104,11 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     marginBottom: 10,
     padding: 10,
-    borderWidth: 1,
+    // borderWidth: 1,
     height: 80,
     borderRadius: 5,
     borderColor: 'grey',
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
   },
   chip: {
     alignSelf: 'center',
