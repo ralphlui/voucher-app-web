@@ -11,6 +11,7 @@ import useAuth from '@/hooks/useAuth';
 import { useGetStoreByEmailQuery } from '@/services/store.service';
 import { Store } from '@/types/Store';
 import DateTimePickerInput from '@/components/inputs/DateTimePickerInput';
+import { UserTypeEnum } from '@/types/UserTypeEnum';
 
 const CreateCampaign = () => {
   const router = useRouter();
@@ -26,6 +27,7 @@ const CreateCampaign = () => {
       tagsJson: '',
       tandc: '',
       amount: 0,
+      numberOfVouchers: 0,
       startDate: new Date(),
       endDate: new Date(),
       storeId: '',
@@ -66,107 +68,119 @@ const CreateCampaign = () => {
           <ActivityIndicator size="large" />
         ) : (
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-            <View>
-              <FormBuilder
-                control={control}
-                setFocus={setFocus}
-                formConfigArray={[
-                  {
-                    name: 'storeId',
-                    type: 'select',
-                    textInputProps: {
-                      label: 'Store',
-                      left: <TextInput.Icon icon="store" />,
+            {auth.role === UserTypeEnum.MERCHANT && (
+              <View>
+                <FormBuilder
+                  control={control}
+                  setFocus={setFocus}
+                  formConfigArray={[
+                    {
+                      name: 'storeId',
+                      type: 'select',
+                      textInputProps: {
+                        label: 'Store',
+                        left: <TextInput.Icon icon="store" />,
+                      },
+                      options: storeData?.data?.map(
+                        (store: Store) =>
+                          ({
+                            value: store.storeId,
+                            label: store.storeName,
+                          }) ?? []
+                      ),
                     },
-                    options: storeData?.data?.map(
-                      (store: Store) =>
-                        ({
-                          value: store.storeId,
-                          label: store.storeName,
-                        }) ?? []
-                    ),
-                  },
-                  {
-                    name: 'description',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'Description',
-                      left: <TextInput.Icon icon="text" />,
-                    },
-                    rules: {
-                      required: {
-                        value: true,
-                        message: 'Description is required',
+                    {
+                      name: 'description',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'Description',
+                        left: <TextInput.Icon icon="text" />,
+                      },
+                      rules: {
+                        required: {
+                          value: true,
+                          message: 'Description is required',
+                        },
                       },
                     },
-                  },
-                  {
-                    name: 'tagsJson',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'Tags',
-                      left: <TextInput.Icon icon="tag-multiple" />,
+                    {
+                      name: 'tagsJson',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'Tags',
+                        left: <TextInput.Icon icon="tag-multiple" />,
+                      },
                     },
-                  },
-                  {
-                    name: 'tandc',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'T&C',
-                      left: <TextInput.Icon icon="text-box" />,
+                    {
+                      name: 'tandc',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'T&C',
+                        left: <TextInput.Icon icon="text-box" />,
+                      },
                     },
-                  },
-                  {
-                    name: 'amount',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'Amount',
-                      left: <TextInput.Icon icon="currency-usd" />,
+                    {
+                      name: 'amount',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'Amount',
+                        left: <TextInput.Icon icon="currency-usd" />,
+                      },
                     },
-                  },
-                  {
-                    name: 'numberOfVouchers',
-                    type: 'text',
-                    textInputProps: {
-                      label: '# of Vouchers',
-                      left: <TextInput.Icon icon="ticket-confirmation" />,
+                    {
+                      name: 'numberOfVouchers',
+                      type: 'text',
+                      textInputProps: {
+                        label: '# of Vouchers',
+                        left: <TextInput.Icon icon="ticket-confirmation" />,
+                      },
                     },
-                  },
-                ]}
-              />
-              <Controller
-                control={control}
-                name="startDate"
-                render={({ field: { onChange, value } }) => (
-                  <DateTimePickerInput label="Start Date" value={value} onChange={onChange} />
-                )}
-              />
-              <Controller
-                control={control}
-                name="endDate"
-                render={({ field: { onChange, value } }) => (
-                  <DateTimePickerInput label="End Date" value={value} onChange={onChange} />
-                )}
-              />
-              <Button
-                mode="contained"
-                onPress={handleSubmit(
-                  ({ description, tagsJson, tandc, amount, startDate, endDate, storeId }) => {
-                    createCampaign({
+                  ]}
+                />
+                <Controller
+                  control={control}
+                  name="startDate"
+                  render={({ field: { onChange, value } }) => (
+                    <DateTimePickerInput label="Start Date" value={value} onChange={onChange} />
+                  )}
+                />
+                <Controller
+                  control={control}
+                  name="endDate"
+                  render={({ field: { onChange, value } }) => (
+                    <DateTimePickerInput label="End Date" value={value} onChange={onChange} />
+                  )}
+                />
+                <Button
+                  mode="contained"
+                  onPress={handleSubmit(
+                    ({
                       description,
                       tagsJson,
                       tandc,
                       amount,
+                      numberOfVouchers,
                       startDate,
                       endDate,
-                      store: { storeId },
-                      createdBy: { email: auth.email ?? '' },
-                    });
-                  }
-                )}>
-                Create
-              </Button>
-            </View>
+                      storeId,
+                    }) => {
+                      createCampaign({
+                        description,
+                        tagsJson,
+                        tandc,
+                        amount,
+                        numberOfVouchers,
+                        startDate,
+                        endDate,
+                        store: { storeId },
+                        createdBy: { email: auth.email ?? '' },
+                      });
+                    }
+                  )}>
+                  Create
+                </Button>
+              </View>
+            )}
           </ScrollView>
         )}
       </View>

@@ -1,4 +1,6 @@
+import useAuth from '@/hooks/useAuth';
 import { useGetStoreByIdQuery } from '@/services/store.service';
+import { UserTypeEnum } from '@/types/UserTypeEnum';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
@@ -6,6 +8,7 @@ import { ActivityIndicator, Button, Card, Text } from 'react-native-paper';
 
 const Store = () => {
   const { id } = useLocalSearchParams();
+  const auth = useAuth();
   const { data, error, isLoading, isFetching, isSuccess, isError, refetch } = useGetStoreByIdQuery({
     storeId: id,
   });
@@ -22,9 +25,11 @@ const Store = () => {
               title={data?.data?.description}
               right={() => (
                 <Card.Actions>
-                  <Button mode="contained" onPress={() => {}}>
-                    Edit
-                  </Button>
+                  {auth.role === UserTypeEnum.MERCHANT && (
+                    <Button mode="contained" onPress={() => {}}>
+                      Edit
+                    </Button>
+                  )}
                 </Card.Actions>
               )}
             />

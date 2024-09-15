@@ -1,5 +1,7 @@
 import CampaignStatusChip from '@/components/chips/CampaignStatusChip';
+import useAuth from '@/hooks/useAuth';
 import { useGetCampaignByIdQuery } from '@/services/campaign.service';
+import { UserTypeEnum } from '@/types/UserTypeEnum';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Image, Alert } from 'react-native';
@@ -7,6 +9,7 @@ import { Button, Text, ActivityIndicator, Chip, Card, ProgressBar } from 'react-
 
 const Campaign = () => {
   const { id } = useLocalSearchParams();
+  const auth = useAuth();
   const router = useRouter();
   const { data, error, isLoading, isFetching, isSuccess, isError, refetch } =
     useGetCampaignByIdQuery({ campaignId: id });
@@ -46,12 +49,25 @@ const Campaign = () => {
               title={<CampaignStatusChip status={data?.data?.campaignStatus} />}
               right={() => (
                 <Card.Actions>
-                  <Button mode="contained" onPress={() => {}}>
-                    Edit
-                  </Button>
-                  <Button mode="contained" onPress={() => {}}>
-                    Claim
-                  </Button>
+                  {auth.role === UserTypeEnum.MERCHANT && (
+                    <Button mode="contained" onPress={() => {}}>
+                      Edit
+                    </Button>
+                  )}
+                  {auth.role === UserTypeEnum.CUSTOMER && (
+                    <Button mode="contained" onPress={() => {}}>
+                      Claim
+                    </Button>
+                  )}
+                  {!auth.success && (
+                    <Button
+                      mode="contained"
+                      onPress={() => {
+                        router.push('/login');
+                      }}>
+                      Login to claim
+                    </Button>
+                  )}
                 </Card.Actions>
               )}
             />
@@ -71,7 +87,8 @@ const Campaign = () => {
                 onPress={() => {
                   router.push(`/(main)/store/${data?.data?.store?.storeId}`);
                 }}>
-                {data?.data?.store?.storeName} @ {data?.data?.store?.address}, {data?.data?.store?.city}
+                {data?.data?.store?.storeName} @ {data?.data?.store?.address},{' '}
+                {data?.data?.store?.city}
               </Button>
               {showPin && (
                 <View>
@@ -86,9 +103,11 @@ const Campaign = () => {
                   />
                 </View>
               )}
-              <Button onPress={() => setShowPin(!showPin)}>
-                {showPin ? 'Hide Pin' : 'Show Pin'}
-              </Button>
+              {auth.role === UserTypeEnum.MERCHANT && (
+                <Button onPress={() => setShowPin(!showPin)}>
+                  {showPin ? 'Hide Pin' : 'Show Pin'}
+                </Button>
+              )}
               <Text>Tags</Text>
               <Text style={styles.text}>{data?.data?.tagsJson}</Text>
               <Text>Campaign Start Date</Text>
@@ -154,11 +173,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 10,
     padding: 10,
-    borderWidth: 1,
+    // borderWidth: 1,
     height: 80,
     borderRadius: 5,
     borderColor: 'grey',
-    backgroundColor: 'white',
+    // backgroundColor: 'white',
   },
   pin: {
     alignSelf: 'center',

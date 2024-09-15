@@ -5,6 +5,8 @@ import React from 'react';
 import LoginButton from '@/components/buttons/LoginButton';
 import useAuth from '@/hooks/useAuth';
 import { UserTypeEnum } from '@/types/UserTypeEnum';
+import CreateCampaignButton from '@/components/buttons/CreateCampaignButton';
+import CreateStoreButton from '@/components/buttons/CreateStoreButton';
 
 const WebLayout = () => {
   const auth = useAuth();
@@ -16,7 +18,9 @@ const WebLayout = () => {
           drawerLabel: 'Campaign',
           title: 'Campaign',
           drawerIcon: ({ color }) => <Ionicons name="bag-handle" size={30} color={color} />,
-          headerRight: () => !auth.success && <LoginButton />,
+          headerRight: () =>
+            (!auth.success && <LoginButton />) ||
+            (auth.role === UserTypeEnum.MERCHANT && <CreateCampaignButton />),
         }}
       />
       <Drawer.Screen
@@ -25,7 +29,9 @@ const WebLayout = () => {
           drawerLabel: 'Store',
           title: 'Store',
           drawerIcon: ({ color }) => <Ionicons name="storefront" size={30} color={color} />,
-          headerRight: () => !auth.success && <LoginButton />,
+          headerRight: () =>
+            (!auth.success && <LoginButton />) ||
+            (auth.role === UserTypeEnum.MERCHANT && <CreateStoreButton />),
         }}
       />
       <Drawer.Screen

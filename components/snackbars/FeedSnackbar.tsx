@@ -5,7 +5,7 @@ import { Snackbar, Text } from 'react-native-paper';
 
 const FeedSnackbar = () => {
   const message = useSelector((state: RootState) => state.auth.message);
-  const [visible, setVisible] = useState<boolean>(true);
+  const [visible, setVisible] = useState<boolean>(false);
   useEffect(() => {
     if (message) {
       setVisible(true);

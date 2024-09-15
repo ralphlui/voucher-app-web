@@ -20,8 +20,9 @@ const MobileLayout = () => {
         options={{
           title: 'Campaign',
           tabBarIcon: ({ color }) => <Ionicons name="bag-handle" size={30} color={color} />,
-          headerRight: () => !auth.success && <LoginButton />,
-          headerLeft: () => <CreateCampaignButton />
+          headerRight: () =>
+            (!auth.success && <LoginButton />) ||
+            ((auth.role === UserTypeEnum.MERCHANT) && <CreateCampaignButton />),
         }}
       />
       <Tabs.Screen
@@ -29,8 +30,9 @@ const MobileLayout = () => {
         options={{
           title: 'Store',
           tabBarIcon: ({ color }) => <Ionicons name="storefront" size={30} color={color} />,
-          headerRight: () => !auth.success && <LoginButton />,
-          headerLeft: () => <CreateStoreButton />
+          headerRight: () =>
+            (!auth.success && <LoginButton />) ||
+            ((auth.role === UserTypeEnum.MERCHANT) && <CreateStoreButton />),
         }}
       />
       <Tabs.Screen

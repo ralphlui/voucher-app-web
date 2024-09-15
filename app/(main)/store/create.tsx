@@ -8,6 +8,7 @@ import { FormBuilder } from 'react-native-paper-form-builder';
 import HandleResponse from '@/components/common/HandleResponse';
 import { useCreateStoreMutation } from '@/services/store.service';
 import useAuth from '@/hooks/useAuth';
+import { UserTypeEnum } from '@/types/UserTypeEnum';
 
 const CreateStore = () => {
   const router = useRouter();
@@ -22,9 +23,9 @@ const CreateStore = () => {
       storeName: '',
       description: '',
       address: '',
-      address1: '',
-      address2: '',
-      address3: '',
+      // address1: '',
+      // address2: '',
+      // address3: '',
       city: '',
       state: '',
       country: '',
@@ -61,160 +62,162 @@ const CreateStore = () => {
           <ActivityIndicator size="large" />
         ) : (
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-            <View>
-              <FormBuilder
-                control={control}
-                setFocus={setFocus}
-                formConfigArray={[
-                  {
-                    name: 'storeName',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'Store Name',
-                      left: <TextInput.Icon icon="account" />,
-                    },
-                    rules: {
-                      required: {
-                        value: true,
-                        message: 'Store Name is required',
+            {auth.role === UserTypeEnum.MERCHANT && (
+              <View>
+                <FormBuilder
+                  control={control}
+                  setFocus={setFocus}
+                  formConfigArray={[
+                    {
+                      name: 'storeName',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'Store Name',
+                        left: <TextInput.Icon icon="account" />,
+                      },
+                      rules: {
+                        required: {
+                          value: true,
+                          message: 'Store Name is required',
+                        },
                       },
                     },
-                  },
-                  {
-                    name: 'description',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'Description',
-                      left: <TextInput.Icon icon="email" />,
+                    {
+                      name: 'description',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'Description',
+                        left: <TextInput.Icon icon="email" />,
+                      },
                     },
-                  },
-                  {
-                    name: 'address',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'Address',
-                      left: <TextInput.Icon icon="card-account-details" />,
+                    {
+                      name: 'address',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'Address',
+                        left: <TextInput.Icon icon="card-account-details" />,
+                      },
                     },
-                  },
-                  // {
-                  //   name: 'address1',
-                  //   type: 'text',
-                  //   textInputProps: {
-                  //     label: 'Address 1',
-                  //     left: <TextInput.Icon icon="card-account-details" />,
-                  //   },
-                  // },
-                  // {
-                  //   name: 'address2',
-                  //   type: 'text',
-                  //   textInputProps: {
-                  //     label: 'Address 2',
-                  //     left: <TextInput.Icon icon="card-account-details" />,
-                  //   },
-                  // },
-                  // {
-                  //   name: 'address3',
-                  //   type: 'text',
-                  //   textInputProps: {
-                  //     label: 'Address 3',
-                  //     left: <TextInput.Icon icon="card-account-details" />,
-                  //   },
-                  // },
-                  {
-                    name: 'city',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'City',
-                      left: <TextInput.Icon icon="card-account-details" />,
+                    // {
+                    //   name: 'address1',
+                    //   type: 'text',
+                    //   textInputProps: {
+                    //     label: 'Address 1',
+                    //     left: <TextInput.Icon icon="card-account-details" />,
+                    //   },
+                    // },
+                    // {
+                    //   name: 'address2',
+                    //   type: 'text',
+                    //   textInputProps: {
+                    //     label: 'Address 2',
+                    //     left: <TextInput.Icon icon="card-account-details" />,
+                    //   },
+                    // },
+                    // {
+                    //   name: 'address3',
+                    //   type: 'text',
+                    //   textInputProps: {
+                    //     label: 'Address 3',
+                    //     left: <TextInput.Icon icon="card-account-details" />,
+                    //   },
+                    // },
+                    {
+                      name: 'city',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'City',
+                        left: <TextInput.Icon icon="card-account-details" />,
+                      },
                     },
-                  },
-                  {
-                    name: 'state',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'State',
-                      left: <TextInput.Icon icon="card-account-details" />,
+                    {
+                      name: 'state',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'State',
+                        left: <TextInput.Icon icon="card-account-details" />,
+                      },
                     },
-                  },
-                  {
-                    name: 'country',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'Country',
-                      left: <TextInput.Icon icon="card-account-details" />,
+                    {
+                      name: 'country',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'Country',
+                        left: <TextInput.Icon icon="card-account-details" />,
+                      },
                     },
-                  },
-                  {
-                    name: 'postalCode',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'Postal Code',
-                      left: <TextInput.Icon icon="card-account-details" />,
+                    {
+                      name: 'postalCode',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'Postal Code',
+                        left: <TextInput.Icon icon="card-account-details" />,
+                      },
                     },
-                  },
-                  {
-                    name: 'contactNumber',
-                    type: 'text',
-                    textInputProps: {
-                      label: 'Contact Number',
-                      left: <TextInput.Icon icon="card-account-details" />,
+                    {
+                      name: 'contactNumber',
+                      type: 'text',
+                      textInputProps: {
+                        label: 'Contact Number',
+                        left: <TextInput.Icon icon="card-account-details" />,
+                      },
                     },
-                  },
-                  {
-                    name: 'image',
-                    type: 'custom',
+                    {
+                      name: 'image',
+                      type: 'custom',
 
-                    textInputProps: {
-                      label: 'Preferences',
-                      left: <TextInput.Icon icon="checkbox-multiple-marked" />,
+                      textInputProps: {
+                        label: 'Preferences',
+                        left: <TextInput.Icon icon="checkbox-multiple-marked" />,
+                      },
                     },
-                  },
-                ]}
-              />
-              <Button
-                mode="contained"
-                onPress={handleSubmit(
-                  ({
-                    storeName,
-                    description,
-                    address,
-                    address1,
-                    address2,
-                    address3,
-                    city,
-                    state,
-                    country,
-                    postalCode,
-                    contactNumber,
-                    image,
-                  }) => {
-                    const formData = new FormData();
-                    const blob = new Blob(
-                      [
-                        JSON.stringify({
-                          storeName,
-                          description,
-                          address,
-                          city,
-                          postalCode,
-                          contactNumber,
-                          country,
-                          createdBy: {
-                            email: auth.email,
-                          },
-                        }),
-                      ],
-                      {
-                        type: 'application/json',
-                      }
-                    );
-                    formData.append('store', blob);
-                    createStore(formData);
-                  }
-                )}>
-                Create
-              </Button>
-            </View>
+                  ]}
+                />
+                <Button
+                  mode="contained"
+                  onPress={handleSubmit(
+                    ({
+                      storeName,
+                      description,
+                      address,
+                      // address1,
+                      // address2,
+                      // address3,
+                      city,
+                      state,
+                      country,
+                      postalCode,
+                      contactNumber,
+                      image,
+                    }) => {
+                      const formData = new FormData();
+                      const blob = new Blob(
+                        [
+                          JSON.stringify({
+                            storeName,
+                            description,
+                            address,
+                            city,
+                            postalCode,
+                            contactNumber,
+                            country,
+                            createdBy: {
+                              email: auth.email,
+                            },
+                          }),
+                        ],
+                        {
+                          type: 'application/json',
+                        }
+                      );
+                      formData.append('store', blob);
+                      createStore(formData);
+                    }
+                  )}>
+                  Create
+                </Button>
+              </View>
+            )}
           </ScrollView>
         )}
       </View>
