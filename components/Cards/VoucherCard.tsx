@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Modal, View } from 'react-native';
 import { Avatar, Button, Card, Chip, Divider, Text, TextInput, useTheme } from 'react-native-paper';
 
 import { Voucher } from '@/types/Voucher';
 import { useRouter } from 'expo-router';
-import VoucherStatusChip from '../chips/VoucherStatusChip';
+import VoucherStatusChip from '@/components/chips/VoucherStatusChip';
 import { VoucherStatusEnum } from '@/types/VoucherStatusEnum';
+import UseVoucherButton from '@/components/buttons/UseVoucherButton';
 
 interface Props {
   voucher: Voucher;
@@ -15,7 +16,7 @@ const VoucherCard = (props: Props) => {
   const LeftContent = () => <Avatar.Icon icon="ticket-percent" size={32} />;
   const { voucher } = props;
   const router = useRouter();
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
   const { colors } = useTheme(); // Get the theme's colors
 
   return (
@@ -58,7 +59,7 @@ const VoucherCard = (props: Props) => {
           </Card.Content>
           <Card.Actions>
             <Button onPress={() => setVisible(false)}>Close</Button>
-            <Button onPress={() => {}}>OK</Button>
+            <UseVoucherButton voucherId={voucher.voucherId} />
           </Card.Actions>
         </Card>
       </Modal>

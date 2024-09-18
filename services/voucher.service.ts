@@ -33,10 +33,29 @@ export const voucherApiSlice = coreApi.injectEndpoints({
         body: JSON.stringify({ voucherId: voucherId }),
       }),
     }),
+    claimVoucher: builder.mutation({
+      query: ({ campaign, claimedBy }) => ({
+        url: '/api/voucher/claim',
+        method: 'POST',
+        body: JSON.stringify({ campaign, claimedBy }),
+      }),
+    }),
+    consumeVoucher: builder.mutation({
+      query: ({ voucherId }) => ({
+        url: '',
+        method: 'POST',
+        body: JSON.stringify({ voucherId }),
+      }),
+    }),
   }),
 });
 
-export const { useGetVoucherByEmailQuery, useGetVoucherByIdQuery } = voucherApiSlice;
+export const {
+  useGetVoucherByEmailQuery,
+  useGetVoucherByIdQuery,
+  useClaimVoucherMutation,
+  useConsumeVoucherMutation,
+} = voucherApiSlice;
 
 // ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
 

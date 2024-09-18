@@ -1,3 +1,4 @@
+import ClaimVoucherButton from '@/components/buttons/ClaimVoucherButton';
 import CampaignStatusChip from '@/components/chips/CampaignStatusChip';
 import useAuth from '@/hooks/useAuth';
 import { useGetCampaignByIdQuery } from '@/services/campaign.service';
@@ -55,9 +56,7 @@ const Campaign = () => {
                     </Button>
                   )}
                   {auth.role === UserTypeEnum.CUSTOMER && (
-                    <Button mode="contained" onPress={() => {}}>
-                      Claim
-                    </Button>
+                    <ClaimVoucherButton campaign={data?.data} claimedBy={auth.user} />
                   )}
                   {!auth.success && (
                     <Button
