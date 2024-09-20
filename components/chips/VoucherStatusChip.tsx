@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native';
 import React from 'react';
 import { VoucherStatusEnum } from '@/types/VoucherStatusEnum';
 import { Chip } from 'react-native-paper';

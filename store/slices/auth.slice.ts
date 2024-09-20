@@ -5,6 +5,7 @@ import { Auth } from '@/types/Auth';
 
 const initialState: Auth = {
   user: null,
+  userId: null,
   token: null,
   success: false,
   error: null,

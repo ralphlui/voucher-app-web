@@ -3,17 +3,18 @@ import { StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'rea
 
 import StoreCard from '@/components/cards/StoreCard';
 import usePagination from '@/hooks/usePagination';
-import { useGetStoreByEmailQuery } from '@/services/store.service';
+import { useGetStoresByUserIdQuery } from '@/services/store.service';
 import { Store } from '@/types/Store';
 import { Searchbar } from 'react-native-paper';
+import useAuth from '@/hooks/useAuth';
 
 const StoreTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
-
+  const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
-    useGetStoreByEmailQuery(
+  useGetStoresByUserIdQuery(
       {
-        email: 'merchant@outlook.com',
+        userId: auth.userId,
         page_size: pageSize,
         page_number: pageNumber,
       },

@@ -64,7 +64,7 @@ export const campaignApiSlice = coreApi.injectEndpoints({
       },
     }),
     getCampaignById: builder.query({
-      query: (id: string) => ({
+      query: ({ id }) => ({
         headers: {
           'Content-Type': 'application/json',
         },

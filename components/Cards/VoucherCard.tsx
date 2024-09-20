@@ -5,7 +5,6 @@ import { Avatar, Button, Card, Chip, Divider, Text, TextInput, useTheme } from '
 import { Voucher } from '@/types/Voucher';
 import { useRouter } from 'expo-router';
 import VoucherStatusChip from '@/components/chips/VoucherStatusChip';
-import { VoucherStatusEnum } from '@/types/VoucherStatusEnum';
 import UseVoucherButton from '@/components/buttons/UseVoucherButton';
 
 interface Props {

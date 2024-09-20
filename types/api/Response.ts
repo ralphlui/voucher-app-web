@@ -1,4 +1,4 @@
-import { UserTypesEnum } from '@/types/User';
+import { UserTypeEnum } from '@/types/User';
 
 export interface APIResponse<T> {
   success?: boolean;
@@ -10,7 +10,7 @@ export interface APIResponse<T> {
 export interface ResultItem {
   email?: string;
   username?: string;
-  role?: UserTypesEnum;
+  role?: UserTypeEnum;
   image?: string;
 }
 

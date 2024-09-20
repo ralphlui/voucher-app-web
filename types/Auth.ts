@@ -1,7 +1,8 @@
 import { UserTypeEnum } from '@/types/UserTypeEnum';
 
 export interface Auth {
-  user?: any | null;
+  user?: string | null;
+  userId?: string | null
   token?: string | null;
   success?: boolean;
   error?: string | null;

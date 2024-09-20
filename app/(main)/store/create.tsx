@@ -59,7 +59,6 @@ const CreateStore = () => {
   const onSuccess = () => {
     router.push('/store');
   };
-  const [selectedImage, setSelectedImage] = useState(null); // Local state for the image
 
   return (
     <>

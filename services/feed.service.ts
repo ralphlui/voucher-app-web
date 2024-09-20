@@ -2,7 +2,7 @@ import feedApi from '@/services/feed.api';
 
 export const feedApiSlice = feedApi.injectEndpoints({
   endpoints: (builder) => ({
-    getFeedByEmail: builder.query({
+    getFeedByUserId: builder.query({
       query: ({ userId, page_size = 5, page_number = 0 }) => ({
         url: `/api/feeds/users/${userId}?page=${page_number}&size=${page_size}`,
         method: 'GET',
@@ -40,5 +40,5 @@ export const feedApiSlice = feedApi.injectEndpoints({
   }),
 });
 
-export const { useGetFeedByEmailQuery, useGetFeedByIdQuery, useUpdateReadStatusMutation } =
+export const { useGetFeedByUserIdQuery, useGetFeedByIdQuery, useUpdateReadStatusMutation } =
   feedApiSlice;

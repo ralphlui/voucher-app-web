@@ -13,25 +13,8 @@ const Campaign = () => {
   const auth = useAuth();
   const router = useRouter();
   const { data, error, isLoading, isFetching, isSuccess, isError, refetch } =
-    useGetCampaignByIdQuery({ campaignId: id });
+    useGetCampaignByIdQuery({ id });
   const [showPin, setShowPin] = useState<boolean>(false);
-  // console.log(data?.data?.amount);
-  // const {
-  //   register,
-  //   setValue,
-  //   handleSubmit,
-  //   control,
-  //   reset,
-  //   formState: { errors },
-  // } = useForm({
-  //   // mode: 'onChange',
-  // });
-
-  // useEffect(() => {
-  //   if (data) {
-  //     Object.keys(data.data).forEach((key) => setValue(key, data?.data[key]));
-  //   }
-  // }, [data, setValue]);
 
   return (
     <>
@@ -55,9 +38,9 @@ const Campaign = () => {
                       Edit
                     </Button>
                   )}
-                  {auth.role === UserTypeEnum.CUSTOMER && (
+                  {/* {auth.role === UserTypeEnum.CUSTOMER && (
                     <ClaimVoucherButton campaign={data?.data} claimedBy={auth.user} />
-                  )}
+                  )} */}
                   {!auth.success && (
                     <Button
                       mode="contained"

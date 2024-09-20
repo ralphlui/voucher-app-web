@@ -3,18 +3,19 @@ import { StyleSheet, FlatList, ListRenderItemInfo, ActivityIndicator, View } fro
 
 import CampaignCard from '@/components/cards/CampaignCard';
 import usePagination from '@/hooks/usePagination';
-import { useGetCampaignByEmailQuery } from '@/services/campaign.service';
+import { useGetCampaignsByUserIdQuery } from '@/services/campaign.service';
 import { Campaign } from '@/types/Campaign';
 import { Searchbar } from 'react-native-paper';
 import { Text } from 'react-native-paper';
+import useAuth from '@/hooks/useAuth';
 
 const CampaignTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
-
+  const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
-    useGetCampaignByEmailQuery(
+    useGetCampaignsByUserIdQuery(
       {
-        email: 'merchant@outlook.com',
+        userId: auth.userId,
         page_size: pageSize,
         page_number: pageNumber,
       },

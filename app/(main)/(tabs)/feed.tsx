@@ -3,17 +3,19 @@ import { View, StyleSheet, ActivityIndicator, ListRenderItemInfo, FlatList } fro
 import { Button, Divider, IconButton, Text } from 'react-native-paper';
 
 import usePagination from '@/hooks/usePagination';
-import { useGetFeedByEmailQuery } from '@/services/feed.service';
+import { useGetFeedByUserIdQuery } from '@/services/feed.service';
 import { Feed } from '@/types/Feed';
 import { useRouter } from 'expo-router';
+import useAuth from '@/hooks/useAuth';
 
 const FeedTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const router = useRouter();
+  const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
-    useGetFeedByEmailQuery(
+    useGetFeedByUserIdQuery(
       {
-        email: 'customer@outlook.com',
+        userId: auth.userId,
         page_size: pageSize,
         page_number: pageNumber,
       },

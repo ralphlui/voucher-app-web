@@ -59,7 +59,7 @@ export const voucherApiSlice = coreApi.injectEndpoints({
       }),
     }),
     consumeVoucher: builder.mutation({
-      query: (voucherId: string) => ({
+      query: ({ voucherId }) => ({
         url: `/api/core/vouchers/${voucherId}/consume`,
         method: 'PATCH',
       }),

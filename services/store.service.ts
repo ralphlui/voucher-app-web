@@ -22,7 +22,7 @@ export const storeApiSlice = coreApi.injectEndpoints({
         return currentArg !== previousArg;
       },
     }),
-    getStoreByUserId: builder.query({
+    getStoresByUserId: builder.query({
       query: ({ userId, page_size = 10, page_number = 0 }) => ({
         headers: {
           'Content-Type': 'application/json',
@@ -43,7 +43,7 @@ export const storeApiSlice = coreApi.injectEndpoints({
       },
     }),
     getStoreById: builder.query({
-      query: (id: string) => ({
+      query: ({ id }) => ({
         headers: {
           'Content-Type': 'application/json',
         },
@@ -71,7 +71,7 @@ export const storeApiSlice = coreApi.injectEndpoints({
 });
 
 export const {
-  useGetStoreByUserIdQuery,
+  useGetStoresByUserIdQuery,
   useGetStoreByIdQuery,
   useGetStoresQuery,
   useCreateStoreMutation,

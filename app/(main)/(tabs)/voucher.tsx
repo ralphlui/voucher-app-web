@@ -1,19 +1,27 @@
 import React from 'react';
-import { StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo, View, Modal } from 'react-native';
+import {
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+  ListRenderItemInfo,
+  View,
+  Modal,
+} from 'react-native';
 
 import VoucherCard from '@/components/cards/VoucherCard';
 import usePagination from '@/hooks/usePagination';
-import { useGetVoucherByEmailQuery } from '@/services/voucher.service';
+import { useGetVouchersByUserIdQuery } from '@/services/voucher.service';
 import { Voucher } from '@/types/Voucher';
 import { Button, Searchbar, Text } from 'react-native-paper';
+import useAuth from '@/hooks/useAuth';
 
 const VoucherTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
-
+  const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
-    useGetVoucherByEmailQuery(
+    useGetVouchersByUserIdQuery(
       {
-        email: 'customer@outlook.com',
+        userId: auth.userId,
         page_size: pageSize,
         page_number: pageNumber,
       },
