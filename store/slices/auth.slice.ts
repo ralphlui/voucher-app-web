@@ -36,10 +36,10 @@ const authSlice = createSlice({
       state.email = action.payload.data.email;
       state.role = action.payload.data.role;
       state.user = action.payload.data.username;
+      state.userId = action.payload.data.userID;
     },
     setWebSocket: (state, action) => {
       const ws = new WebSocket(process.env.EXPO_PUBLIC_FEED_SOCKET_URL ?? '');
-      console.log(action.payload.data);
       ws.addEventListener('open', (event) => {
         ws.send(JSON.stringify(action.payload.data));
       });

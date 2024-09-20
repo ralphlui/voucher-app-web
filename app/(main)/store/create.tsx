@@ -149,14 +149,14 @@ const CreateStore = () => {
                         left: <TextInput.Icon icon="card-account-details" />,
                       },
                     },
-                    {
-                      name: 'state',
-                      type: 'text',
-                      textInputProps: {
-                        label: 'State',
-                        left: <TextInput.Icon icon="card-account-details" />,
-                      },
-                    },
+                    // {
+                    //   name: 'state',
+                    //   type: 'text',
+                    //   textInputProps: {
+                    //     label: 'State',
+                    //     left: <TextInput.Icon icon="card-account-details" />,
+                    //   },
+                    // },
                     {
                       name: 'country',
                       type: 'text',
@@ -192,69 +192,62 @@ const CreateStore = () => {
                 <Button
                   mode="contained"
                   onPress={handleSubmit(
-                    async ({
+                    ({
                       storeName,
                       description,
                       address,
-                      // address1,
-                      // address2,
-                      // address3,
                       city,
-                      state,
                       country,
                       postalCode,
                       contactNumber,
                       image,
                     }) => {
                       const formData = new FormData();
-                      if (Platform.OS === 'web') {
-                        formData.append(
-                          'store',
-                          new Blob(
-                            [
-                              JSON.stringify({
-                                storeName,
-                                description,
-                                address,
-                                city,
-                                state,
-                                postalCode,
-                                contactNumber,
-                                country,
-                                createdBy: {
-                                  email: auth.email,
-                                },
-                              }),
-                            ],
-                            {
-                              type: 'application/json',
-                            }
-                          )
-                        );
-                        formData.append('image', new Blob([image?.uri ?? '']));
-                      } else {
-                        formData.append(
-                          'store',
-                          JSON.stringify({
-                            storeName,
-                            description,
-                            address,
-                            city,
-                            state,
-                            postalCode,
-                            contactNumber,
-                            country,
-                            createdBy: {
-                              email: auth.email,
-                            },
-                          })
-                        );
-                        formData.append('image', {
-                          uri: image?.uri,
-                          name: 'image.jpg',
-                          type: 'image/jpeg',
-                        } as any);
-                      }
+                      // if (Platform.OS === 'web') {
+                      formData.append(
+                        'store',
+                        new Blob(
+                          [
+                            JSON.stringify({
+                              storeName,
+                              description,
+                              address,
+                              city,
+                              postalCode,
+                              contactNumber,
+                              country,
+                              createdBy: auth.userId,
+                            }),
+                          ],
+                          {
+                            type: 'application/json',
+                          }
+                        )
+                      );
+                      formData.append('image', new Blob([image?.uri ?? '']));
+                      // } else {
+                      //   formData.append(
+                      //     'store',
+                      //     JSON.stringify({
+                      //       storeName,
+                      //       description,
+                      //       address,
+                      //       city,
+                      //       state,
+                      //       postalCode,
+                      //       contactNumber,
+                      //       country,
+                      //       createdBy: {
+                      //         email: auth.email,
+                      //       },
+                      //     })
+                      //   );
+                      //   formData.append('image', {
+                      //     uri: image?.uri,
+                      //     name: 'image.jpg',
+                      //     type: 'image/jpeg',
+                      //   } as any);
+                      // }
                       createStore(formData);
                     }
                   )}>

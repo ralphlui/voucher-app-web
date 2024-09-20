@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   ActivityIndicator,
@@ -12,8 +12,9 @@ import VoucherCard from '@/components/cards/VoucherCard';
 import usePagination from '@/hooks/usePagination';
 import { useGetVouchersByUserIdQuery } from '@/services/voucher.service';
 import { Voucher } from '@/types/Voucher';
-import { Button, Searchbar, Text } from 'react-native-paper';
+import { Button, Searchbar, SegmentedButtons, Text } from 'react-native-paper';
 import useAuth from '@/hooks/useAuth';
+import NoDataFound from '@/components/common/NoDataFound';
 
 const VoucherTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
@@ -44,16 +45,29 @@ const VoucherTab = () => {
   const renderItem = ({ item }: ListRenderItemInfo<Voucher>) => {
     return <VoucherCard voucher={item} />;
   };
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const [value, setValue] = useState('CLAIMED');
 
   return (
     <>
-      <Searchbar
-        style={styles.searchBar}
-        placeholder="Search"
-        onChangeText={setSearchQuery}
-        value={searchQuery}
+      <SegmentedButtons
+        value={value}
+        onValueChange={setValue}
+        style={styles.segmentedButtons}
+        buttons={[
+          {
+            value: 'CLAIMED',
+            icon: 'ticket-confirmation',
+            label: 'CLAIMED',
+          },
+          {
+            value: 'CONSUMED',
+            icon: 'checkbox-multiple-marked',
+            label: 'CONSUMED',
+          },
+          { value: 'EXPIRED', icon: 'tag-off', label: 'EXPIRED' },
+        ]}
       />
+      {(data?.data === undefined) && <NoDataFound text='voucher'/>}
       <FlatList
         data={data?.data ?? []}
         keyExtractor={(item) => item.voucherId.toString()}
@@ -72,7 +86,7 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     margin: 10,
   },
-  searchBar: {
+  segmentedButtons: {
     alignContent: 'center',
     marginTop: 20,
     marginLeft: 20,

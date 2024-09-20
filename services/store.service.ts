@@ -42,6 +42,17 @@ export const storeApiSlice = coreApi.injectEndpoints({
         return currentArg !== previousArg;
       },
     }),
+    getStoresByUserIdWithAll: builder.query({
+      query: ({ userId }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        url: `/api/core/stores/users/${userId}`,
+        method: 'GET',
+        params: { userId },
+      }),
+      providesTags: ['Store'],
+    }),
     getStoreById: builder.query({
       query: ({ id }) => ({
         headers: {
@@ -72,6 +83,7 @@ export const storeApiSlice = coreApi.injectEndpoints({
 
 export const {
   useGetStoresByUserIdQuery,
+  useGetStoresByUserIdWithAllQuery,
   useGetStoreByIdQuery,
   useGetStoresQuery,
   useCreateStoreMutation,

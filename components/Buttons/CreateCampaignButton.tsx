@@ -2,7 +2,11 @@ import { router } from 'expo-router';
 import React from 'react';
 import { Button } from 'react-native-paper';
 
-const CreateCampaignButton = () => {
+type CreateCampaignButtonProps = {
+  text?: string;
+};
+
+const CreateCampaignButton = ({ text }: CreateCampaignButtonProps) => {
   return (
     <Button
       icon="plus"
@@ -10,7 +14,7 @@ const CreateCampaignButton = () => {
       onPress={() => {
         router.push('/campaign/create');
       }}>
-      Create
+      {text ?? 'Create'}
     </Button>
   );
 };

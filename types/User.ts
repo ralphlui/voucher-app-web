@@ -25,3 +25,5 @@ export interface SessionUserProps {
   name: string;
   role: string;
 }
+
+export { UserTypeEnum };

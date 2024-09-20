@@ -10,7 +10,7 @@ const Store = () => {
   const { id } = useLocalSearchParams();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, isSuccess, isError, refetch } = useGetStoreByIdQuery({
-    storeId: id,
+    id,
   });
   return (
     <>
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollViewStyle: {
-    flex: 1,
+    flexGrow: 1,
     padding: 15,
   },
   headingStyle: {

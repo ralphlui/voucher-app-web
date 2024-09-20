@@ -38,6 +38,11 @@ const Campaign = () => {
                       Edit
                     </Button>
                   )}
+                  {auth.role === UserTypeEnum.MERCHANT && (
+                    <Button mode="contained" onPress={() => {}}>
+                      Promote
+                    </Button>
+                  )}
                   {/* {auth.role === UserTypeEnum.CUSTOMER && (
                     <ClaimVoucherButton campaign={data?.data} claimedBy={auth.user} />
                   )} */}

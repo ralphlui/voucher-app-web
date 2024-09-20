@@ -7,6 +7,7 @@ import { useGetFeedByUserIdQuery } from '@/services/feed.service';
 import { Feed } from '@/types/Feed';
 import { useRouter } from 'expo-router';
 import useAuth from '@/hooks/useAuth';
+import NoDataFound from '@/components/common/NoDataFound';
 
 const FeedTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
@@ -58,16 +59,19 @@ const FeedTab = () => {
   };
 
   return (
-    <FlatList
-      data={data?.data ?? []}
-      keyExtractor={(item) => item.feedId.toString()}
-      onEndReached={handleEndReached}
-      onEndReachedThreshold={0.5}
-      renderItem={renderItem}
-      ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
-      ItemSeparatorComponent={Divider}
-      style={styles.container}
-    />
+    <>
+      {data?.data === undefined && <NoDataFound text="feed" />}
+      <FlatList
+        data={data?.data ?? []}
+        keyExtractor={(item) => item.feedId.toString()}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        renderItem={renderItem}
+        ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
+        ItemSeparatorComponent={Divider}
+        style={styles.container}
+      />
+    </>
   );
 };
 

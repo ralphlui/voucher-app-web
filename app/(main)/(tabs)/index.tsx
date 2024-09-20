@@ -8,6 +8,7 @@ import { Campaign } from '@/types/Campaign';
 import { Searchbar } from 'react-native-paper';
 import { Text } from 'react-native-paper';
 import useAuth from '@/hooks/useAuth';
+import NoDataFound from '@/components/common/NoDataFound';
 
 const CampaignTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
@@ -49,6 +50,7 @@ const CampaignTab = () => {
         onChangeText={setSearchQuery}
         value={searchQuery}
       />
+      {data?.data === undefined && <NoDataFound text="campaign" />}
       <FlatList
         data={data?.data ?? []}
         keyExtractor={(item) => item?.campaignId?.toString() ?? ''}

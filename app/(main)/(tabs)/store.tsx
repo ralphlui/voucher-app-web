@@ -7,12 +7,13 @@ import { useGetStoresByUserIdQuery } from '@/services/store.service';
 import { Store } from '@/types/Store';
 import { Searchbar } from 'react-native-paper';
 import useAuth from '@/hooks/useAuth';
+import NoDataFound from '@/components/common/NoDataFound';
 
 const StoreTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
-  useGetStoresByUserIdQuery(
+    useGetStoresByUserIdQuery(
       {
         userId: auth.userId,
         page_size: pageSize,
@@ -48,6 +49,7 @@ const StoreTab = () => {
         onChangeText={setSearchQuery}
         value={searchQuery}
       />
+      {(data?.data === undefined) && <NoDataFound text='store'/>}
       <FlatList
         data={data?.data ?? []}
         keyExtractor={(item) => item?.storeId?.toString() ?? ''}

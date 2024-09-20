@@ -2,16 +2,17 @@ import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { ActivityIndicator, Avatar, Button, TextInput } from 'react-native-paper';
+import { ActivityIndicator, Text, Button, TextInput } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 
 import HandleResponse from '@/components/common/HandleResponse';
 import { useCreateCampaignMutation } from '@/services/campaign.service';
 import useAuth from '@/hooks/useAuth';
-import { useGetStoresByUserIdQuery } from '@/services/store.service';
+import { useGetStoresByUserIdWithAllQuery } from '@/services/store.service';
 import { Store } from '@/types/Store';
 import DateTimePickerInput from '@/components/inputs/DateTimePickerInput';
 import { UserTypeEnum } from '@/types/UserTypeEnum';
+import CreateStoreButton from '@/components/buttons/CreateStoreButton';
 
 const CreateCampaign = () => {
   const router = useRouter();
@@ -41,12 +42,11 @@ const CreateCampaign = () => {
     data: storeData,
     error: storeError,
     isLoading: storeIsLoading,
-  } = useGetStoresByUserIdQuery({ userId: auth.userId });
+  } = useGetStoresByUserIdWithAllQuery({ userId: auth.userId });
 
   const onSuccess = () => {
     router.push('/(main)/(tabs)');
   };
-
   return (
     <>
       <Stack.Screen
@@ -70,6 +70,7 @@ const CreateCampaign = () => {
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             {auth.role === UserTypeEnum.MERCHANT && (
               <View>
+                {storeData?.data === undefined && <CreateStoreButton text="Create a store first" />}
                 <FormBuilder
                   control={control}
                   setFocus={setFocus}
@@ -153,6 +154,7 @@ const CreateCampaign = () => {
                 />
                 <Button
                   mode="contained"
+                  disabled={storeData?.data === undefined}
                   onPress={handleSubmit(
                     ({
                       description,
