@@ -4,13 +4,13 @@ import { Campaign } from '@/types/Campaign';
 export const campaignApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
     getCampaigns: builder.query({
-      query: ({ page_size = 5, page_number = 0 }) => ({
+      query: ({ description = '', page_size = 10, page_number = 0 }) => ({
         headers: {
           'Content-Type': 'application/json',
         },
-        url: `/api/campaign/all/active?page=${page_number}&size=${page_size}`,
+        url: `/api/core/campaigns?description=${description}&page=${page_number}&size=${page_size}`,
         method: 'GET',
-        params: { page_size, page_number },
+        params: { description, page_size, page_number },
       }),
       providesTags: ['Campaign'],
       serializeQueryArgs: ({ endpointName }) => {
@@ -23,15 +23,34 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         return currentArg !== previousArg;
       },
     }),
-    getCampaignByEmail: builder.query({
-      query: ({ email, page_size = 5, page_number = 0 }) => ({
+    getCampaignsByUserId: builder.query({
+      query: ({ userId, page_size = 10, page_number = 0 }) => ({
         headers: {
           'Content-Type': 'application/json',
         },
-        url: `/api/campaign/getAllByEmail?page=${page_number}&size=${page_size}`,
-        method: 'POST', // to be changed to 'GET',
-        params: { page_size, page_number },
-        body: JSON.stringify({ email }),
+        url: `/api/core/campaigns/users/${userId}?page=${page_number}&size=${page_size}`,
+        method: 'GET',
+        params: { userId, page_size, page_number },
+      }),
+      providesTags: ['Campaign'],
+      serializeQueryArgs: ({ endpointName }) => {
+        return endpointName;
+      },
+      merge: (currentCache, newItems) => {
+        currentCache.data.push(...newItems.data);
+      },
+      forceRefetch({ currentArg, previousArg }) {
+        return currentArg !== previousArg;
+      },
+    }),
+    getCampaignsByStoreId: builder.query({
+      query: ({ storeId, description = '', page_size = 10, page_number = 0 }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        url: `/api/core/campaigns/stores/${storeId}?description=${description}&page=${page_number}&size=${page_size}`,
+        method: 'GET',
+        params: { storeId, description, page_size, page_number },
       }),
       providesTags: ['Campaign'],
       serializeQueryArgs: ({ endpointName }) => {
@@ -45,18 +64,17 @@ export const campaignApiSlice = coreApi.injectEndpoints({
       },
     }),
     getCampaignById: builder.query({
-      query: ({ campaignId }) => ({
+      query: (id: string) => ({
         headers: {
           'Content-Type': 'application/json',
         },
-        url: `/api/campaign/getById`,
-        method: 'POST', // to be changed to GET
-        body: JSON.stringify({ campaignId }),
+        url: `/api/core/campaigns/${id}`,
+        method: 'GET', // to be changed to GET
       }),
     }),
     createCampaign: builder.mutation({
       query: (campaign: Campaign) => ({
-        url: `/api/campaign/create`,
+        url: `/api/core/campaigns`,
         method: 'POST',
         body: campaign,
       }),
@@ -64,8 +82,8 @@ export const campaignApiSlice = coreApi.injectEndpoints({
     }),
     updateCampaign: builder.mutation({
       query: (campaign: Campaign) => ({
-        url: `/api/campaign/update`,
-        method: 'POST',
+        url: `/api/core/campaigns/${campaign.campaignId}`,
+        method: 'PUT',
         body: campaign,
       }),
       invalidatesTags: ['Campaign'],
@@ -74,204 +92,10 @@ export const campaignApiSlice = coreApi.injectEndpoints({
 });
 
 export const {
-  useGetCampaignByEmailQuery,
+  useGetCampaignsByUserIdQuery,
   useGetCampaignByIdQuery,
   useGetCampaignsQuery,
+  useGetCampaignsByStoreIdQuery,
   useCreateCampaignMutation,
   useUpdateCampaignMutation,
 } = campaignApiSlice;
-
-// ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----
-
-//For MERCHANT
-export const fetchCampaignsByMerchant = async (useremail: string, page?: number, size?: number) => {
-  const requestBody = {
-    email: useremail,
-  };
-
-  let url = '';
-  if (page !== undefined) {
-    url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign/getAllByEmail?page=${page}&size=${size}`;
-  } else {
-    url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign/getAllByEmail`;
-  }
-  const res = await fetch(`${url}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  });
-
-  const data = await res.json();
-  return data;
-};
-
-export const createCampaign = async (
-  description: string,
-  startDate: string,
-  endDate: string,
-  tandc: string,
-  numberOfLikes: number,
-  tagsJson: string,
-  numberOfVouchers: number,
-  amount: number,
-  store: { storeId: string },
-  createdBy: { email: string }
-) => {
-  const requestBody = {
-    description,
-    startDate,
-    endDate,
-    numberOfVouchers,
-    numberOfLikes,
-    tagsJson,
-    amount,
-    tandc,
-    store,
-    createdBy,
-  };
-
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign/create`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  });
-
-  const data = await res.json();
-  return data;
-};
-
-export const updateCampaign = async (
-  campaignId: string,
-  description: string,
-  startDate: string,
-  endDate: string,
-  tandc: string,
-  numberOfLikes: number,
-  tagsJson: string,
-  numberOfVouchers: number,
-  amount: number,
-  store: { storeId: string },
-  updatedBy: { email: string }
-) => {
-  const requestBody = {
-    campaignId,
-    description,
-    startDate,
-    endDate,
-    numberOfVouchers,
-    numberOfLikes,
-    tagsJson,
-    amount,
-    tandc,
-    store,
-    updatedBy,
-  };
-
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign/update`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  });
-
-  const data = await res.json();
-  return data;
-};
-
-export const promoteCampaignByMerchant = async (
-  campaignId: string,
-  updatedBy: { email: string }
-) => {
-  const body = {
-    campaignId,
-    updatedBy,
-  };
-
-  const headers = {
-    'Content-Type': 'application/json',
-  };
-
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign/promote`, {
-    method: 'POST',
-    headers,
-    body: JSON.stringify(body),
-  });
-
-  const data = await res.json();
-  return data;
-};
-
-export const getMerchantCampaignsByStoreId = async (storeId: string) => {
-  const requestBody = {
-    storeId,
-  };
-
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign/getAllByStoreId`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  });
-
-  const data = await res.json();
-  return data;
-};
-
-// *********** END of MERCHANT ***************** //
-
-// For Customer
-export const fetchCampaignsByCustomer = async (page?: number, size?: number) => {
-  let url = '';
-  if (page !== undefined) {
-    url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign/all/active?page=${page}&size=${size}`;
-  } else {
-    url = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign/all/active`;
-  }
-  const res = await fetch(`${url}`);
-
-  const data = await res.json();
-  return data;
-};
-
-export const getCustomerCampaignsByStoreId = async (storeId: string) => {
-  const requestBody = {
-    storeId,
-  };
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign/getAllByStoreId?status=PROMOTED`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(requestBody),
-    }
-  );
-
-  const data = await res.json();
-  return data;
-};
-
-export const fetchCampaignByID = async (campaignId: string) => {
-  const requestBody = {
-    campaignId,
-  };
-
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/campaign/getById`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(requestBody),
-  });
-
-  const data = await res.json();
-  return data;
-};
