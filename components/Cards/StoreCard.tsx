@@ -13,7 +13,6 @@ const StoreCard = (props: Props) => {
   const LeftContent = () => <Avatar.Icon icon="map-marker" size={32} />;
   const { store } = props;
   const router = useRouter();
-  console.log(store.image);
   return (
     <Card
       style={styles.container}

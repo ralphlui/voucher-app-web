@@ -16,7 +16,7 @@ export interface Campaign {
   campaignStatus?: CampaignStatusEnum;
   numberOfClaimedVouchers?: number;
   pin?: string;
-  createdBy?: User | undefined;
+  createdBy?: string;
 }
 
 export interface CreateCampaignParamsProps {

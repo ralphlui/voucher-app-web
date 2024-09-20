@@ -175,7 +175,7 @@ const CreateCampaign = () => {
                         startDate,
                         endDate,
                         store: { storeId },
-                        createdBy: { email: auth.email ?? '' },
+                        createdBy: auth.userId ?? '',
                       });
                     }
                   )}>
