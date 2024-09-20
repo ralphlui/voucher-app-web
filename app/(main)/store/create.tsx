@@ -1,7 +1,7 @@
 import { Stack, useRouter } from 'expo-router';
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { ScrollView, View, StyleSheet, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import { ScrollView, View, StyleSheet, Alert, Platform } from 'react-native';
 import { ActivityIndicator, Avatar, Button, TextInput } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 
@@ -9,6 +9,25 @@ import HandleResponse from '@/components/common/HandleResponse';
 import { useCreateStoreMutation } from '@/services/store.service';
 import useAuth from '@/hooks/useAuth';
 import { UserTypeEnum } from '@/types/UserTypeEnum';
+import ImageUploadInput from '@/components/inputs/ImageUploadInput';
+import axios from 'axios';
+
+type StoreForm = {
+  storeName?: string;
+  description?: string;
+  address?: string;
+  // address1: string,
+  // address2: string,
+  // address3: string,
+  city?: string;
+  state?: string;
+  country?: string;
+  postalCode?: string;
+  contactNumber?: string;
+  image?: {
+    uri: string;
+  };
+};
 
 const CreateStore = () => {
   const router = useRouter();
@@ -18,7 +37,7 @@ const CreateStore = () => {
     control,
     setFocus,
     handleSubmit,
-  } = useForm({
+  } = useForm<StoreForm>({
     defaultValues: {
       storeName: '',
       description: '',
@@ -31,7 +50,7 @@ const CreateStore = () => {
       country: '',
       postalCode: '',
       contactNumber: '',
-      image: '',
+      image: {},
     },
     mode: 'onChange',
   });
@@ -40,6 +59,7 @@ const CreateStore = () => {
   const onSuccess = () => {
     router.push('/store');
   };
+  const [selectedImage, setSelectedImage] = useState(null); // Local state for the image
 
   return (
     <>
@@ -162,21 +182,18 @@ const CreateStore = () => {
                         left: <TextInput.Icon icon="card-account-details" />,
                       },
                     },
-                    {
-                      name: 'image',
-                      type: 'custom',
-
-                      textInputProps: {
-                        label: 'Preferences',
-                        left: <TextInput.Icon icon="checkbox-multiple-marked" />,
-                      },
-                    },
                   ]}
                 />
+                <Controller
+                  control={control}
+                  name="image"
+                  render={({ field: { onChange } }) => <ImageUploadInput onChange={onChange} />}
+                />
+
                 <Button
                   mode="contained"
                   onPress={handleSubmit(
-                    ({
+                    async ({
                       storeName,
                       description,
                       address,
@@ -191,26 +208,54 @@ const CreateStore = () => {
                       image,
                     }) => {
                       const formData = new FormData();
-                      const blob = new Blob(
-                        [
+                      if (Platform.OS === 'web') {
+                        formData.append(
+                          'store',
+                          new Blob(
+                            [
+                              JSON.stringify({
+                                storeName,
+                                description,
+                                address,
+                                city,
+                                state,
+                                postalCode,
+                                contactNumber,
+                                country,
+                                createdBy: {
+                                  email: auth.email,
+                                },
+                              }),
+                            ],
+                            {
+                              type: 'application/json',
+                            }
+                          )
+                        );
+                        formData.append('image', new Blob([image?.uri ?? '']));
+                      } else {
+                        formData.append(
+                          'store',
                           JSON.stringify({
                             storeName,
                             description,
                             address,
                             city,
+                            state,
                             postalCode,
                             contactNumber,
                             country,
                             createdBy: {
                               email: auth.email,
                             },
-                          }),
-                        ],
-                        {
-                          type: 'application/json',
-                        }
-                      );
-                      formData.append('store', blob);
+                          })
+                        );
+                        formData.append('image', {
+                          uri: image?.uri,
+                          name: 'image.jpg',
+                          type: 'image/jpeg',
+                        } as any);
+                      }
                       createStore(formData);
                     }
                   )}>
@@ -230,7 +275,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollViewStyle: {
-    flex: 1,
+    flexGrow: 1,
     padding: 15,
   },
   headingStyle: {
