@@ -1,4 +1,4 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Image } from 'react-native';
 import { Text } from 'react-native-paper';
 import React from 'react';
 
@@ -9,6 +9,7 @@ type NoDataFoundProps = {
 const NoDataFound = ({ text }: NoDataFoundProps) => {
   return (
     <View style={styles.text}>
+      <Image source={require('@/assets/empty_list.png')}/>
       <Text variant="headlineSmall">No {text} can be found.</Text>
     </View>
   );
