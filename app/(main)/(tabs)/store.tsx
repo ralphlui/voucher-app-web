@@ -1,5 +1,12 @@
-import React from 'react';
-import { StyleSheet, ActivityIndicator, FlatList, ListRenderItemInfo } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import {
+  StyleSheet,
+  ActivityIndicator,
+  FlatList,
+  ListRenderItemInfo,
+  RefreshControl,
+  ScrollView,
+} from 'react-native';
 
 import StoreCard from '@/components/cards/StoreCard';
 import usePagination from '@/hooks/usePagination';
@@ -10,6 +17,9 @@ import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 
 const StoreTab = () => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
@@ -39,7 +49,11 @@ const StoreTab = () => {
     return <StoreCard store={item} />;
   };
 
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  }, [refetch]);
 
   return (
     <>
@@ -49,7 +63,6 @@ const StoreTab = () => {
         onChangeText={setSearchQuery}
         value={searchQuery}
       />
-      {(data?.data === undefined) && <NoDataFound text='store'/>}
       <FlatList
         data={data?.data ?? []}
         keyExtractor={(item) => item?.storeId?.toString() ?? ''}
@@ -57,6 +70,10 @@ const StoreTab = () => {
         onEndReachedThreshold={0.5}
         renderItem={renderItem}
         ListFooterComponent={isFetching || isLoading ? <ActivityIndicator size="large" /> : null}
+        ListEmptyComponent={<NoDataFound text="store" />}
+        refreshControl={
+          <RefreshControl refreshing={refreshing || isFetching} onRefresh={onRefresh} />
+        }
         style={styles.container}
       />
     </>

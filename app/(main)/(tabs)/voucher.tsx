@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   StyleSheet,
   ActivityIndicator,
@@ -6,6 +6,8 @@ import {
   ListRenderItemInfo,
   View,
   Modal,
+  ScrollView,
+  RefreshControl,
 } from 'react-native';
 
 import VoucherCard from '@/components/cards/VoucherCard';
@@ -17,6 +19,9 @@ import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 
 const VoucherTab = () => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [value, setValue] = useState('CLAIMED');
+
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
@@ -45,7 +50,12 @@ const VoucherTab = () => {
   const renderItem = ({ item }: ListRenderItemInfo<Voucher>) => {
     return <VoucherCard voucher={item} />;
   };
-  const [value, setValue] = useState('CLAIMED');
+
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  }, [refetch]);
 
   return (
     <>
@@ -67,7 +77,6 @@ const VoucherTab = () => {
           { value: 'EXPIRED', icon: 'tag-off', label: 'EXPIRED' },
         ]}
       />
-      {(data?.data === undefined) && <NoDataFound text='voucher'/>}
       <FlatList
         data={data?.data ?? []}
         keyExtractor={(item) => item.voucherId.toString()}
@@ -75,6 +84,10 @@ const VoucherTab = () => {
         onEndReachedThreshold={0.5}
         renderItem={renderItem}
         ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
+        refreshControl={
+          <RefreshControl refreshing={refreshing || isFetching} onRefresh={onRefresh} />
+        }
+        ListEmptyComponent={<NoDataFound text="voucher" />}
         style={styles.container}
       />
     </>

@@ -1,5 +1,13 @@
-import React from 'react';
-import { View, StyleSheet, ActivityIndicator, ListRenderItemInfo, FlatList } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import {
+  View,
+  StyleSheet,
+  ActivityIndicator,
+  ListRenderItemInfo,
+  FlatList,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 import { Button, Divider, IconButton, Text } from 'react-native-paper';
 
 import usePagination from '@/hooks/usePagination';
@@ -10,6 +18,8 @@ import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 
 const FeedTab = () => {
+  const [refreshing, setRefreshing] = useState(false);
+
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const router = useRouter();
   const auth = useAuth();
@@ -58,20 +68,27 @@ const FeedTab = () => {
     );
   };
 
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  }, [refetch]);
+
   return (
-    <>
-      {data?.data === undefined && <NoDataFound text="feed" />}
-      <FlatList
-        data={data?.data ?? []}
-        keyExtractor={(item) => item.feedId.toString()}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-        renderItem={renderItem}
-        ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
-        ItemSeparatorComponent={Divider}
-        style={styles.container}
-      />
-    </>
+    <FlatList
+      data={data?.data ?? []}
+      keyExtractor={(item) => item.feedId.toString()}
+      onEndReached={handleEndReached}
+      onEndReachedThreshold={0.5}
+      renderItem={renderItem}
+      ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
+      ItemSeparatorComponent={Divider}
+      refreshControl={
+        <RefreshControl refreshing={refreshing || isFetching} onRefresh={onRefresh} />
+      }
+      ListEmptyComponent={<NoDataFound text="feed" />}
+      style={styles.container}
+    />
   );
 };
 

@@ -1,5 +1,13 @@
-import React from 'react';
-import { StyleSheet, FlatList, ListRenderItemInfo, ActivityIndicator, View } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import {
+  StyleSheet,
+  FlatList,
+  ListRenderItemInfo,
+  ActivityIndicator,
+  View,
+  ScrollView,
+  RefreshControl,
+} from 'react-native';
 
 import CampaignCard from '@/components/cards/CampaignCard';
 import usePagination from '@/hooks/usePagination';
@@ -11,6 +19,9 @@ import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 
 const CampaignTab = () => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
@@ -40,7 +51,11 @@ const CampaignTab = () => {
     return <CampaignCard campaign={item} />;
   };
 
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const onRefresh = useCallback(async () => {
+    setRefreshing(true);
+    await refetch();
+    setRefreshing(false);
+  }, [refetch]);
 
   return (
     <>
@@ -50,7 +65,6 @@ const CampaignTab = () => {
         onChangeText={setSearchQuery}
         value={searchQuery}
       />
-      {data?.data === undefined && <NoDataFound text="campaign" />}
       <FlatList
         data={data?.data ?? []}
         keyExtractor={(item) => item?.campaignId?.toString() ?? ''}
@@ -58,6 +72,10 @@ const CampaignTab = () => {
         onEndReachedThreshold={0.5}
         renderItem={renderItem}
         ListFooterComponent={isFetching || isLoading ? <ActivityIndicator size="large" /> : null}
+        refreshControl={
+          <RefreshControl refreshing={refreshing || isFetching} onRefresh={onRefresh} />
+        }
+        ListEmptyComponent={<NoDataFound text="campaign" />}
         style={styles.container}
       />
     </>
