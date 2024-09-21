@@ -7,7 +7,8 @@ export const storeApiSlice = coreApi.injectEndpoints({
         headers: {
           'Content-Type': 'application/json',
         },
-        url: `/api/core/stores?query=${description}&page=${page_number}&size=${page_size}`,
+        // url: `/api/core/stores?query=${description}&page=${page_number}&size=${page_size}`,
+        url: `/api/core/stores?page=${page_number}&size=${page_size}`,
         method: 'GET',
         params: { description, page_size, page_number },
       }),

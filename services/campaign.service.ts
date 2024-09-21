@@ -4,11 +4,12 @@ import { Campaign } from '@/types/Campaign';
 export const campaignApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
     getCampaigns: builder.query({
-      query: ({ description = '', page_size = 10, page_number = 0 }) => ({
+      query: ({ description, page_size = 10, page_number = 0 }) => ({
         headers: {
           'Content-Type': 'application/json',
         },
-        url: `/api/core/campaigns?description=${description}&page=${page_number}&size=${page_size}`,
+        // url: `/api/core/campaigns?description=${description}&page=${page_number}&size=${page_size}`,
+        url: `/api/core/campaigns?page=${page_number}&size=${page_size}`,
         method: 'GET',
         params: { description, page_size, page_number },
       }),
@@ -24,13 +25,14 @@ export const campaignApiSlice = coreApi.injectEndpoints({
       },
     }),
     getCampaignsByUserId: builder.query({
-      query: ({ userId, page_size = 10, page_number = 0 }) => ({
+      query: ({ description, userId, page_size = 10, page_number = 0 }) => ({
         headers: {
           'Content-Type': 'application/json',
         },
+        // url: `/api/core/campaigns/users/${userId}?description=${description}&page=${page_number}&size=${page_size}`,
         url: `/api/core/campaigns/users/${userId}?page=${page_number}&size=${page_size}`,
         method: 'GET',
-        params: { userId, page_size, page_number },
+        params: { description, userId, page_size, page_number },
       }),
       providesTags: ['Campaign'],
       serializeQueryArgs: ({ endpointName }) => {

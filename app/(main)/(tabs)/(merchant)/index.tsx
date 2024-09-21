@@ -4,17 +4,14 @@ import {
   FlatList,
   ListRenderItemInfo,
   ActivityIndicator,
-  View,
-  ScrollView,
   RefreshControl,
 } from 'react-native';
 
 import CampaignCard from '@/components/cards/CampaignCard';
 import usePagination from '@/hooks/usePagination';
-import { useGetCampaignsQuery } from '@/services/campaign.service';
+import { useGetCampaignsByUserIdQuery } from '@/services/campaign.service';
 import { Campaign } from '@/types/Campaign';
 import { Searchbar } from 'react-native-paper';
-import { Text } from 'react-native-paper';
 import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 
@@ -25,8 +22,9 @@ const CampaignTab = () => {
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
-    useGetCampaignsQuery(
+    useGetCampaignsByUserIdQuery(
       {
+        userId: auth.userId,
         page_size: pageSize,
         page_number: pageNumber,
       },

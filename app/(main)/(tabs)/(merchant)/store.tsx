@@ -1,32 +1,31 @@
 import React, { useCallback, useState } from 'react';
 import {
   StyleSheet,
+  ActivityIndicator,
   FlatList,
   ListRenderItemInfo,
-  ActivityIndicator,
-  View,
-  ScrollView,
   RefreshControl,
+  ScrollView,
 } from 'react-native';
 
-import CampaignCard from '@/components/cards/CampaignCard';
+import StoreCard from '@/components/cards/StoreCard';
 import usePagination from '@/hooks/usePagination';
-import { useGetCampaignsQuery } from '@/services/campaign.service';
-import { Campaign } from '@/types/Campaign';
+import { useGetStoresByUserIdQuery } from '@/services/store.service';
+import { Store } from '@/types/Store';
 import { Searchbar } from 'react-native-paper';
-import { Text } from 'react-native-paper';
 import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 
-const CampaignTab = () => {
+const StoreTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
 
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
-    useGetCampaignsQuery(
+    useGetStoresByUserIdQuery(
       {
+        userId: auth.userId,
         page_size: pageSize,
         page_number: pageNumber,
       },
@@ -46,8 +45,8 @@ const CampaignTab = () => {
     setPageNumber(pageNumber + 1);
   };
 
-  const renderItem = ({ item }: ListRenderItemInfo<Campaign>) => {
-    return <CampaignCard campaign={item} />;
+  const renderItem = ({ item }: ListRenderItemInfo<Store>) => {
+    return <StoreCard store={item} />;
   };
 
   const onRefresh = useCallback(async () => {
@@ -66,15 +65,15 @@ const CampaignTab = () => {
       />
       <FlatList
         data={data?.data ?? []}
-        keyExtractor={(item) => item?.campaignId?.toString() ?? ''}
+        keyExtractor={(item) => item?.storeId?.toString() ?? ''}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}
         renderItem={renderItem}
         ListFooterComponent={isFetching || isLoading ? <ActivityIndicator size="large" /> : null}
+        ListEmptyComponent={<NoDataFound text="store" />}
         refreshControl={
           <RefreshControl refreshing={refreshing || isFetching} onRefresh={onRefresh} />
         }
-        ListEmptyComponent={<NoDataFound text="campaign" />}
         style={styles.container}
       />
     </>
@@ -94,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CampaignTab;
+export default StoreTab;
