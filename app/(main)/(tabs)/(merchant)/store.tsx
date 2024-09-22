@@ -19,7 +19,6 @@ import NoDataFound from '@/components/common/NoDataFound';
 const StoreTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
@@ -51,6 +50,7 @@ const StoreTab = () => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
+    setPageNumber(0);
     await refetch();
     setRefreshing(false);
   }, [refetch]);

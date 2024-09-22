@@ -12,7 +12,6 @@ type PromoteCampaignButtonProps = {
 const PromoteCampaignButton = ({ userId, campaignId }: PromoteCampaignButtonProps) => {
   const [promoteCampaign, { data, error, isError, isSuccess, isLoading }] =
     usePromoteCampaigbMutation();
-  console.log(data);
   return (
     <View>
       {(isSuccess || isError) && (

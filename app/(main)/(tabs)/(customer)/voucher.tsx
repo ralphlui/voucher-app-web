@@ -21,7 +21,6 @@ import NoDataFound from '@/components/common/NoDataFound';
 const VoucherTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [value, setValue] = useState('CLAIMED');
-
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
@@ -53,6 +52,7 @@ const VoucherTab = () => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
+    setPageNumber(0);
     await refetch();
     setRefreshing(false);
   }, [refetch]);

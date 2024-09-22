@@ -5,7 +5,6 @@ import {
   FlatList,
   ListRenderItemInfo,
   RefreshControl,
-  ScrollView,
 } from 'react-native';
 
 import StoreCard from '@/components/cards/StoreCard';
@@ -13,15 +12,12 @@ import usePagination from '@/hooks/usePagination';
 import { useGetStoresQuery } from '@/services/store.service';
 import { Store } from '@/types/Store';
 import { Searchbar } from 'react-native-paper';
-import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 
 const StoreTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
   const { pageNumber, setPageNumber, pageSize } = usePagination();
-  const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetStoresQuery(
       {
@@ -50,6 +46,7 @@ const StoreTab = () => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
+    setPageNumber(0);
     await refetch();
     setRefreshing(false);
   }, [refetch]);

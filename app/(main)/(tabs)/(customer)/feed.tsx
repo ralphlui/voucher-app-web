@@ -19,7 +19,6 @@ import NoDataFound from '@/components/common/NoDataFound';
 
 const FeedTab = () => {
   const [refreshing, setRefreshing] = useState(false);
-
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const router = useRouter();
   const auth = useAuth();
@@ -70,6 +69,7 @@ const FeedTab = () => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
+    setPageNumber(0);
     await refetch();
     setRefreshing(false);
   }, [refetch]);

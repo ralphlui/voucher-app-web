@@ -4,8 +4,6 @@ import {
   FlatList,
   ListRenderItemInfo,
   ActivityIndicator,
-  View,
-  ScrollView,
   RefreshControl,
 } from 'react-native';
 
@@ -14,16 +12,12 @@ import usePagination from '@/hooks/usePagination';
 import { useGetCampaignsQuery } from '@/services/campaign.service';
 import { Campaign } from '@/types/Campaign';
 import { Searchbar } from 'react-native-paper';
-import { Text } from 'react-native-paper';
-import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 
 const CampaignTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-
   const { pageNumber, setPageNumber, pageSize } = usePagination();
-  const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetCampaignsQuery(
       {
@@ -52,6 +46,7 @@ const CampaignTab = () => {
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
+    setPageNumber(0);
     await refetch();
     setRefreshing(false);
   }, [refetch]);

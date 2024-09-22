@@ -45,12 +45,14 @@ const Campaign = () => {
                         campaignId={data?.data?.campaignId}
                       />
                     )}
-                  {/* {auth.role === UserTypeEnum.CUSTOMER && (
-                    <ClaimVoucherButton campaign={data?.data} claimedBy={auth.user} />
-                  )} */}
+                  {auth.role === UserTypeEnum.CUSTOMER && (
+                    <ClaimVoucherButton
+                      campaignId={data?.data?.campaignId}
+                      claimedBy={auth.userId ?? ''}
+                    />
+                  )}
                   {!auth.success && (
                     <Button
-                      // mode="contained"
                       onPress={() => {
                         router.push('/login');
                       }}>

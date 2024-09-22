@@ -52,16 +52,23 @@ export const voucherApiSlice = coreApi.injectEndpoints({
       }),
     }),
     claimVoucher: builder.mutation({
-      query: ({ campaign, claimedBy }) => ({
+      query: ({ campaignId, claimedBy }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: '/api/core/vouchers/claim',
         method: 'POST',
-        body: JSON.stringify({ campaign, claimedBy }),
+        body: JSON.stringify({ campaignId, claimedBy }),
       }),
     }),
     consumeVoucher: builder.mutation({
       query: ({ voucherId }) => ({
+        headers: {
+          'Content-Type': 'application/json',
+        },
         url: `/api/core/vouchers/${voucherId}/consume`,
         method: 'PATCH',
+        body: JSON.stringify({ voucherId }),
       }),
     }),
   }),
