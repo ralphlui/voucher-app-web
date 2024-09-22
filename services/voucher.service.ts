@@ -15,8 +15,12 @@ export const voucherApiSlice = coreApi.injectEndpoints({
       serializeQueryArgs: ({ endpointName }) => {
         return endpointName;
       },
-      merge: (currentCache, newItems) => {
-        currentCache.data.push(...newItems.data);
+      merge: (currentCache, newItems, { arg }) => {
+        if (arg.page_number === 0) {
+          currentCache.data = newItems.data; // Overwrite cache for fresh data
+        } else {
+          currentCache.data.push(...newItems.data); // Append new data for pagination
+        }
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;
@@ -35,8 +39,12 @@ export const voucherApiSlice = coreApi.injectEndpoints({
       serializeQueryArgs: ({ endpointName }) => {
         return endpointName;
       },
-      merge: (currentCache, newItems) => {
-        currentCache.data.push(...newItems.data);
+      merge: (currentCache, newItems, { arg }) => {
+        if (arg.page_number === 0) {
+          currentCache.data = newItems.data; // Overwrite cache for fresh data
+        } else {
+          currentCache.data.push(...newItems.data); // Append new data for pagination
+        }
       },
       forceRefetch({ currentArg, previousArg }) {
         return currentArg !== previousArg;
