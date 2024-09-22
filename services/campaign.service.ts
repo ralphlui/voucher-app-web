@@ -18,6 +18,7 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         return endpointName;
       },
       merge: (currentCache, newItems, { arg }) => {
+        // if (arg.page_number === 0 || arg.description !== currentCache.description) {
         if (arg.page_number === 0) {
           currentCache.data = newItems.data; // Overwrite cache for fresh data
         } else {

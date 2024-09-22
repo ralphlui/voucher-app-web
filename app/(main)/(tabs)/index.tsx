@@ -13,14 +13,17 @@ import { useGetCampaignsQuery } from '@/services/campaign.service';
 import { Campaign } from '@/types/Campaign';
 import { Searchbar } from 'react-native-paper';
 import NoDataFound from '@/components/common/NoDataFound';
+import useDebounce from '@/hooks/useDebounce';
 
 const CampaignTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetCampaignsQuery(
       {
+        description: debouncedSearchQuery,
         page_size: pageSize,
         page_number: pageNumber,
       },
@@ -49,7 +52,7 @@ const CampaignTab = () => {
     setPageNumber(0);
     await refetch();
     setRefreshing(false);
-  }, [refetch]);
+  }, [debouncedSearchQuery, refetch]);
 
   return (
     <>
