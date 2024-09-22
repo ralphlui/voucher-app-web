@@ -1,4 +1,5 @@
 import ClaimVoucherButton from '@/components/buttons/ClaimVoucherButton';
+import PromoteCampaignButton from '@/components/buttons/PromoteCampaignButton';
 import CampaignStatusChip from '@/components/chips/CampaignStatusChip';
 import useAuth from '@/hooks/useAuth';
 import { useGetCampaignByIdQuery } from '@/services/campaign.service';
@@ -28,27 +29,28 @@ const Campaign = () => {
               <Text style={styles.amount} variant="displayLarge">
                 ${data?.data?.amount} off
               </Text>
+              {auth.role === UserTypeEnum.MERCHANT && (
+                <CampaignStatusChip status={data?.data?.campaignStatus} />
+              )}
             </Card.Content>
-            <Card.Title
-              title={<CampaignStatusChip status={data?.data?.campaignStatus} />}
-              right={() => (
+            <Card.Title title={data?.data?.description} />
+            <Card.Content>
+              <View style={styles.processbar}>
                 <Card.Actions>
-                  {auth.role === UserTypeEnum.MERCHANT && (
-                    <Button mode="contained" onPress={() => {}}>
-                      Edit
-                    </Button>
-                  )}
-                  {auth.role === UserTypeEnum.MERCHANT && (
-                    <Button mode="contained" onPress={() => {}}>
-                      Promote
-                    </Button>
-                  )}
+                  {/* {auth.role === UserTypeEnum.MERCHANT && <Button onPress={() => {}}>Edit</Button>} */}
+                  {auth.role === UserTypeEnum.MERCHANT &&
+                    data?.data.campaignStatus === 'CREATED' && (
+                      <PromoteCampaignButton
+                        userId={auth.userId ?? ''}
+                        campaignId={data?.data?.campaignId}
+                      />
+                    )}
                   {/* {auth.role === UserTypeEnum.CUSTOMER && (
                     <ClaimVoucherButton campaign={data?.data} claimedBy={auth.user} />
                   )} */}
                   {!auth.success && (
                     <Button
-                      mode="contained"
+                      // mode="contained"
                       onPress={() => {
                         router.push('/login');
                       }}>
@@ -56,10 +58,6 @@ const Campaign = () => {
                     </Button>
                   )}
                 </Card.Actions>
-              )}
-            />
-            <Card.Content>
-              <View style={styles.processbar}>
                 <ProgressBar
                   progress={data?.data?.numberOfClaimedVouchers / data?.data?.numberOfVouchers}
                 />

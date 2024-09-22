@@ -90,6 +90,13 @@ export const campaignApiSlice = coreApi.injectEndpoints({
       }),
       invalidatesTags: ['Campaign'],
     }),
+    promoteCampaigb: builder.mutation({
+      query: ({ userId, campaignId }) => ({
+        url: `/api/core/campaigns/${campaignId}/users/${userId}/promote`,
+        method: 'PATCH',
+        params: { userId, campaignId },
+      }),
+    }),
   }),
 });
 
@@ -100,4 +107,5 @@ export const {
   useGetCampaignsByStoreIdQuery,
   useCreateCampaignMutation,
   useUpdateCampaignMutation,
+  usePromoteCampaigbMutation,
 } = campaignApiSlice;
