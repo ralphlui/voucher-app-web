@@ -30,7 +30,7 @@ const CampaignTab = () => {
       {
         selectFromResult: ({ data, ...args }) => {
           return {
-            hasNextPage: pageNumber < Math.ceil((data?.totalRecord ?? 10) / pageSize),
+            hasNextPage: pageNumber < Math.ceil((data?.totalRecord ?? 10) / pageSize) - 1,
             data,
             ...args,
           };
@@ -38,10 +38,12 @@ const CampaignTab = () => {
       }
     );
 
-  const handleEndReached = () => {
+  const handleEndReached = useCallback(() => {
     if (!hasNextPage || isLoading || isFetching) return;
-    setPageNumber(pageNumber + 1);
-  };
+    setTimeout(() => {
+      setPageNumber((prevPageNumber) => prevPageNumber + 1);
+    }, 300);
+  }, [hasNextPage, isLoading, isFetching]);
 
   const renderItem = ({ item }: ListRenderItemInfo<Campaign>) => {
     return <CampaignCard campaign={item} />;
@@ -66,9 +68,11 @@ const CampaignTab = () => {
         data={data?.data ?? []}
         keyExtractor={(item) => item?.campaignId?.toString() ?? ''}
         onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
+        onEndReachedThreshold={0.1}
         renderItem={renderItem}
-        ListFooterComponent={isFetching || isLoading ? <ActivityIndicator size="large" /> : null}
+        ListFooterComponent={
+          !(refreshing || isFetching) && isLoading ? <ActivityIndicator size="large" /> : null
+        }
         refreshControl={
           <RefreshControl refreshing={refreshing || isFetching} onRefresh={onRefresh} />
         }

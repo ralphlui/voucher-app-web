@@ -39,7 +39,7 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         method: 'GET',
         params: { description, userId, page_size, page_number },
       }),
-      providesTags: ['Campaign'],
+      providesTags: (result, error, { userId }) => [{ type: 'Campaign', id: `USER_${userId}` }],
       serializeQueryArgs: ({ endpointName }) => {
         return endpointName;
       },
@@ -93,7 +93,9 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         method: 'POST',
         body: campaign,
       }),
-      invalidatesTags: ['Campaign'],
+      invalidatesTags: (result, error, { createdBy }) => [
+        { type: 'Campaign', id: `USER_${createdBy}` },
+      ],
     }),
     updateCampaign: builder.mutation({
       query: (campaign: Campaign) => ({
@@ -101,9 +103,11 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         method: 'PUT',
         body: campaign,
       }),
-      invalidatesTags: ['Campaign'],
+      invalidatesTags: (result, error, { createdBy }) => [
+        { type: 'Campaign', id: `USER_${createdBy}` },
+      ],
     }),
-    promoteCampaigb: builder.mutation({
+    promoteCampaign: builder.mutation({
       query: ({ userId, campaignId }) => ({
         url: `/api/core/campaigns/${campaignId}/users/${userId}/promote`,
         method: 'PATCH',
@@ -120,5 +124,5 @@ export const {
   useGetCampaignsByStoreIdQuery,
   useCreateCampaignMutation,
   useUpdateCampaignMutation,
-  usePromoteCampaigbMutation,
+  usePromoteCampaignMutation,
 } = campaignApiSlice;

@@ -4,13 +4,17 @@ import { StyleSheet } from 'react-native';
 import { Button, Card, Chip, IconButton, Text, useTheme } from 'react-native-paper';
 
 import { Campaign } from '@/types/Campaign';
+import useAuth from '@/hooks/useAuth';
+import { UserTypeEnum } from '@/types/UserTypeEnum';
+import CampaignStatusChip from '@/components/chips/CampaignStatusChip';
+import { CampaignStatusEnum } from '@/types/CampaignStatusEnum';
 
 interface Props {
   campaign: Campaign;
 }
 
-const CampaignCard = (props: Props) => {
-  const { campaign } = props;
+const CampaignCard = ({ campaign }: Props) => {
+  const auth = useAuth();
   const router = useRouter();
   const [isSelected, setIsSelected] = useState(false);
   const { colors } = useTheme(); // Get the theme's colors
@@ -24,6 +28,9 @@ const CampaignCard = (props: Props) => {
         <Text style={[styles.amount, { color: colors.onSurface }]} variant="displayLarge">
           ${campaign.amount} off
         </Text>
+        {auth.role === UserTypeEnum.MERCHANT && (
+          <CampaignStatusChip status={campaign?.campaignStatus ?? CampaignStatusEnum.CREATED} />
+        )}
       </Card.Content>
       <Card.Title
         title={campaign.description}

@@ -90,7 +90,7 @@ const CreateStore = () => {
                       type: 'text',
                       textInputProps: {
                         label: 'Store Name',
-                        left: <TextInput.Icon icon="account" />,
+                        left: <TextInput.Icon icon="store" />,
                       },
                       rules: {
                         required: {
@@ -104,7 +104,7 @@ const CreateStore = () => {
                       type: 'text',
                       textInputProps: {
                         label: 'Description',
-                        left: <TextInput.Icon icon="email" />,
+                        left: <TextInput.Icon icon="text-account" />,
                       },
                     },
                     {
@@ -112,7 +112,7 @@ const CreateStore = () => {
                       type: 'text',
                       textInputProps: {
                         label: 'Address',
-                        left: <TextInput.Icon icon="card-account-details" />,
+                        left: <TextInput.Icon icon="map-marker" />,
                       },
                     },
                     {
@@ -120,7 +120,7 @@ const CreateStore = () => {
                       type: 'text',
                       textInputProps: {
                         label: 'City',
-                        left: <TextInput.Icon icon="card-account-details" />,
+                        left: <TextInput.Icon icon="city" />,
                       },
                     },
                     {
@@ -128,7 +128,7 @@ const CreateStore = () => {
                       type: 'text',
                       textInputProps: {
                         label: 'Country',
-                        left: <TextInput.Icon icon="card-account-details" />,
+                        left: <TextInput.Icon icon="earth" />,
                       },
                     },
                     {
@@ -136,7 +136,7 @@ const CreateStore = () => {
                       type: 'text',
                       textInputProps: {
                         label: 'Postal Code',
-                        left: <TextInput.Icon icon="card-account-details" />,
+                        left: <TextInput.Icon icon="mailbox" />,
                       },
                     },
                     {
@@ -144,7 +144,7 @@ const CreateStore = () => {
                       type: 'text',
                       textInputProps: {
                         label: 'Contact Number',
-                        left: <TextInput.Icon icon="card-account-details" />,
+                        left: <TextInput.Icon icon="cellphone" />,
                       },
                     },
                   ]}
@@ -163,16 +163,24 @@ const CreateStore = () => {
                       contactNumber,
                     }) => {
                       const formData = new FormData();
-                      formData.append('store', JSON.stringify({
-                        storeName,
-                        description,
-                        address1,
-                        city,
-                        postalCode,
-                        contactNumber,
-                        country,
-                        createdBy: auth.userId,
-                      }),);
+                      const blob = new Blob(
+                        [
+                          JSON.stringify({
+                            storeName,
+                            description,
+                            address1,
+                            city,
+                            postalCode,
+                            contactNumber,
+                            country,
+                            createdBy: auth.userId,
+                          }),
+                        ],
+                        {
+                          type: 'application/json',
+                        }
+                      );
+                      formData.append('store', blob);
                       if (imageUri) {
                         const imageBlob = await getImageBlob(imageUri);
                         formData.append('image', imageBlob, 'store_name.jpg');

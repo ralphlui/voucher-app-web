@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import React from 'react';
 import { Button } from 'react-native-paper';
-import { usePromoteCampaigbMutation } from '@/services/campaign.service';
+import { usePromoteCampaignMutation } from '@/services/campaign.service';
 import HandleResponse from '@/components/common/HandleResponse';
 
 type PromoteCampaignButtonProps = {
@@ -11,7 +11,7 @@ type PromoteCampaignButtonProps = {
 
 const PromoteCampaignButton = ({ userId, campaignId }: PromoteCampaignButtonProps) => {
   const [promoteCampaign, { data, error, isError, isSuccess, isLoading }] =
-    usePromoteCampaigbMutation();
+    usePromoteCampaignMutation();
   return (
     <View>
       {(isSuccess || isError) && (
