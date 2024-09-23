@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from 'react-native-paper';
 import { useClaimVoucherMutation } from '@/services/voucher.service';
 import HandleResponse from '@/components/common/HandleResponse';
+import { useRouter } from 'expo-router';
 
 type ClaimVoucherProps = {
   campaignId: string;
@@ -10,6 +11,12 @@ type ClaimVoucherProps = {
 
 const ClaimVoucherButton = ({ campaignId, claimedBy }: ClaimVoucherProps) => {
   const [claimVoucher, { data, isSuccess, isError, isLoading, error }] = useClaimVoucherMutation();
+  const router = useRouter();
+  useEffect(() => {
+    if (isSuccess) {
+      router.push('/voucher');
+    }
+  }, [isSuccess]);
   return (
     <>
       {(isSuccess || isError) && (

@@ -13,7 +13,7 @@ interface VoucherCardProps {
 
 const VoucherCard = ({ voucher }: VoucherCardProps) => {
   const router = useRouter();
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState<boolean>(false);
 
   return (
     <>
@@ -54,7 +54,7 @@ const VoucherCard = ({ voucher }: VoucherCardProps) => {
             </Card.Content>
             <Card.Actions>
               <Button onPress={() => setVisible(false)}>Close</Button>
-              <UseVoucherButton voucherId={voucher.voucherId} />
+              <UseVoucherButton voucherId={voucher.voucherId} setVisible={setVisible} />
             </Card.Actions>
           </Card>
         </Modal>

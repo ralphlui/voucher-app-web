@@ -1,17 +1,22 @@
-import { View, Text } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useConsumeVoucherMutation } from '@/services/voucher.service';
 import HandleResponse from '@/components/common/HandleResponse';
 import { Button } from 'react-native-paper';
 
 type UseVoucherProps = {
   voucherId: string;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const UseVoucherButton = (props: UseVoucherProps) => {
-  const { voucherId } = props;
+const UseVoucherButton = ({ voucherId, setVisible }: UseVoucherProps) => {
   const [consumeVoucher, { data, isSuccess, isError, isLoading, error }] =
     useConsumeVoucherMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      setVisible(false);
+    }
+  }, [isSuccess]);
 
   return (
     <>

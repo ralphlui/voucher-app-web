@@ -10,12 +10,12 @@ export const userApiSlice = userApi.injectEndpoints({
       }),
     }),
 
-    // getUserInfo: builder.query({
-    //   query: () => ({
-    //     url: '/api/auth/user',
-    //     method: 'GET',
-    //   }),
-    // }),
+    verifyUser: builder.mutation({
+      query: ({ verifyid }) => ({
+        url: `/api/users/verify/${verifyid}`,
+        method: 'PATCH',
+      }),
+    }),
 
     createUser: builder.mutation({
       query: ({ body }) => ({
@@ -56,6 +56,7 @@ export const {
   useGetUsersQuery,
   // useDeleteUserMutation,
   useEditUserMutation,
+  useVerifyUserMutation,
 } = userApiSlice;
 
 // ---- ---- ---- ---- ----legacy---- ---- ---- ---- ---- ----

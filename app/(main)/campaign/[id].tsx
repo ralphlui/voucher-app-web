@@ -4,18 +4,12 @@ import CampaignStatusChip from '@/components/chips/CampaignStatusChip';
 import CampaignEditFieldModal from '@/components/modals/CampaignEditFieldModal';
 import useAuth from '@/hooks/useAuth';
 import { useGetCampaignByIdQuery } from '@/services/campaign.service';
+import { CampaignStatusEnum } from '@/types/CampaignStatusEnum';
 import { UserTypeEnum } from '@/types/UserTypeEnum';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Image, Alert } from 'react-native';
-import {
-  Button,
-  Text,
-  ActivityIndicator,
-  Card,
-  ProgressBar,
-  TextInput,
-} from 'react-native-paper';
+import { Button, Text, ActivityIndicator, Card, ProgressBar, TextInput } from 'react-native-paper';
 
 const Campaign = () => {
   const { id } = useLocalSearchParams();
@@ -65,7 +59,7 @@ const Campaign = () => {
               <View style={styles.processbar}>
                 <Card.Actions>
                   {auth.role === UserTypeEnum.MERCHANT &&
-                    data?.data.campaignStatus === 'CREATED' && (
+                    data?.data.campaignStatus === CampaignStatusEnum.CREATED && (
                       <PromoteCampaignButton
                         userId={auth.userId ?? ''}
                         campaignId={data?.data?.campaignId}
@@ -125,7 +119,8 @@ const Campaign = () => {
                 style={styles.text}
                 label="Tags"
                 right={
-                  auth.role === UserTypeEnum.MERCHANT && (
+                  auth.role === UserTypeEnum.MERCHANT &&
+                  data?.data.campaignStatus === CampaignStatusEnum.CREATED && (
                     <TextInput.Icon
                       icon="pencil"
                       onPress={() => handleEdit('Tags', data?.data?.tagsJson, 'text', 'tags')}
@@ -139,7 +134,8 @@ const Campaign = () => {
                 style={styles.text}
                 label="Start Date"
                 right={
-                  auth.role === UserTypeEnum.MERCHANT && (
+                  auth.role === UserTypeEnum.MERCHANT &&
+                  data?.data.campaignStatus === CampaignStatusEnum.CREATED && (
                     <TextInput.Icon
                       icon="pencil"
                       onPress={() =>
@@ -155,7 +151,8 @@ const Campaign = () => {
                 style={styles.text}
                 label="End Date"
                 right={
-                  auth.role === UserTypeEnum.MERCHANT && (
+                  auth.role === UserTypeEnum.MERCHANT &&
+                  data?.data.campaignStatus === CampaignStatusEnum.CREATED && (
                     <TextInput.Icon
                       icon="pencil"
                       onPress={() => handleEdit('End Date', data?.data?.endDate, 'date', 'endDate')}
@@ -169,7 +166,8 @@ const Campaign = () => {
                 style={styles.text}
                 label="T&C"
                 right={
-                  auth.role === UserTypeEnum.MERCHANT && (
+                  auth.role === UserTypeEnum.MERCHANT &&
+                  data?.data.campaignStatus === CampaignStatusEnum.CREATED && (
                     <TextInput.Icon
                       icon="pencil"
                       onPress={() => handleEdit('T&C', data?.data?.tandc, 'text', 'tandc')}

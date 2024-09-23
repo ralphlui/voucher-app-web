@@ -30,7 +30,6 @@ const CampaignEditFieldModal: React.FC<CampaignEditFieldModalProps> = ({
     <Portal>
       <Modal visible={visible} contentContainerStyle={styles.modal}>
         <Card>
-          <Card.Title title={fieldLabel}></Card.Title>
           <Card.Content>
             <TextInput
               mode="outlined"
