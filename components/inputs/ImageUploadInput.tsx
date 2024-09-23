@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 
 interface ImageUploadInputProps {
-  onChange: (result: ImagePicker.ImagePickerResult) => void;
+  onImagePicked: (uri: string) => void;
+  imageUri: string | null;
 }
 
-const ImageUploadInput = ({ onChange }: ImageUploadInputProps) => {
-  const [imageUri, setImageUri] = useState<string | null>(null);
+const ImageUploadInput = ({ onImagePicked, imageUri }: ImageUploadInputProps) => {
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
@@ -18,14 +18,14 @@ const ImageUploadInput = ({ onChange }: ImageUploadInputProps) => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      // aspect: [4, 3],
       quality: 1,
     });
 
     if (!result.canceled) {
-      const imageUri = result.assets[0].uri;
-      setImageUri(imageUri);
-      onChange(result);
+      // const imageUri = result.assets[0].uri;
+      // setImageUri(imageUri);
+      onImagePicked(result.assets[0].uri);
     }
   };
   return (
@@ -44,9 +44,8 @@ const styles = StyleSheet.create({
     margin: 20,
     width: 200,
     height: 200,
-    borderRadius: 10
+    borderRadius: 10,
   },
 });
-
 
 export default ImageUploadInput;

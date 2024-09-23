@@ -72,7 +72,7 @@ export const storeApiSlice = coreApi.injectEndpoints({
       }),
     }),
     createStore: builder.mutation({
-      query: (formData) => ({
+      query: (formData: FormData) => ({
         url: `/api/core/stores`,
         method: 'POST',
         body: formData,
@@ -80,7 +80,7 @@ export const storeApiSlice = coreApi.injectEndpoints({
       invalidatesTags: ['Store'],
     }),
     updateStore: builder.mutation({
-      query: (formData) => ({
+      query: (formData: FormData) => ({
         url: `/api/core/stores`,
         method: 'PUT',
         body: formData,
