@@ -14,6 +14,19 @@ const WebLayout = () => {
     <Drawer>
       <Drawer.Screen
         name="index"
+        redirect={auth.role !== UserTypeEnum.CUSTOMER && auth.role !== null}
+        options={{
+          drawerLabel: 'Campaign',
+          title: 'Campaign',
+          drawerIcon: ({ color }) => <Ionicons name="bag-handle" size={30} color={color} />,
+          headerRight: () =>
+            (!auth.success && <LoginButton />) ||
+            (auth.role === UserTypeEnum.MERCHANT && <CreateCampaignButton />),
+        }}
+      />
+      <Drawer.Screen
+        name="(merchant)/index"
+        redirect={auth.role !== UserTypeEnum.MERCHANT}
         options={{
           drawerLabel: 'Campaign',
           title: 'Campaign',
@@ -25,6 +38,7 @@ const WebLayout = () => {
       />
       <Drawer.Screen
         name="store"
+        redirect={auth.role !== UserTypeEnum.CUSTOMER && auth.role !== null}
         options={{
           drawerLabel: 'Store',
           title: 'Store',
@@ -35,7 +49,19 @@ const WebLayout = () => {
         }}
       />
       <Drawer.Screen
-        name="voucher"
+        name="(merchant)/store"
+        redirect={auth.role !== UserTypeEnum.MERCHANT}
+        options={{
+          drawerLabel: 'Store',
+          title: 'Store',
+          drawerIcon: ({ color }) => <Ionicons name="storefront" size={30} color={color} />,
+          headerRight: () =>
+            (!auth.success && <LoginButton />) ||
+            (auth.role === UserTypeEnum.MERCHANT && <CreateStoreButton />),
+        }}
+      />
+      <Drawer.Screen
+        name="(customer)/voucher"
         redirect={!(auth.role === UserTypeEnum.CUSTOMER)}
         options={{
           drawerLabel: 'Voucher',
@@ -44,7 +70,7 @@ const WebLayout = () => {
         }}
       />
       <Drawer.Screen
-        name="feed"
+        name="(customer)/feed"
         redirect={!(auth.role === UserTypeEnum.CUSTOMER)}
         options={{
           drawerLabel: 'Feed',
