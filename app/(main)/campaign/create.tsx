@@ -8,7 +8,7 @@ import { FormBuilder } from 'react-native-paper-form-builder';
 import HandleResponse from '@/components/common/HandleResponse';
 import { useCreateCampaignMutation } from '@/services/campaign.service';
 import useAuth from '@/hooks/useAuth';
-import { useGetStoresByUserIdWithAllQuery } from '@/services/store.service';
+import { useGetStoresByUserIdForStoreCreationQuery } from '@/services/store.service';
 import { Store } from '@/types/Store';
 import DateTimePickerInput from '@/components/inputs/DateTimePickerInput';
 import { UserTypeEnum } from '@/types/UserTypeEnum';
@@ -42,7 +42,7 @@ const CreateCampaign = () => {
     data: storeData,
     error: storeError,
     isLoading: storeIsLoading,
-  } = useGetStoresByUserIdWithAllQuery({ userId: auth.userId });
+  } = useGetStoresByUserIdForStoreCreationQuery({ userId: auth.userId });
 
   const onSuccess = () => {
     router.push('/(main)/(tabs)');

@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { Avatar, Card } from 'react-native-paper';
+import { Avatar, Button, Card } from 'react-native-paper';
 
 import { Store } from '@/types/Store';
 
@@ -20,16 +20,12 @@ const StoreCard = (props: Props) => {
         router.push(`/(main)/store/${store.storeId}`);
       }}>
       <Card.Title title={store.storeName} subtitle={store.address} left={LeftContent} />
-      {/* <Card.Content>
-        <Text variant="titleLarge">Card title</Text>
-        <Text variant="bodyMedium">Card content</Text>
-      </Card.Content> */}
       <Card.Cover style={styles.cover} source={{ uri: store.image }} />
-      {/* <Card.Cover style={styles.cover} source={{ uri: store.image }} /> */}
-      {/* <Card.Actions>
-        <Button>Cancel</Button>
-        <Button>Ok</Button>
-      </Card.Actions> */}
+      <Card.Actions>
+        <Button mode='text' onPress={() => router.push(`/store/campaign/${store.storeId}`)}>
+          View Campaigns
+        </Button>
+      </Card.Actions>
     </Card>
   );
 };

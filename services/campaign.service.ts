@@ -59,7 +59,8 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         headers: {
           'Content-Type': 'application/json',
         },
-        url: `/api/core/campaigns/stores/${storeId}?description=${description}&page=${page_number}&size=${page_size}`,
+        // url: `/api/core/campaigns/stores/${storeId}?description=${description}&page=${page_number}&size=${page_size}`,
+        url: `/api/core/campaigns/stores/${storeId}?page=${page_number}&size=${page_size}`,
         method: 'GET',
         params: { storeId, description, page_size, page_number },
       }),
