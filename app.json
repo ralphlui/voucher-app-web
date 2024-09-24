@@ -18,7 +18,7 @@
     },
 
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/ticket-percent-custom.png",
 
     "userInterfaceStyle": "light",
 
