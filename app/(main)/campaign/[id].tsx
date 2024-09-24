@@ -8,7 +8,7 @@ import { CampaignStatusEnum } from '@/types/CampaignStatusEnum';
 import { UserTypeEnum } from '@/types/UserTypeEnum';
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
-import { View, StyleSheet, ScrollView, Image, Alert } from 'react-native';
+import { View, StyleSheet, ScrollView, Image, Alert, Platform } from 'react-native';
 import { Button, Text, ActivityIndicator, Card, ProgressBar, TextInput } from 'react-native-paper';
 
 const Campaign = () => {
@@ -45,7 +45,7 @@ const Campaign = () => {
         <ActivityIndicator size="large" />
       ) : (
         <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-          <Card style={styles.container}>
+          <Card style={[styles.container, Platform.OS === 'web' && styles.webStyle]}>
             <Card.Content>
               <Text style={styles.amount} variant="displayLarge">
                 ${data?.data?.amount} off
@@ -257,6 +257,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     width: 150,
     height: 150,
+  },
+  webStyle: {
+    maxWidth: 300,
+    alignSelf: 'center',
   },
 });
 

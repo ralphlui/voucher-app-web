@@ -1,7 +1,7 @@
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Platform } from 'react-native';
 import { Button, TextInput, Avatar, ActivityIndicator } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 
@@ -48,7 +48,7 @@ const Register = () => {
           onSuccess={onSuccess}
         />
       )}
-      <View style={styles.containerStyle}>
+      <View style={[styles.containerStyle, Platform.OS === 'web' && styles.webStyle]}>
         {isLoading ? (
           <ActivityIndicator size="large" />
         ) : (
@@ -220,6 +220,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
     padding: 10,
+  },
+  webStyle: {
+    maxWidth: 300,
+    alignSelf: 'center',
   },
 });
 

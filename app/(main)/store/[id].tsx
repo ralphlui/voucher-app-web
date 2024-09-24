@@ -3,7 +3,7 @@ import { useGetStoreByIdQuery } from '@/services/store.service';
 import { UserTypeEnum } from '@/types/UserTypeEnum';
 import { Stack, useLocalSearchParams } from 'expo-router';
 import React from 'react';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, Platform } from 'react-native';
 import { ActivityIndicator, Button, Card, Text } from 'react-native-paper';
 
 const Store = () => {
@@ -19,7 +19,7 @@ const Store = () => {
         <ActivityIndicator size="large" />
       ) : (
         <ScrollView contentContainerStyle={styles.scrollViewStyle}>
-          <Card style={styles.container}>
+          <Card style={[styles.container, Platform.OS === 'web' && styles.webStyle]}>
             <Card.Cover style={styles.cover} source={{ uri: data?.data?.image }} />
             <Card.Title
               title={data?.data?.description}
@@ -100,6 +100,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: 'grey',
     backgroundColor: 'white',
+  },
+  webStyle: {
+    maxWidth: 300,
+    alignSelf: 'center',
   },
 });
 

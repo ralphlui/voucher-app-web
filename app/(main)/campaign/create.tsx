@@ -1,7 +1,7 @@
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
-import { ScrollView, View, StyleSheet } from 'react-native';
+import { ScrollView, View, StyleSheet, Platform } from 'react-native';
 import { ActivityIndicator, Text, Button, TextInput } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 
@@ -69,7 +69,7 @@ const CreateCampaign = () => {
         ) : (
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             {auth.role === UserTypeEnum.MERCHANT && (
-              <View>
+              <View style={[styles.containerStyle, Platform.OS === 'web' && styles.webStyle]}>
                 {storeData?.data === undefined && <CreateStoreButton text="Create a store first" />}
                 <FormBuilder
                   control={control}
@@ -207,6 +207,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
     padding: 10,
+  },
+  webStyle: {
+    maxWidth: 300,
+    alignSelf: 'center',
   },
 });
 

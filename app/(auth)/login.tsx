@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Stack, useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { StyleSheet, View, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView, Platform } from 'react-native';
 import { Button, TextInput, Avatar, ActivityIndicator } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 import { useDispatch } from 'react-redux';
@@ -99,7 +99,7 @@ const Login = () => {
           onSuccess={onSuccess}
         />
       )}
-      <View style={styles.containerStyle}>
+      <View style={[styles.containerStyle, Platform.OS === 'web' && styles.webStyle]}>
         {isLoading ? (
           <ActivityIndicator size="large" />
         ) : (
@@ -179,6 +179,10 @@ const styles = StyleSheet.create({
   },
   button: {
     marginBottom: 10,
+  },
+  webStyle: {
+    maxWidth: 300,
+    alignSelf: 'center'
   },
 });
 

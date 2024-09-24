@@ -80,7 +80,7 @@ const CreateStore = () => {
         ) : (
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             {auth.role === UserTypeEnum.MERCHANT && (
-              <View>
+              <View style={[styles.containerStyle, Platform.OS === 'web' && styles.webStyle]}>
                 <FormBuilder
                   control={control}
                   setFocus={setFocus}
@@ -216,6 +216,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
     padding: 10,
+  },
+  webStyle: {
+    maxWidth: 300,
+    alignSelf: 'center',
   },
 });
 
