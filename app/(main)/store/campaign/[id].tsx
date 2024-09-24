@@ -9,10 +9,12 @@ import { Campaign } from '@/types/Campaign';
 import CampaignCard from '@/components/cards/CampaignCard';
 import NoDataFound from '@/components/common/NoDataFound';
 import { useGetStoreByIdQuery } from '@/services/store.service';
+import useResponsiveColumns from '@/hooks/useResponsiveColumns';
 
 const CampaigsForStore = () => {
   const { id } = useLocalSearchParams();
   const { pageNumber, setPageNumber, pageSize } = usePagination();
+  const numColumns = useResponsiveColumns();
   const [refreshing, setRefreshing] = useState(false);
   const { data, error, isLoading, hasNextPage, isFetching, isSuccess, isError, refetch } =
     useGetCampaignsByStoreIdQuery(
@@ -54,11 +56,13 @@ const CampaigsForStore = () => {
     await refetch();
     setRefreshing(false);
   }, [refetch]);
-  console.log(storeData);
+
   return (
     <>
       <Stack.Screen options={{ title: storeData?.data?.storeName ?? '' }} />
       <FlatList
+        key={numColumns}
+        numColumns={numColumns}
         data={data?.data ?? []}
         keyExtractor={(item) => item?.campaignId?.toString() ?? ''}
         onEndReached={handleEndReached}

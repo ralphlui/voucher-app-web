@@ -17,10 +17,12 @@ import { Voucher } from '@/types/Voucher';
 import { Button, Searchbar, SegmentedButtons, Text } from 'react-native-paper';
 import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
+import useResponsiveColumns from '@/hooks/useResponsiveColumns';
 
 const VoucherTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [value, setValue] = useState('CLAIMED');
+  const numColumns = useResponsiveColumns();
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
@@ -78,6 +80,8 @@ const VoucherTab = () => {
         ]}
       />
       <FlatList
+        key={numColumns}
+        numColumns={numColumns}
         data={data?.data ?? []}
         keyExtractor={(item) => item.voucherId.toString()}
         onEndReached={handleEndReached}

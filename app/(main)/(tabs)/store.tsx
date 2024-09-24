@@ -13,10 +13,12 @@ import { useGetStoresQuery } from '@/services/store.service';
 import { Store } from '@/types/Store';
 import { Searchbar } from 'react-native-paper';
 import NoDataFound from '@/components/common/NoDataFound';
+import useResponsiveColumns from '@/hooks/useResponsiveColumns';
 
 const StoreTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const numColumns = useResponsiveColumns();
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetStoresQuery(
@@ -60,6 +62,8 @@ const StoreTab = () => {
         value={searchQuery}
       />
       <FlatList
+        key={numColumns}
+        numColumns={numColumns}
         data={data?.data ?? []}
         keyExtractor={(item) => item?.storeId?.toString() ?? ''}
         onEndReached={handleEndReached}

@@ -16,10 +16,12 @@ import { Feed } from '@/types/Feed';
 import { useRouter } from 'expo-router';
 import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
+import useResponsiveColumns from '@/hooks/useResponsiveColumns';
 
 const FeedTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const { pageNumber, setPageNumber, pageSize } = usePagination();
+  const numColumns = useResponsiveColumns();
   const router = useRouter();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
@@ -76,6 +78,8 @@ const FeedTab = () => {
 
   return (
     <FlatList
+      key={numColumns}
+      numColumns={numColumns}
       data={data?.data ?? []}
       keyExtractor={(item) => item.feedId.toString()}
       onEndReached={handleEndReached}

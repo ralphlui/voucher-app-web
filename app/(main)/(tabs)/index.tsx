@@ -14,10 +14,12 @@ import { Campaign } from '@/types/Campaign';
 import { Searchbar } from 'react-native-paper';
 import NoDataFound from '@/components/common/NoDataFound';
 import useDebounce from '@/hooks/useDebounce';
+import useResponsiveColumns from '@/hooks/useResponsiveColumns';
 
 const CampaignTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const numColumns = useResponsiveColumns();
   const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
@@ -63,6 +65,8 @@ const CampaignTab = () => {
         value={searchQuery}
       />
       <FlatList
+        key={numColumns}
+        numColumns={numColumns}
         data={data?.data ?? []}
         keyExtractor={(item) => item?.campaignId?.toString() ?? ''}
         onEndReached={handleEndReached}
