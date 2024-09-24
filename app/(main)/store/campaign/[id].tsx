@@ -10,6 +10,7 @@ import CampaignCard from '@/components/cards/CampaignCard';
 import NoDataFound from '@/components/common/NoDataFound';
 import { useGetStoreByIdQuery } from '@/services/store.service';
 import useResponsiveColumns from '@/hooks/useResponsiveColumns';
+import { CampaignStatusEnum } from '@/types/CampaignStatusEnum';
 
 const CampaigsForStore = () => {
   const { id } = useLocalSearchParams();
@@ -18,7 +19,12 @@ const CampaigsForStore = () => {
   const [refreshing, setRefreshing] = useState(false);
   const { data, error, isLoading, hasNextPage, isFetching, isSuccess, isError, refetch } =
     useGetCampaignsByStoreIdQuery(
-      { storeId: id, page_size: pageSize, page_number: pageNumber },
+      {
+        storeId: id,
+        status: CampaignStatusEnum.PROMOTED,
+        page_size: pageSize,
+        page_number: pageNumber,
+      },
       {
         selectFromResult: ({ data, ...args }) => {
           return {

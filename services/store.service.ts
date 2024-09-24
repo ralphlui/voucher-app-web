@@ -10,7 +10,6 @@ export const storeApiSlice = coreApi.injectEndpoints({
         // url: `/api/core/stores?query=${description}&page=${page_number}&size=${page_size}`,
         url: `/api/core/stores?page=${page_number}&size=${page_size}`,
         method: 'GET',
-        params: { description, page_size, page_number },
       }),
       providesTags: ['Store'],
       serializeQueryArgs: ({ endpointName }) => {
@@ -34,7 +33,6 @@ export const storeApiSlice = coreApi.injectEndpoints({
         },
         url: `/api/core/stores/users/${userId}?page=${page_number}&size=${page_size}`,
         method: 'GET',
-        params: { userId, page_size, page_number },
       }),
       providesTags: ['Store'],
       serializeQueryArgs: ({ endpointName }) => {
@@ -58,7 +56,6 @@ export const storeApiSlice = coreApi.injectEndpoints({
         },
         url: `/api/core/stores/users/${userId}`,
         method: 'GET',
-        params: { userId },
       }),
       providesTags: ['Store'],
     }),
