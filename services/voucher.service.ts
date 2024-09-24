@@ -9,7 +9,6 @@ export const voucherApiSlice = coreApi.injectEndpoints({
         },
         url: `/api/core/vouchers/users/${userId}?page=${page_number}&size=${page_size}`,
         method: 'GET',
-        params: { userId, page_size, page_number },
       }),
       providesTags: ['Voucher'],
       serializeQueryArgs: ({ endpointName }) => {
@@ -33,7 +32,6 @@ export const voucherApiSlice = coreApi.injectEndpoints({
         },
         url: `/api/core/vouchers/campaigns/${campaignId}?page=${page_number}&size=${page_size}`,
         method: 'GET',
-        params: { campaignId, page_size, page_number },
       }),
       providesTags: ['Voucher'],
       serializeQueryArgs: ({ endpointName }) => {

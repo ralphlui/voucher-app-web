@@ -6,7 +6,6 @@ export const feedApiSlice = feedApi.injectEndpoints({
       query: ({ userId, page_size = 5, page_number = 0 }) => ({
         url: `/api/feeds/users/${userId}?page=${page_number}&size=${page_size}`,
         method: 'GET',
-        params: { userId, page_size, page_number },
       }),
       providesTags: ['Feed'],
       serializeQueryArgs: ({ endpointName }) => {

@@ -11,7 +11,6 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         // url: `/api/core/campaigns?description=${description}&page=${page_number}&size=${page_size}`,
         url: `/api/core/campaigns?page=${page_number}&size=${page_size}`,
         method: 'GET',
-        params: { description, page_size, page_number },
       }),
       providesTags: ['Campaign'],
       serializeQueryArgs: ({ endpointName }) => {
@@ -37,7 +36,6 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         // url: `/api/core/campaigns/users/${userId}?description=${description}&page=${page_number}&size=${page_size}`,
         url: `/api/core/campaigns/users/${userId}?page=${page_number}&size=${page_size}`,
         method: 'GET',
-        params: { description, userId, page_size, page_number },
       }),
       providesTags: (result, error, { userId }) => [{ type: 'Campaign', id: `USER_${userId}` }],
       serializeQueryArgs: ({ endpointName }) => {
@@ -55,14 +53,13 @@ export const campaignApiSlice = coreApi.injectEndpoints({
       },
     }),
     getCampaignsByStoreId: builder.query({
-      query: ({ storeId, description = '', page_size = 10, page_number = 0 }) => ({
+      query: ({ storeId, status, description, page_size = 10, page_number = 0 }) => ({
         headers: {
           'Content-Type': 'application/json',
         },
-        // url: `/api/core/campaigns/stores/${storeId}?description=${description}&page=${page_number}&size=${page_size}`,
-        url: `/api/core/campaigns/stores/${storeId}?page=${page_number}&size=${page_size}`,
+        // url: `/api/core/campaigns/stores/${storeId}?status=${status}&description=${description}&page=${page_number}&size=${page_size}`,
+        url: `/api/core/campaigns/stores/${storeId}?status=${status}&page=${page_number}&size=${page_size}`,
         method: 'GET',
-        params: { storeId, description, page_size, page_number },
       }),
       providesTags: ['Campaign'],
       serializeQueryArgs: ({ endpointName }) => {
