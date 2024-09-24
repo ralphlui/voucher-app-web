@@ -22,7 +22,8 @@ const Store = () => {
           <Card style={[styles.container, Platform.OS === 'web' && styles.webStyle]}>
             <Card.Cover style={styles.cover} source={{ uri: data?.data?.image }} />
             <Card.Title
-              title={data?.data?.description}
+              title={data?.data?.storeName}
+              subtitle={data?.data?.description}
               right={() => (
                 <Card.Actions>
                   {auth.role === UserTypeEnum.MERCHANT && (
@@ -81,6 +82,7 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     margin: 10,
+    minWidth: 300,
   },
   cover: {
     margin: 10,

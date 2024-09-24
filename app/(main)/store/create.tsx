@@ -81,6 +81,9 @@ const CreateStore = () => {
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             {auth.role === UserTypeEnum.MERCHANT && (
               <View style={[styles.containerStyle, Platform.OS === 'web' && styles.webStyle]}>
+                <View style={styles.icon}>
+                  <Avatar.Icon icon="ticket-percent-outline" />
+                </View>
                 <FormBuilder
                   control={control}
                   setFocus={setFocus}
@@ -151,6 +154,7 @@ const CreateStore = () => {
                 />
                 <ImageUploadInput onImagePicked={setImageUri} imageUri={imageUri} />
                 <Button
+                  style={styles.button}
                   mode="contained"
                   onPress={handleSubmit(
                     async ({
@@ -216,6 +220,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 10,
     padding: 10,
+  },
+  button: {
+    marginTop:10
   },
   webStyle: {
     maxWidth: 300,

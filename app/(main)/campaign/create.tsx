@@ -2,7 +2,7 @@ import { Stack, useRouter } from 'expo-router';
 import React from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { ScrollView, View, StyleSheet, Platform } from 'react-native';
-import { ActivityIndicator, Text, Button, TextInput } from 'react-native-paper';
+import { ActivityIndicator, Text, Button, TextInput, Avatar } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
 
 import HandleResponse from '@/components/common/HandleResponse';
@@ -70,6 +70,9 @@ const CreateCampaign = () => {
           <ScrollView contentContainerStyle={styles.scrollViewStyle}>
             {auth.role === UserTypeEnum.MERCHANT && (
               <View style={[styles.containerStyle, Platform.OS === 'web' && styles.webStyle]}>
+                <View style={styles.icon}>
+                  <Avatar.Icon icon="ticket-percent-outline" />
+                </View>
                 {storeData?.data === undefined && <CreateStoreButton text="Create a store first" />}
                 <FormBuilder
                   control={control}

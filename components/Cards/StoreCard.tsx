@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     margin: 10,
+    minWidth: 300
   },
   cover: {
     margin: 10,
