@@ -10,6 +10,8 @@ const feedApi = createApi({
       const userId = auth.auth.userId;
       if (userId) {
         headers.set('X-User-Id', userId);
+      } else {
+        headers.set('X-User-Id', 'anonymous');
       }
       headers.set('Content-Type', 'application/json');
       return headers;

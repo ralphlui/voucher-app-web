@@ -10,6 +10,8 @@ const coreApi = createApi({
       const userId = auth.auth.userId;
       if (userId) {
         headers.set('X-User-Id', userId);
+      } else {
+        headers.set('X-User-Id', 'anonymous');
       }
       return headers;
     },
