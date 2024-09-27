@@ -109,7 +109,6 @@ export const campaignApiSlice = coreApi.injectEndpoints({
       query: ({ userId, campaignId }) => ({
         url: `/api/core/campaigns/${campaignId}/users/${userId}/promote`,
         method: 'PATCH',
-        params: { userId, campaignId },
       }),
     }),
   }),
