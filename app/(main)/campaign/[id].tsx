@@ -1,6 +1,7 @@
 import ClaimVoucherButton from '@/components/buttons/ClaimVoucherButton';
 import PromoteCampaignButton from '@/components/buttons/PromoteCampaignButton';
 import CampaignStatusChip from '@/components/chips/CampaignStatusChip';
+import HandleResponse from '@/components/common/HandleResponse';
 import CampaignEditFieldModal from '@/components/modals/CampaignEditFieldModal';
 import useAuth from '@/hooks/useAuth';
 import { useGetCampaignByIdQuery } from '@/services/campaign.service';
@@ -41,6 +42,14 @@ const Campaign = () => {
   return (
     <>
       <Stack.Screen options={{ title: data?.data?.description }} />
+      {(isSuccess || isError) && (
+        <HandleResponse
+          isError={isError}
+          isSuccess={isSuccess}
+          error={error || 'Error occurs'}
+          message={data?.message}
+        />
+      )}
       {isLoading ? (
         <ActivityIndicator size="large" />
       ) : (

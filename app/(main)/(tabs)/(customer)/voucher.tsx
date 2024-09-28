@@ -4,9 +4,6 @@ import {
   ActivityIndicator,
   FlatList,
   ListRenderItemInfo,
-  View,
-  Modal,
-  ScrollView,
   RefreshControl,
 } from 'react-native';
 
@@ -18,6 +15,7 @@ import { Button, Searchbar, SegmentedButtons, Text } from 'react-native-paper';
 import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 import useResponsiveColumns from '@/hooks/useResponsiveColumns';
+import HandleResponse from '@/components/common/HandleResponse';
 
 const VoucherTab = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -61,6 +59,14 @@ const VoucherTab = () => {
 
   return (
     <>
+      {(isSuccess || isError) && (
+        <HandleResponse
+          isError={isError}
+          isSuccess={isSuccess}
+          error={error || 'Error occurs'}
+          message={data?.message}
+        />
+      )}
       <SegmentedButtons
         value={value}
         onValueChange={setValue}

@@ -1,3 +1,4 @@
+import HandleResponse from '@/components/common/HandleResponse';
 import useAuth from '@/hooks/useAuth';
 import { useGetStoreByIdQuery } from '@/services/store.service';
 import { UserTypeEnum } from '@/types/UserTypeEnum';
@@ -15,6 +16,14 @@ const Store = () => {
   return (
     <>
       <Stack.Screen options={{ title: data?.data?.storeName }} />
+      {(isSuccess || isError) && (
+        <HandleResponse
+          isError={isError}
+          isSuccess={isSuccess}
+          error={error || 'Error occurs'}
+          message={data?.message}
+        />
+      )}
       {isLoading ? (
         <ActivityIndicator size="large" />
       ) : (

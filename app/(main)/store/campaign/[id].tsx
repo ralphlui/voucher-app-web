@@ -11,6 +11,7 @@ import NoDataFound from '@/components/common/NoDataFound';
 import { useGetStoreByIdQuery } from '@/services/store.service';
 import useResponsiveColumns from '@/hooks/useResponsiveColumns';
 import { CampaignStatusEnum } from '@/types/CampaignStatusEnum';
+import HandleResponse from '@/components/common/HandleResponse';
 
 const CampaigsForStore = () => {
   const { id } = useLocalSearchParams();
@@ -66,6 +67,14 @@ const CampaigsForStore = () => {
   return (
     <>
       <Stack.Screen options={{ title: storeData?.data?.storeName ?? '' }} />
+      {(isSuccess || isError) && (
+        <HandleResponse
+          isError={isError}
+          isSuccess={isSuccess}
+          error={error || 'Error occurs'}
+          message={data?.message}
+        />
+      )}
       <FlatList
         key={numColumns}
         numColumns={numColumns}

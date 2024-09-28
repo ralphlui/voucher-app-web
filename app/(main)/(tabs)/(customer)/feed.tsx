@@ -17,6 +17,7 @@ import { useRouter } from 'expo-router';
 import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 import useResponsiveColumns from '@/hooks/useResponsiveColumns';
+import HandleResponse from '@/components/common/HandleResponse';
 
 const FeedTab = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -77,22 +78,32 @@ const FeedTab = () => {
   }, [refetch]);
 
   return (
-    <FlatList
-      key={numColumns}
-      numColumns={numColumns}
-      data={data?.data ?? []}
-      keyExtractor={(item) => item.feedId.toString()}
-      onEndReached={handleEndReached}
-      onEndReachedThreshold={0.5}
-      renderItem={renderItem}
-      ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
-      ItemSeparatorComponent={Divider}
-      refreshControl={
-        <RefreshControl refreshing={refreshing || isFetching} onRefresh={onRefresh} />
-      }
-      ListEmptyComponent={<NoDataFound text="feed" />}
-      style={styles.container}
-    />
+    <>
+      {(isSuccess || isError) && (
+        <HandleResponse
+          isError={isError}
+          isSuccess={isSuccess}
+          error={error || 'Error occurs'}
+          message={data?.message}
+        />
+      )}
+      <FlatList
+        key={numColumns}
+        numColumns={numColumns}
+        data={data?.data ?? []}
+        keyExtractor={(item) => item.feedId.toString()}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+        renderItem={renderItem}
+        ListFooterComponent={isLoading ? <ActivityIndicator size="large" /> : null}
+        ItemSeparatorComponent={Divider}
+        refreshControl={
+          <RefreshControl refreshing={refreshing || isFetching} onRefresh={onRefresh} />
+        }
+        ListEmptyComponent={<NoDataFound text="feed" />}
+        style={styles.container}
+      />
+    </>
   );
 };
 

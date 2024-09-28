@@ -15,6 +15,7 @@ import { Searchbar } from 'react-native-paper';
 import NoDataFound from '@/components/common/NoDataFound';
 import useDebounce from '@/hooks/useDebounce';
 import useResponsiveColumns from '@/hooks/useResponsiveColumns';
+import HandleResponse from '@/components/common/HandleResponse';
 
 const CampaignTab = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -58,6 +59,14 @@ const CampaignTab = () => {
 
   return (
     <>
+      {(isSuccess || isError) && (
+        <HandleResponse
+          isError={isError}
+          isSuccess={isSuccess}
+          error={error || 'Error occurs'}
+          message={data?.message}
+        />
+      )}
       <Searchbar
         style={styles.searchBar}
         placeholder="Search"
