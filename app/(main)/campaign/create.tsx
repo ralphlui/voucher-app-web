@@ -13,6 +13,7 @@ import { Store } from '@/types/Store';
 import DateTimePickerInput from '@/components/inputs/DateTimePickerInput';
 import { UserTypeEnum } from '@/types/UserTypeEnum';
 import CreateStoreButton from '@/components/buttons/CreateStoreButton';
+import { categories } from '@/utils/categories';
 
 const CreateCampaign = () => {
   const router = useRouter();
@@ -25,8 +26,8 @@ const CreateCampaign = () => {
   } = useForm({
     defaultValues: {
       description: '',
-      tagsJson: '',
       tandc: '',
+      category: '',
       amount: 0,
       numberOfVouchers: 0,
       startDate: new Date(),
@@ -108,12 +109,19 @@ const CreateCampaign = () => {
                       },
                     },
                     {
-                      name: 'tagsJson',
-                      type: 'text',
+                      name: 'category',
+                      type: 'select',
                       textInputProps: {
-                        label: 'Tags',
+                        label: 'Category',
                         left: <TextInput.Icon icon="tag-multiple" />,
                       },
+                      rules: {
+                        required: {
+                          value: true,
+                          message: 'Category is required',
+                        },
+                      },
+                      options: categories,
                     },
                     {
                       name: 'tandc',
@@ -130,6 +138,12 @@ const CreateCampaign = () => {
                         label: 'Amount',
                         left: <TextInput.Icon icon="currency-usd" />,
                       },
+                      rules: {
+                        required: {
+                          value: true,
+                          message: 'Amount is required',
+                        },
+                      },
                     },
                     {
                       name: 'numberOfVouchers',
@@ -137,6 +151,12 @@ const CreateCampaign = () => {
                       textInputProps: {
                         label: '# of Vouchers',
                         left: <TextInput.Icon icon="ticket-confirmation" />,
+                      },
+                      rules: {
+                        required: {
+                          value: true,
+                          message: '# of voucher for claim is required',
+                        },
                       },
                     },
                   ]}
@@ -161,7 +181,6 @@ const CreateCampaign = () => {
                   onPress={handleSubmit(
                     ({
                       description,
-                      tagsJson,
                       tandc,
                       amount,
                       numberOfVouchers,
@@ -171,7 +190,6 @@ const CreateCampaign = () => {
                     }) => {
                       createCampaign({
                         description,
-                        tagsJson,
                         tandc,
                         amount,
                         numberOfVouchers,
