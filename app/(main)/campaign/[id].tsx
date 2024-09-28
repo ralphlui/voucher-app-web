@@ -42,7 +42,7 @@ const Campaign = () => {
   return (
     <>
       <Stack.Screen options={{ title: data?.data?.description }} />
-      {(isSuccess || isError) && (
+      {isError && (
         <HandleResponse
           isError={isError}
           isSuccess={isSuccess}

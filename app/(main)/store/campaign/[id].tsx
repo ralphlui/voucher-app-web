@@ -67,7 +67,7 @@ const CampaigsForStore = () => {
   return (
     <>
       <Stack.Screen options={{ title: storeData?.data?.storeName ?? '' }} />
-      {(isSuccess || isError) && (
+      {isError && (
         <HandleResponse
           isError={isError}
           isSuccess={isSuccess}

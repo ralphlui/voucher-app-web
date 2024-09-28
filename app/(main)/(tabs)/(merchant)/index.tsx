@@ -61,7 +61,7 @@ const CampaignTab = () => {
 
   return (
     <>
-      {(isSuccess || isError) && (
+      {isError && (
         <HandleResponse
           isError={isError}
           isSuccess={isSuccess}
