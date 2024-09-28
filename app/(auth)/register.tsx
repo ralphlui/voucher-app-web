@@ -1,12 +1,14 @@
 import { Stack, useRouter } from 'expo-router';
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { StyleSheet, View, ScrollView, Platform } from 'react-native';
 import { Button, TextInput, Avatar, ActivityIndicator } from 'react-native-paper';
 import { FormBuilder } from 'react-native-paper-form-builder';
+import { MultiSelectDropdown } from 'react-native-paper-dropdown';
 
 import HandleResponse from '@/components/common/HandleResponse';
 import { useCreateUserMutation } from '@/services/user.service';
+import { categories } from '@/utils/categories';
 
 const Register = () => {
   const router = useRouter();
@@ -21,11 +23,10 @@ const Register = () => {
       email: '',
       password: '',
       role: '',
-      preferences: '',
+      preferences: [],
     },
     mode: 'onChange',
   });
-
   const [createUser, { data, isSuccess, isError, isLoading, error }] = useCreateUserMutation();
 
   const onSuccess = () => {
@@ -161,33 +162,29 @@ const Register = () => {
                     },
                   ],
                 },
-                {
-                  name: 'preferences',
-                  type: 'select',
-                  textInputProps: {
-                    label: 'Preferences',
-                    left: <TextInput.Icon icon="checkbox-multiple-marked" />,
-                  },
-                  rules: {
-                    required: {
-                      value: true,
-                      message: 'Please pick your interests',
-                    },
-                  },
-                  options: [
-                    {
-                      label: 'Foods',
-                      value: 'FOODS',
-                    },
-                    {
-                      label: 'Sports',
-                      value: 'SPORTS',
-                    },
-                  ],
-                },
               ]}
             />
+            <Controller
+              name="preferences"
+              control={control}
+              render={({ field: { onChange, value } }) => (
+                <MultiSelectDropdown
+                  label="Preferences"
+                  options={categories}
+                  value={value}
+                  onSelect={onChange}
+                  mode="outlined"
+                />
+              )}
+              rules={{
+                required: {
+                  value: true,
+                  message: 'Preferences are required',
+                },
+              }}
+            />
             <Button
+              style={styles.button}
               mode="contained"
               onPress={handleSubmit(({ username, email, password, role, preferences }) => {
                 createUser({
@@ -224,6 +221,9 @@ const styles = StyleSheet.create({
   webStyle: {
     maxWidth: 300,
     alignSelf: 'center',
+  },
+  button: {
+    marginTop: 20,
   },
 });
 
