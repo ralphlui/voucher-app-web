@@ -13,14 +13,12 @@ const verification = () => {
   return (
     <>
       <Stack.Screen options={{ title: 'User Verfication' }} />
-      {isError && (
-        <HandleResponse
-          isError={isError}
-          isSuccess={isSuccess}
-          error={error || 'Error occurs'}
-          message={data?.message}
-        />
-      )}
+      <HandleResponse
+        isError={isError}
+        isSuccess={isSuccess}
+        error={error || 'Error occurs'}
+        message={data?.message}
+      />
       {isLoading ? <ActivityIndicator size="large" /> : null}
     </>
   );
