@@ -187,7 +187,7 @@ const CreateStore = () => {
                       formData.append('store', blob);
                       if (imageUri) {
                         const imageBlob = await getImageBlob(imageUri);
-                        formData.append('image', imageBlob, 'store_name.jpg');
+                        formData.append('image', imageBlob, Date.now() + '.jpg');
                       }
                       createStore(formData);
                     }
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   button: {
-    marginTop:10
+    marginTop: 10,
   },
   webStyle: {
     maxWidth: 300,

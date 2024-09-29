@@ -22,7 +22,7 @@ const StoreCard = (props: Props) => {
       <Card.Title title={store.storeName} subtitle={store.address} left={LeftContent} />
       <Card.Cover style={styles.cover} source={{ uri: store.image }} />
       <Card.Actions>
-        <Button mode='text' onPress={() => router.push(`/store/campaign/${store.storeId}`)}>
+        <Button mode="text" onPress={() => router.push(`/store/campaign/${store.storeId}`)}>
           View Campaigns
         </Button>
       </Card.Actions>
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   container: {
     alignContent: 'center',
     margin: 10,
-    minWidth: 300
+    minWidth: 300,
   },
   cover: {
     margin: 10,
