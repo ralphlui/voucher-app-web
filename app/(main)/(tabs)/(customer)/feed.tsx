@@ -90,7 +90,7 @@ const FeedTab = () => {
       <FlatList
         key={numColumns}
         numColumns={numColumns}
-        data={data?.data ?? []}
+        data={data ?? []}
         keyExtractor={(item) => item.feedId.toString()}
         onEndReached={handleEndReached}
         onEndReachedThreshold={0.5}

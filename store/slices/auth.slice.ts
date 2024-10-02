@@ -39,7 +39,9 @@ const authSlice = createSlice({
       state.userId = action.payload.data.userID;
     },
     setWebSocket: (state, action) => {
-      const ws = new WebSocket(process.env.EXPO_PUBLIC_FEED_SOCKET_URL ?? '');
+      const ws = new WebSocket(
+        `${process.env.EXPO_PUBLIC_FEED_SOCKET_URL}?userId=${state.userId ?? action.payload.data.userID}`
+      );
       ws.addEventListener('open', (event) => {
         ws.send(JSON.stringify(action.payload.data));
       });
