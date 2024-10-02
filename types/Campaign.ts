@@ -9,6 +9,7 @@ export interface Campaign {
   numberOfLikes?: number;
   tagsJson?: string;
   tandc?: string;
+  category?: string;
   amount?: GLfloat;
   startDate?: Date;
   endDate?: Date;
