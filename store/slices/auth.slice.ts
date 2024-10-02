@@ -44,6 +44,7 @@ const authSlice = createSlice({
         ws.send(JSON.stringify(action.payload.data));
       });
       ws.addEventListener('message', (event) => {
+        console.log('Message received: ', event.data);
         const message = JSON.parse(event.data);
         state.message = message;
       });

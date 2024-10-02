@@ -47,7 +47,7 @@ const FeedTab = () => {
     if (!hasNextPage || isLoading || isFetching) return;
     setPageNumber(pageNumber + 1);
   };
-
+  console.log(data);
   const renderItem = ({ item }: ListRenderItemInfo<Feed>) => {
     return (
       <View style={styles.listRow}>
