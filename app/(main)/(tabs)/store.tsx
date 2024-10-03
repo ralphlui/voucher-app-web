@@ -26,7 +26,7 @@ const StoreTab = () => {
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetStoresQuery(
       {
-        descriptiom: debouncedSearchQuery,
+        description: debouncedSearchQuery,
         page_size: pageSize,
         page_number: pageNumber,
       },
