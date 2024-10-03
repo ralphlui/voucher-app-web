@@ -19,7 +19,7 @@ import HandleResponse from '@/components/common/HandleResponse';
 
 const VoucherTab = () => {
   const [refreshing, setRefreshing] = useState(false);
-  const [value, setValue] = useState('CLAIMED');
+  const [campaignStatus, setCampaignStatus] = useState('CLAIMED');
   const numColumns = useResponsiveColumns();
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
@@ -27,6 +27,7 @@ const VoucherTab = () => {
     useGetVouchersByUserIdQuery(
       {
         userId: auth.userId,
+        status: campaignStatus,
         page_size: pageSize,
         page_number: pageNumber,
       },
@@ -68,8 +69,8 @@ const VoucherTab = () => {
         />
       )}
       <SegmentedButtons
-        value={value}
-        onValueChange={setValue}
+        value={campaignStatus}
+        onValueChange={setCampaignStatus}
         style={styles.segmentedButtons}
         buttons={[
           {

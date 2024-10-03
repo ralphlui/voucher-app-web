@@ -3,11 +3,11 @@ import coreApi from '@/services/core.api';
 export const voucherApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
     getVouchersByUserId: builder.query({
-      query: ({ userId, page_size = 10, page_number = 0 }) => ({
+      query: ({ userId, status, page_size = 10, page_number = 0 }) => ({
         headers: {
           'Content-Type': 'application/json',
         },
-        url: `/api/core/vouchers/users/${userId}?page=${page_number}&size=${page_size}`,
+        url: `/api/core/vouchers/users/${userId}?status=${status}&page=${page_number}&size=${page_size}`,
         method: 'GET',
       }),
       providesTags: ['Voucher'],
