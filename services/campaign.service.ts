@@ -17,10 +17,10 @@ export const campaignApiSlice = coreApi.injectEndpoints({
       },
       merge: (currentCache, newItems, { arg }) => {
         if (arg.page_number === 0 || arg.description !== currentCache.description) {
-          currentCache.data = newItems.data; // Overwrite cache for fresh data
+          currentCache.data = newItems.data;
           currentCache.description = arg.description;
         } else {
-          currentCache.data.push(...newItems.data); // Append new data for pagination
+          currentCache.data.push(...newItems.data);
         }
       },
       forceRefetch({ currentArg, previousArg }) {
@@ -32,8 +32,7 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         headers: {
           'Content-Type': 'application/json',
         },
-        // url: `/api/core/campaigns/users/${userId}?description=${description}&page=${page_number}&size=${page_size}`,
-        url: `/api/core/campaigns/users/${userId}?page=${page_number}&size=${page_size}`,
+        url: `/api/core/campaigns/users/${userId}?description=${description}&page=${page_number}&size=${page_size}`,
         method: 'GET',
       }),
       providesTags: (result, error, { userId }) => [{ type: 'Campaign', id: `USER_${userId}` }],
@@ -41,10 +40,11 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         return endpointName;
       },
       merge: (currentCache, newItems, { arg }) => {
-        if (arg.page_number === 0) {
-          currentCache.data = newItems.data; // Overwrite cache for fresh data
+        if (arg.page_number === 0 || arg.description !== currentCache.description) {
+          currentCache.data = newItems.data;
+          currentCache.description = arg.description;
         } else {
-          currentCache.data.push(...newItems.data); // Append new data for pagination
+          currentCache.data.push(...newItems.data);
         }
       },
       forceRefetch({ currentArg, previousArg }) {
@@ -56,7 +56,6 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         headers: {
           'Content-Type': 'application/json',
         },
-        // url: `/api/core/campaigns/stores/${storeId}?status=${status}&description=${description}&page=${page_number}&size=${page_size}`,
         url: `/api/core/campaigns/stores/${storeId}?status=${status}&page=${page_number}&size=${page_size}`,
         method: 'GET',
       }),
@@ -66,9 +65,9 @@ export const campaignApiSlice = coreApi.injectEndpoints({
       },
       merge: (currentCache, newItems, { arg }) => {
         if (arg.page_number === 0) {
-          currentCache.data = newItems.data; // Overwrite cache for fresh data
+          currentCache.data = newItems.data;
         } else {
-          currentCache.data.push(...newItems.data); // Append new data for pagination
+          currentCache.data.push(...newItems.data);
         }
       },
       forceRefetch({ currentArg, previousArg }) {
@@ -81,7 +80,7 @@ export const campaignApiSlice = coreApi.injectEndpoints({
           'Content-Type': 'application/json',
         },
         url: `/api/core/campaigns/${id}`,
-        method: 'GET', // to be changed to GET
+        method: 'GET',
       }),
     }),
     createCampaign: builder.mutation({

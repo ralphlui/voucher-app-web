@@ -33,8 +33,10 @@ const VoucherTab = () => {
       },
       {
         selectFromResult: ({ data, ...args }) => {
+          const totalRecords = data?.totalRecord ?? 0;
+          const hasNextPage = pageNumber < Math.ceil(totalRecords / pageSize);
           return {
-            hasNextPage: pageNumber < Math.ceil((data?.totalRecord ?? 10) / pageSize),
+            hasNextPage,
             data,
             ...args,
           };
@@ -42,10 +44,10 @@ const VoucherTab = () => {
       }
     );
 
-  const handleEndReached = () => {
+  const handleEndReached = useCallback(() => {
     if (!hasNextPage || isLoading || isFetching) return;
-    setPageNumber(pageNumber + 1);
-  };
+    setPageNumber((pageNumber) => pageNumber + 1);
+  }, [hasNextPage, isLoading, isFetching]);
 
   const renderItem = ({ item }: ListRenderItemInfo<Voucher>) => {
     return <VoucherCard voucher={item} />;
@@ -56,7 +58,7 @@ const VoucherTab = () => {
     setPageNumber(0);
     await refetch();
     setRefreshing(false);
-  }, [refetch]);
+  }, [campaignStatus, refetch]);
 
   return (
     <>

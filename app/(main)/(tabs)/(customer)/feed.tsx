@@ -34,8 +34,10 @@ const FeedTab = () => {
       },
       {
         selectFromResult: ({ data, ...args }) => {
+          const totalRecords = data?.totalRecord ?? 0;
+          const hasNextPage = pageNumber < Math.ceil(totalRecords / pageSize);
           return {
-            hasNextPage: pageNumber < Math.ceil((data?.totalRecord ?? 10) / pageSize),
+            hasNextPage,
             data,
             ...args,
           };
@@ -43,11 +45,11 @@ const FeedTab = () => {
       }
     );
 
-  const handleEndReached = () => {
+  const handleEndReached = useCallback(() => {
     if (!hasNextPage || isLoading || isFetching) return;
-    setPageNumber(pageNumber + 1);
-  };
-  console.log(data);
+    setPageNumber((pageNumber) => pageNumber + 1);
+  }, [hasNextPage, isLoading, isFetching]);
+
   const renderItem = ({ item }: ListRenderItemInfo<Feed>) => {
     return (
       <View style={styles.listRow}>
@@ -56,6 +58,7 @@ const FeedTab = () => {
           selected={!item.isRead}
           icon={!item.isRead ? 'star' : 'star-outline'}
         />
+        <Text>{item.campaignDescription}</Text>
         <Button
           onPress={() => {
             router.push(`/(main)/campaign/${item.campaignId}`);

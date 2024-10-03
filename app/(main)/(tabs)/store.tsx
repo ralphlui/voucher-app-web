@@ -15,22 +15,27 @@ import { Searchbar } from 'react-native-paper';
 import NoDataFound from '@/components/common/NoDataFound';
 import useResponsiveColumns from '@/hooks/useResponsiveColumns';
 import HandleResponse from '@/components/common/HandleResponse';
+import useDebounce from '@/hooks/useDebounce';
 
 const StoreTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const numColumns = useResponsiveColumns();
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetStoresQuery(
       {
+        descriptiom: debouncedSearchQuery,
         page_size: pageSize,
         page_number: pageNumber,
       },
       {
         selectFromResult: ({ data, ...args }) => {
+          const totalRecords = data?.totalRecord ?? 0;
+          const hasNextPage = pageNumber < Math.ceil(totalRecords / pageSize);
           return {
-            hasNextPage: pageNumber < Math.ceil((data?.totalRecord ?? 10) / pageSize),
+            hasNextPage,
             data,
             ...args,
           };
@@ -38,10 +43,10 @@ const StoreTab = () => {
       }
     );
 
-  const handleEndReached = () => {
+  const handleEndReached = useCallback(() => {
     if (!hasNextPage || isLoading || isFetching) return;
-    setPageNumber(pageNumber + 1);
-  };
+    setPageNumber((pageNumber) => pageNumber + 1);
+  }, [hasNextPage, isLoading, isFetching]);
 
   const renderItem = ({ item }: ListRenderItemInfo<Store>) => {
     return <StoreCard store={item} />;
@@ -52,7 +57,7 @@ const StoreTab = () => {
     setPageNumber(0);
     await refetch();
     setRefreshing(false);
-  }, [refetch]);
+  }, [debouncedSearchQuery, refetch]);
 
   return (
     <>

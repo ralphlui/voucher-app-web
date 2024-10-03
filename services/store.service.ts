@@ -3,12 +3,11 @@ import coreApi from '@/services/core.api';
 export const storeApiSlice = coreApi.injectEndpoints({
   endpoints: (builder) => ({
     getStores: builder.query({
-      query: ({ description = '', page_size = 10, page_number = 0 }) => ({
+      query: ({ description, page_size = 10, page_number = 0 }) => ({
         headers: {
           'Content-Type': 'application/json',
         },
-        // url: `/api/core/stores?query=${description}&page=${page_number}&size=${page_size}`,
-        url: `/api/core/stores?page=${page_number}&size=${page_size}`,
+        url: `/api/core/stores?query=${description}&page=${page_number}&size=${page_size}`,
         method: 'GET',
       }),
       providesTags: ['Store'],
@@ -16,10 +15,11 @@ export const storeApiSlice = coreApi.injectEndpoints({
         return endpointName;
       },
       merge: (currentCache, newItems, { arg }) => {
-        if (arg.page_number === 0) {
-          currentCache.data = newItems.data; // Overwrite cache for fresh data
+        if (arg.page_number === 0 || arg.description !== currentCache.description) {
+          currentCache.data = newItems.data;
+          currentCache.description = arg.description;
         } else {
-          currentCache.data.push(...newItems.data); // Append new data for pagination
+          currentCache.data.push(...newItems.data);
         }
       },
       forceRefetch({ currentArg, previousArg }) {
@@ -40,9 +40,9 @@ export const storeApiSlice = coreApi.injectEndpoints({
       },
       merge: (currentCache, newItems, { arg }) => {
         if (arg.page_number === 0) {
-          currentCache.data = newItems.data; // Overwrite cache for fresh data
+          currentCache.data = newItems.data;
         } else {
-          currentCache.data.push(...newItems.data); // Append new data for pagination
+          currentCache.data.push(...newItems.data);
         }
       },
       forceRefetch({ currentArg, previousArg }) {

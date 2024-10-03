@@ -16,24 +16,29 @@ import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 import useResponsiveColumns from '@/hooks/useResponsiveColumns';
 import HandleResponse from '@/components/common/HandleResponse';
+import useDebounce from '@/hooks/useDebounce';
 
 const CampaignTab = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const numColumns = useResponsiveColumns();
+  const debouncedSearchQuery = useDebounce(searchQuery, 300);
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
   const { data, error, isLoading, isFetching, hasNextPage, isSuccess, isError, refetch } =
     useGetCampaignsByUserIdQuery(
       {
         userId: auth.userId,
+        description: debouncedSearchQuery,
         page_size: pageSize,
         page_number: pageNumber,
       },
       {
         selectFromResult: ({ data, ...args }) => {
+          const totalRecords = data?.totalRecord ?? 0;
+          const hasNextPage = pageNumber < Math.ceil(totalRecords / pageSize);
           return {
-            hasNextPage: pageNumber < Math.ceil((data?.totalRecord ?? 10) / pageSize) - 1,
+            hasNextPage,
             data,
             ...args,
           };
@@ -43,9 +48,7 @@ const CampaignTab = () => {
 
   const handleEndReached = useCallback(() => {
     if (!hasNextPage || isLoading || isFetching) return;
-    setTimeout(() => {
-      setPageNumber((prevPageNumber) => prevPageNumber + 1);
-    }, 300);
+    setPageNumber((pageNumber) => pageNumber + 1);
   }, [hasNextPage, isLoading, isFetching]);
 
   const renderItem = ({ item }: ListRenderItemInfo<Campaign>) => {
@@ -57,7 +60,7 @@ const CampaignTab = () => {
     setPageNumber(0);
     await refetch();
     setRefreshing(false);
-  }, [refetch]);
+  }, [debouncedSearchQuery, refetch]);
 
   return (
     <>
