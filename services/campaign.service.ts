@@ -8,8 +8,7 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         headers: {
           'Content-Type': 'application/json',
         },
-        // url: `/api/core/campaigns?description=${description}&page=${page_number}&size=${page_size}`,
-        url: `/api/core/campaigns?page=${page_number}&size=${page_size}`,
+        url: `/api/core/campaigns?description=${description}&page=${page_number}&size=${page_size}`,
         method: 'GET',
       }),
       providesTags: ['Campaign'],
@@ -17,9 +16,9 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         return endpointName;
       },
       merge: (currentCache, newItems, { arg }) => {
-        // if (arg.page_number === 0 || arg.description !== currentCache.description) {
-        if (arg.page_number === 0) {
+        if (arg.page_number === 0 || arg.description !== currentCache.description) {
           currentCache.data = newItems.data; // Overwrite cache for fresh data
+          currentCache.description = arg.description;
         } else {
           currentCache.data.push(...newItems.data); // Append new data for pagination
         }
