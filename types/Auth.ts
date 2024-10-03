@@ -13,4 +13,5 @@ export interface Auth {
     storeName?: string;
     campaignDescription?: string;
   } | null;
+  webSocket?: WebSocket | null;
 }

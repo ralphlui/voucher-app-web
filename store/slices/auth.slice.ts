@@ -1,8 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 import { Auth } from '@/types/Auth';
-import { AppDispatch, RootState } from '@/store'; // Adjust the path to your store
 
 const initialState: Auth = {
   user: null,
@@ -13,31 +12,8 @@ const initialState: Auth = {
   role: null,
   email: null,
   message: null,
+  webSocket: null,
 };
-
-export const setupWebSocket = createAsyncThunk(
-  'auth/setupWebSocket',
-  async (data, { dispatch, getState }) => {
-    const state = getState() as RootState;
-    const ws = new WebSocket(
-      `${process.env.EXPO_PUBLIC_FEED_SOCKET_URL}?userId=${state.auth.userId}`
-    );
-
-    ws.addEventListener('open', (event) => {
-      ws.send(JSON.stringify(data));
-    });
-
-    ws.addEventListener('message', (event) => {
-      console.log('Message received: ', event.data);
-      const message = JSON.parse(event.data);
-      dispatch(setWebSocketMessage(message));
-    });
-
-    ws.addEventListener('close', () => {
-      console.log('WebSocket closed');
-    });
-  }
-);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -51,6 +27,8 @@ const authSlice = createSlice({
       state.error = null;
       state.role = null;
       state.email = null;
+      state.webSocket?.close();
+      state.webSocket = null;
     },
     userLogin: (state, action) => {
       if (action.payload.token) {
@@ -63,20 +41,21 @@ const authSlice = createSlice({
       state.user = action.payload.data.username;
       state.userId = action.payload.data.userID;
     },
-    // setWebSocket: (state, action) => {
-    //   const ws = new WebSocket(
-    //     `${process.env.EXPO_PUBLIC_FEED_SOCKET_URL}?userId=${state.userId ?? action.payload.data.userID}`
-    //   );
-    //   ws.addEventListener('open', (event) => {
-    //     ws.send(JSON.stringify(action.payload.data));
-    //   });
-    //   ws.addEventListener('message', (event) => {
-    //     console.log('Message received: ', event.data);
-    //     const message = JSON.parse(event.data);
-    //     state.message = message;
-    //   });
-    //   ws.addEventListener('close', () => {});
-    // },
+    setWebSocket: (state, action) => {
+      const ws = new WebSocket(
+        `${process.env.EXPO_PUBLIC_FEED_SOCKET_URL}?userId=${state.userId ?? action.payload.data.userID}`
+      );
+      ws.addEventListener('open', (event) => {
+        ws.send(JSON.stringify(action.payload.data));
+      });
+      ws.addEventListener('message', (event) => {
+        console.log('Message received: ', event.data);
+      });
+      ws.addEventListener('close', () => {
+        console.log('WebSocket closed!');
+      });
+      state.webSocket = ws;
+    },
     setWebSocketMessage: (state, action) => {
       state.message = action.payload;
     },
@@ -87,6 +66,7 @@ const authSlice = createSlice({
   },
 });
 
-export const { userLogout, userLogin, setAuthData, setWebSocketMessage } = authSlice.actions;
+export const { userLogout, userLogin, setAuthData, setWebSocket, setWebSocketMessage } =
+  authSlice.actions;
 
 export default authSlice.reducer;
