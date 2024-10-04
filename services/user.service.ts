@@ -10,6 +10,13 @@ export const userApiSlice = userApi.injectEndpoints({
       }),
     }),
 
+    logout: builder.mutation({
+      query: () => ({
+        url: '/api/users/logout',
+        method: 'POST',
+      }),
+    }),
+
     verifyUser: builder.mutation({
       query: ({ verifyid }) => ({
         url: `/api/users/verify/${verifyid}`,
@@ -51,6 +58,7 @@ export const userApiSlice = userApi.injectEndpoints({
 
 export const {
   useLoginMutation,
+  useLogoutMutation,
   // useGetUserInfoQuery,
   useCreateUserMutation,
   useGetUsersQuery,
