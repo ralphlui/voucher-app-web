@@ -1,46 +1,44 @@
-import { yupResolver } from '@hookform/resolvers/yup';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Stack, useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 import { StyleSheet, View, ScrollView, Platform } from 'react-native';
 import { Button, TextInput, Avatar, ActivityIndicator } from 'react-native-paper';
-import { FormBuilder } from 'react-native-paper-form-builder';
-import { useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Stack, useRouter } from 'expo-router';
 
 import HandleResponse from '@/components/common/HandleResponse';
 import { useLoginMutation } from '@/services/user.service';
-import { setAuthData, userLogin, setWebSocket } from '@/store/slices/auth.slice';
+import { setAuthData, userLogin, initializeWebSocket } from '@/store/slices/auth.slice';
 import { logInSchema } from '@/utils/validation';
+import { FormBuilder } from 'react-native-paper-form-builder';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAppDispatch } from '@/hooks/useRedux';
+
+interface LoginFormData {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const router = useRouter();
 
   const [login, { data, isSuccess, isError, isLoading, error }] = useLoginMutation();
 
-  const {
-    control,
-    // formState: { errors: formErrors },
-    setFocus,
-    handleSubmit,
-  } = useForm({
+  const { control, setFocus, handleSubmit } = useForm<LoginFormData>({
     resolver: yupResolver(logInSchema),
     defaultValues: {
       email: '',
       password: '',
     },
-    // mode: 'onChange',
   });
 
   useEffect(() => {
     setFocus('email');
-  }, []);
+  }, [setFocus]);
 
   async function tryLocalSignin() {
     dispatch(
       setAuthData({
-        loading: true,
         token: null,
         success: false,
       })
@@ -49,7 +47,6 @@ const Login = () => {
     if (token) {
       dispatch(
         setAuthData({
-          loading: false,
           token,
           success: true,
         })
@@ -57,7 +54,6 @@ const Login = () => {
     } else {
       dispatch(
         setAuthData({
-          loading: false,
           token: null,
           success: false,
         })
@@ -69,7 +65,7 @@ const Login = () => {
     tryLocalSignin();
   }, []);
 
-  const onSubmit = ({ email, password }: { email: string; password: string }) => {
+  const onSubmit = ({ email, password }: LoginFormData) => {
     if (email && password) {
       login({
         body: { email, password },
@@ -78,9 +74,12 @@ const Login = () => {
   };
 
   const onSuccess = () => {
-    dispatch(userLogin(data));
-    dispatch(setWebSocket(data));
-    router.push('/');
+    if (data) {
+      console.log('Data in Login: ', data);
+      dispatch(userLogin(data));
+      dispatch(initializeWebSocket(data));
+      router.push('/');
+    }
   };
 
   return (
@@ -182,7 +181,7 @@ const styles = StyleSheet.create({
   },
   webStyle: {
     maxWidth: 300,
-    alignSelf: 'center'
+    alignSelf: 'center',
   },
 });
 
