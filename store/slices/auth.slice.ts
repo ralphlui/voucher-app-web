@@ -81,8 +81,6 @@ const authSlice = createSlice({
     },
     setWebSocketMessage: (state, action: PayloadAction<any>) => {
       state.message = action.payload;
-      console.log('action in setWebSocketMessage: ', action);
-      console.log('state in setWebSocketMessage: ', state);
     },
     setAuthData: (state, action: PayloadAction<{ token: string | null; success: boolean }>) => {
       state.token = action.payload.token;
