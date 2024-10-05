@@ -75,7 +75,6 @@ const Login = () => {
 
   const onSuccess = () => {
     if (data) {
-      console.log('Data in Login: ', data);
       dispatch(userLogin(data));
       dispatch(initializeWebSocket(data));
       router.push('/');
