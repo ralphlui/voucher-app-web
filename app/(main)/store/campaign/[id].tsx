@@ -66,7 +66,7 @@ const CampaigsForStore = () => {
 
   return (
     <>
-      <Stack.Screen options={{ title: storeData?.data?.storeName ?? '' }} />
+      <Stack.Screen options={{ title: storeData?.data?.storeName ?? 'Loading...' }} />
       {isError && (
         <HandleResponse
           isError={isError}

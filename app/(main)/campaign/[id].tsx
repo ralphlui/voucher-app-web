@@ -41,7 +41,7 @@ const Campaign = () => {
 
   return (
     <>
-      <Stack.Screen options={{ title: data?.data?.description }} />
+      <Stack.Screen options={{ title: data?.data?.description ?? 'Loading...' }} />
       {isError && (
         <HandleResponse
           isError={isError}

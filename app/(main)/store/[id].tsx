@@ -15,7 +15,7 @@ const Store = () => {
   });
   return (
     <>
-      <Stack.Screen options={{ title: data?.data?.storeName }} />
+      <Stack.Screen options={{ title: data?.data?.storeName ?? 'Loading...' }} />
       {isError && (
         <HandleResponse
           isError={isError}

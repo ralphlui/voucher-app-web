@@ -35,7 +35,7 @@ const FeedTab = () => {
       {
         selectFromResult: ({ data, ...args }) => {
           const totalRecords = data?.totalRecord ?? 0;
-          const hasNextPage = pageNumber < Math.ceil(totalRecords / pageSize);
+          const hasNextPage = pageNumber < Math.ceil(totalRecords / pageSize) - 1;
           return {
             hasNextPage,
             data,
