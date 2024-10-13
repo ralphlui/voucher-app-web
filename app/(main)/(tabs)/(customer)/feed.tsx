@@ -5,10 +5,9 @@ import {
   ActivityIndicator,
   ListRenderItemInfo,
   FlatList,
-  ScrollView,
   RefreshControl,
 } from 'react-native';
-import { Button, Divider, IconButton, Text } from 'react-native-paper';
+import { Button, Chip, Divider, IconButton, Text } from 'react-native-paper';
 
 import usePagination from '@/hooks/usePagination';
 import { useGetFeedByUserIdQuery } from '@/services/feed.service';
@@ -56,9 +55,9 @@ const FeedTab = () => {
         <IconButton
           onPress={() => {}}
           selected={!item.isRead}
-          icon={!item.isRead ? 'star' : 'star-outline'}
+          icon={!item.isRead ? 'information' : 'star-outline'}
         />
-        <Text>{item.campaignDescription}</Text>
+        <Chip>{item.category}</Chip>
         <Button
           onPress={() => {
             router.push(`/(main)/campaign/${item.campaignId}`);
@@ -117,12 +116,8 @@ const styles = StyleSheet.create({
   },
   listRow: {
     flexDirection: 'row',
-    marginVertical: 8,
-  },
-  teamResultRow: {
-    flex: 1,
-    justifyContent: 'space-between',
-    flexDirection: 'row',
+    marginVertical: 5,
+    alignItems: 'center',
   },
 });
 
