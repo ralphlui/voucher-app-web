@@ -5,14 +5,12 @@ import {
   FlatList,
   ListRenderItemInfo,
   RefreshControl,
-  ScrollView,
 } from 'react-native';
 
 import StoreCard from '@/components/cards/StoreCard';
 import usePagination from '@/hooks/usePagination';
 import { useGetStoresByUserIdQuery } from '@/services/store.service';
 import { Store } from '@/types/Store';
-import { Searchbar } from 'react-native-paper';
 import useAuth from '@/hooks/useAuth';
 import NoDataFound from '@/components/common/NoDataFound';
 import useResponsiveColumns from '@/hooks/useResponsiveColumns';
@@ -20,7 +18,6 @@ import HandleResponse from '@/components/common/HandleResponse';
 
 const StoreTab = () => {
   const [refreshing, setRefreshing] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
   const numColumns = useResponsiveColumns();
   const { pageNumber, setPageNumber, pageSize } = usePagination();
   const auth = useAuth();
@@ -70,12 +67,6 @@ const StoreTab = () => {
           message={data?.message}
         />
       )}
-      <Searchbar
-        style={styles.searchBar}
-        placeholder="Search"
-        onChangeText={setSearchQuery}
-        value={searchQuery}
-      />
       <FlatList
         key={numColumns}
         numColumns={numColumns}
