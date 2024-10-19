@@ -13,9 +13,9 @@ export const feedApiSlice = feedApi.injectEndpoints({
       },
       merge: (currentCache, newItems, { arg }) => {
         if (arg.page_number === 0) {
-          currentCache.data = newItems.data; // Overwrite cache for fresh data
+          currentCache.data = newItems.data;
         } else {
-          currentCache.data.push(...newItems.data); // Append new data for pagination
+          currentCache.data.push(...newItems.data);
         }
       },
       forceRefetch({ currentArg, previousArg }) {

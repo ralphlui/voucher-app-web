@@ -16,9 +16,8 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         return endpointName;
       },
       merge: (currentCache, newItems, { arg }) => {
-        if (arg.page_number === 0 || arg.description !== currentCache.description) {
+        if (arg.page_number === 0) {
           currentCache.data = newItems.data;
-          currentCache.description = arg.description;
         } else {
           currentCache.data.push(...newItems.data);
         }
@@ -40,9 +39,8 @@ export const campaignApiSlice = coreApi.injectEndpoints({
         return endpointName;
       },
       merge: (currentCache, newItems, { arg }) => {
-        if (arg.page_number === 0 || arg.description !== currentCache.description) {
+        if (arg.page_number === 0) {
           currentCache.data = newItems.data;
-          currentCache.description = arg.description;
         } else {
           currentCache.data.push(...newItems.data);
         }

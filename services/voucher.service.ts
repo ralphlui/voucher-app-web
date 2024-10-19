@@ -15,7 +15,7 @@ export const voucherApiSlice = coreApi.injectEndpoints({
         return endpointName;
       },
       merge: (currentCache, newItems, { arg }) => {
-        if (arg.page_number === 0 || arg.status !== currentCache.status) {
+        if (arg.page_number === 0) {
           currentCache.data = newItems.data;
         } else {
           currentCache.data.push(...newItems.data);
